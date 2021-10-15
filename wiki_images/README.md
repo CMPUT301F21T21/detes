@@ -1,1 +1,1 @@
-This file contains the crc cards images.
+This file contains images of the crc cards.
