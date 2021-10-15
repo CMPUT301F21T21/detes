@@ -1,1 +1,1 @@
-Comtains the images for wiki.
+This file contains the crc cards images.
