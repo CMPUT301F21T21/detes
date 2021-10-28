@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class OtherUsers extends AppCompatActivity {
     private ListView otherUsersList;
     private ArrayList userNames;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
