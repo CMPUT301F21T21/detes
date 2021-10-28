@@ -38,5 +38,5 @@ public class otherUsersList extends ArrayAdapter<User> {
         userView.setText(user.getName());
         return view;
     }
-    
+
 }

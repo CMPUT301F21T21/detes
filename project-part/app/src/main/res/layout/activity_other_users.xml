@@ -11,7 +11,8 @@
         android:id="@+id/searchBarOtherUsers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="editText" />
+        android:hint="Search"
+        android:textAlignment="center"/>
 
     <ListView
         android:id="@+id/otherUsersList"
