@@ -4,16 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/habits_title_textview"
-        android:layout_width="wrap_content"
+        android:layout_width="252dp"
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:text="Habits Name"
         android:textSize="20sp"></TextView>
 
+    <Button
+        android:id="@+id/commentsButton"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Comments"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true"
+        android:visibility="visible" />
 
 
 </LinearLayout>
