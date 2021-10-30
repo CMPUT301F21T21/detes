@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -32,23 +33,6 @@ public class MainActivity extends AppCompatActivity {
         habitArrayList.add(new Habit("HabitTitle1"));
         habitAdapter = new HabitsList(this, habitArrayList);
         habitsListView.setAdapter(habitAdapter); //converts data source to ListView
-
-
-        View layout = getLayoutInflater().inflate(R.layout.habits_list,null);
-
-        Button commentsButton = layout.findViewById(R.id.commentsButton);
-        commentsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("Testing", "MESSAGE");
-                Intent intent = new Intent(MainActivity.this, Comments.class);
-                startActivity(intent);
-            }
-        });
-
-
-
-
-
 
         habitsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

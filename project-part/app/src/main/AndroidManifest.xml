@@ -21,6 +21,9 @@
         <activity android:name=".EditDelete"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".Comments">
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>
