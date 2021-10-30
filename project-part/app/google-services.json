@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64599094151",
+    "project_id": "detes-bd1cb",
+    "storage_bucket": "detes-bd1cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64599094151:android:f85c347cffb54773fb1922",
+        "android_client_info": {
+          "package_name": "com.example.all_habits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64599094151-d2ar3ui2ncgfm4gfiirs50o3akq6fkbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT4HlWqTvxHWxT4TtbdqJNQ1GE9i_ny1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64599094151-d2ar3ui2ncgfm4gfiirs50o3akq6fkbd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
