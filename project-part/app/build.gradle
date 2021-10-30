@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk 31
-
+    buildToolsVersion "31.0.2"
     defaultConfig {
         applicationId "com.example.all_habits"
         minSdk 21
