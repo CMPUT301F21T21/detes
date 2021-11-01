@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         habitArrayList = new ArrayList<>();
         habitArrayList.add(new Habit("HabitTitle1"));
-        habitArrayList.add(new Habit("HabitTitle2"));
         habitAdapter = new HabitsList(this, habitArrayList);
         habitsListView.setAdapter(habitAdapter); //converts data source to ListView
 

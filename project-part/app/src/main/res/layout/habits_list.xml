@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/expandArrow"
-        android:layout_width="wrap_content"
+        android:layout_width="62dp"
         android:layout_height="66dp"
-        android:layout_gravity="top|center_vertical"
+        android:layout_gravity="center_horizontal|top|center_vertical"
         android:layout_weight="1"
         android:tag="expand"
         app:srcCompat="@drawable/ic_expand_arrow" />
@@ -74,10 +74,20 @@
         android:id="@+id/Comment"
         android:layout_width="wrap_content"
         android:layout_height="34dp"
-        android:layout_gravity="top"
+        android:layout_gravity="right|top"
         android:layout_weight="1"
         android:clickable="true"
         app:srcCompat="@drawable/ic_comment" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:hint="50%"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>
