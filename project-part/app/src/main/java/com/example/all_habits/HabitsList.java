@@ -50,12 +50,42 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
     /**
      * When the comment button is clicked, we move to the Comments page
-     *
-     * MAY BE CHANGED
      */
-    public void toComments(){
+    public void toCommentsPage(){
         Intent intent = new Intent(context, Comments.class);
         context.startActivity(intent);
+
+    }
+
+    /**
+     * When the home button labeled as "today" is clicked (bottom left corner),
+     * we move to the list of habits for today
+     */
+    public void toTodaysHabitsPage(){
+
+    }
+
+    /**
+     * When the button labeled as "all habits" is clicked (bottom right corner),
+     * we can move back from the today's page to the all habits page once again
+     */
+    public void toAllHabitsPage(){
+
+    }
+
+    /**
+     * When the button labeled as "all habits" is clicked (bottom right corner),
+     * we can move back from the today's page to the all habits page once again
+     */
+    public void toProfilePage(){
+
+    }
+
+    /**
+     * When the button with the person and the '+' sign is clicked (left button on top right corner),
+     * we move to the page that allows us to add friends
+     */
+    public void toAddFriendPage(){
 
     }
 
@@ -81,6 +111,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         ImageView expandArrowButton;
         ImageView commentsButton;
 
+        TextView habitTitleText;
         TextView habitReasonText;
         TextView habitStartDateText;
         TextView habitDaysText;
@@ -93,18 +124,16 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
         /*
         Takes user to the comments page when the button is clicked
-
-        MAY BE CHANGED
          */
         commentsButton = view.findViewById(R.id.Comment);
         commentsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("Comments", "click comments");
-                toComments();
+                toCommentsPage();
             }
         });
 
         // looking for the "hidden" textviews
+        habitTitleText = view.findViewById(R.id.habitTitle_TextView);
         habitReasonText = view.findViewById(R.id.habitReason_TextView);
         habitStartDateText = view.findViewById(R.id.habitStartDate_TextView);
         habitDaysText = view.findViewById(R.id.habitDays_TextView);
@@ -114,7 +143,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
         expandArrowButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Log.d("Clicked", "click");
                     // if the user clicks on an expanding arrow
                     if (EXPAND_CONSTANT.equals(expandArrowButton.getTag())){
 
@@ -148,10 +176,12 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
         // what should be displayed when the listview item is NOT expanded in the beginning
         Habit habit = habits.get(position);
-        TextView habitTitle = view.findViewById(R.id.habitTitle_TextView);
-        habitTitle.setText("Titlethatis20charact");  // testing 20 characters (max title length)
-        TextView habitReason = view.findViewById(R.id.habitReason_TextView);
-        habitReason.setText("Reasonthatis30characterslongok"); //testing 30 characters (max reason length)
+
+        // habitTitleText.setText(habit.getTitle());
+        // habitReasonText.setText(habit.getReason());
+        // habitDaysText.setText(habit.getDays());
+        // habitStartDateText.setText(habit.getStartDate());
+
 
         return view;
     }
