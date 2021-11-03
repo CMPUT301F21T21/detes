@@ -33,9 +33,12 @@
         <activity
             android:name=".EditDelete"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".Comments">
-            android:parentActivityName=".MainActivity">
-        </activity>
+        <activity android:name=".Comments"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".DisplayUserProfile"
+            android:parentActivityName=".MainActivity"/>
+
+        
     </application>
 
 </manifest>

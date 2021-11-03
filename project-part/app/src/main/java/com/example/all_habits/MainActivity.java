@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ListView habitsListView;
+    ImageView user;
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitArrayList;
 
@@ -42,14 +43,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        user = findViewById(R.id.User);
+        user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DisplayUserProfile.class);
+                startActivity(intent);
+            }
+        });
+
     }
-
-    public void DisplayProfile(View view) {
-        // Do something in response to user button
-        Intent intent = new Intent(this, DisplayUserProfile.class);
-        startActivity(intent);
-    }
-
-
 
 }

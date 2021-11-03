@@ -6,17 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-public class Comments extends AppCompatActivity {
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-
-import android.view.View;
-
 
 public class Comments extends AppCompatActivity {
     // id
@@ -25,6 +17,7 @@ public class Comments extends AppCompatActivity {
     // which habit the person wrote the comment on
 
     private Button backButton;
+    private ImageView user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +33,18 @@ public class Comments extends AppCompatActivity {
         });
 
 
-    }
-}
+        user = findViewById(R.id.User);
+        user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Comments.this, DisplayUserProfile.class);
+                startActivity(intent);
+            }
+        });
 
-    //Display User profile once clicked
-    public void DisplayProfile(View view) {
-        // Do something in response to user button
-        Intent intent = new Intent(this, DisplayUserProfile.class);
-        startActivity(intent);
+
     }
+
+
+
 }

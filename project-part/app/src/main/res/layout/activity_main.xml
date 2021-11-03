@@ -40,7 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:onClick="DisplayProfile"
             app:srcCompat="@drawable/ic_person" />
 
     </LinearLayout>
@@ -71,10 +70,11 @@
         android:id="@+id/allHabits"
         android:layout_width="54dp"
         android:layout_height="43dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_checkmark" />
 
     <FrameLayout
@@ -88,7 +88,6 @@
             android:id="@+id/habits_list"
             android:layout_width="426dp"
             android:layout_height="521dp">
-
 
 
         </ListView>
@@ -106,13 +105,25 @@
         app:layout_constraintTop_toBottomOf="@+id/homeButton" />
 
     <TextView
+        android:id="@+id/allHabitsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="All Habits"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/createNewHabit"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
+        android:layout_marginTop="8dp"
         android:text="Create New"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addButton" />
+        app:layout_constraintTop_toBottomOf="@+id/allHabits" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
