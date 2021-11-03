@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void DisplayProfile(View view) {
         // Do something in response to user button
-        Intent intent = new Intent(MainActivity.this, DisplayUserProfile.class);
+        Intent intent = new Intent(this, DisplayUserProfile.class);
         startActivity(intent);
     }
 
