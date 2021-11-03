@@ -4,16 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/expandArrow"
+        android:layout_width="62dp"
+        android:layout_height="66dp"
+        android:layout_gravity="center_horizontal|top|center_vertical"
+        android:layout_weight="1"
+        android:tag="expand"
+        app:srcCompat="@drawable/ic_expand_arrow" />
+
+    <LinearLayout
+        android:layout_width="213dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/habitTitle_TextView"
+            android:layout_width="252dp"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Habits Name"
+            android:textSize="20sp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/habitReason_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Habits Reason"
+            android:textSize="20sp"
+            android:visibility="gone"></TextView>
+
+        <TextView
+            android:id="@+id/habitStartDate_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Habits Start Date"
+            android:textSize="20sp"
+            android:visibility="gone"></TextView>
+
+        <TextView
+            android:id="@+id/habitDays_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Habits Days"
+            android:textSize="20sp"
+            android:visibility="gone"></TextView>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/commentsButton"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Comments"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_gravity="right|top"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_comment" />
 
     <TextView
-        android:id="@+id/habits_title_textview"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Habits Name"
-        android:textSize="20sp"></TextView>
-
+        android:layout_height="34dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:hint="50%"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>
