@@ -58,38 +58,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
     }
 
     /**
-     * When the home button labeled as "today" is clicked (bottom left corner),
-     * we move to the list of habits for today
-     */
-    public void toTodaysHabitsPage(){
-
-    }
-
-    /**
-     * When the button labeled as "all habits" is clicked (bottom right corner),
-     * we can move back from the today's page to the all habits page once again
-     */
-    public void toAllHabitsPage(){
-
-    }
-
-    /**
-     * When the button labeled as "all habits" is clicked (bottom right corner),
-     * we can move back from the today's page to the all habits page once again
-     */
-    public void toProfilePage(){
-
-    }
-
-    /**
-     * When the button with the person and the '+' sign is clicked (left button on top right corner),
-     * we move to the page that allows us to add friends
-     */
-    public void toAddFriendPage(){
-
-    }
-
-    /**
      * Handles what happens in each listview item (what is displayed,
      * the actions of button clicks, etc)
      *
