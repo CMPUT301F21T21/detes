@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Comments extends AppCompatActivity {
+
     // id
     // person who wrote it
     // who the person wrote it for
@@ -31,7 +32,6 @@ public class Comments extends AppCompatActivity {
                 finish(); // goes back to the all habits page
             }
         });
-
 
         user = findViewById(R.id.User);
         user.setOnClickListener(new View.OnClickListener() {

@@ -149,8 +149,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
         // habitReasonText.setText(habit.getReason());
         // habitDaysText.setText(habit.getDays());
         // habitStartDateText.setText(habit.getStartDate());
-
-
         return view;
     }
 }
