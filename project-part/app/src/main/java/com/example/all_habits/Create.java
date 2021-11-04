@@ -1,10 +1,13 @@
 package com.example.all_habits;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +41,7 @@ public class Create extends AppCompatActivity {
     EditText reasonName;
     EditText startDate;
     EditText weekDays;
+    Switch privateSwitch;
     TextView habitTextView;
 
     private FirebaseFirestore db;
@@ -47,13 +51,15 @@ public class Create extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-
+        Context context = getApplicationContext();
         int habitNum = 1;
         habitName = findViewById(R.id.habitName);
         reasonName = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
         weekDays = findViewById(R.id.habitDays);
         habitTextView = findViewById(R.id.habitNumber);
+        privateSwitch = findViewById(R.id.privateSwitch);
+
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         cancelButton = findViewById(R.id.cancelButton);
@@ -90,14 +96,27 @@ public class Create extends AppCompatActivity {
         //Updates text with what is written on the EditText boxes.
         createButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                habit.put("habitName", habitName.getText().toString());
-                habit.put("reason", reasonName.getText().toString());
-                habit.put("startDate", startDate.getText().toString());
-                habit.put("weekDays", weekDays.getText().toString());
-                collectionReference
-                        .document("habit" + habit.get("habitNum"))
-                        .set(habit);
-                finish();
+                if(habitName.getText().length() > 20){
+                    Toast.makeText(context,"Habit name has to be under 20 characters long.",Toast.LENGTH_SHORT).show();
+                }else if(reasonName.getText().length() > 30) {
+                    Toast.makeText(context, "Reason has to be under 30 characters long.", Toast.LENGTH_SHORT).show();
+                }else if(habitName.getText().toString().isEmpty() || reasonName.getText().toString().isEmpty()|| startDate.getText().toString().isEmpty() || weekDays.getText().toString().isEmpty()){
+                    Toast.makeText(context, "Fill in all the data fields", Toast.LENGTH_SHORT).show();
+                }else {
+                    habit.put("habitName", habitName.getText().toString());
+                    habit.put("reason", reasonName.getText().toString());
+                    habit.put("startDate", startDate.getText().toString());
+                    habit.put("weekDays", weekDays.getText().toString());
+                    if (privateSwitch.isChecked()) {
+                        habit.put("Private", true);
+                    } else {
+                        habit.put("Private", false);
+                    }
+                    collectionReference
+                            .document("habit" + habit.get("habitNum"))
+                            .set(habit);
+                    finish();
+                }
             }
         });
 
@@ -109,7 +128,5 @@ public class Create extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 }

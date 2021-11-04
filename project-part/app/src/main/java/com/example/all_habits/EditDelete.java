@@ -1,9 +1,13 @@
 package com.example.all_habits;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +26,7 @@ public class EditDelete extends AppCompatActivity {
     Button cancelButton;
     Button editButton;
     Button deleteButton;
+    Switch privateSwitch;
 
     EditText habitName;
     EditText reasonName;
@@ -40,6 +45,8 @@ public class EditDelete extends AppCompatActivity {
         reasonName = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
         weekDays = findViewById(R.id.habitDays);
+        privateSwitch = findViewById(R.id.privateSwitch);
+        Context context = getApplicationContext();
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         cancelButton = findViewById(R.id.cancelButton);
@@ -71,10 +78,23 @@ public class EditDelete extends AppCompatActivity {
         //Updates text with what is written on the EditText boxes.
         editButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                documentRef.update("habitName", habitName.getText().toString());
-                documentRef.update("reason", reasonName.getText().toString());
-                documentRef.update("startDate", startDate.getText().toString());
-                documentRef.update("day", weekDays.getText().toString());
+                if(habitName.getText().length() > 20){
+                    Toast.makeText(context,"Habit name has to be under 20 characters long.",Toast.LENGTH_SHORT).show();
+                }else if(reasonName.getText().length() > 30) {
+                    Toast.makeText(context, "Reason has to be under 30 characters long.", Toast.LENGTH_SHORT).show();
+                }else if(habitName.getText().toString().isEmpty() || reasonName.getText().toString().isEmpty()|| startDate.getText().toString().isEmpty() || weekDays.getText().toString().isEmpty()){
+                    Toast.makeText(context, "Fill in all the data fields", Toast.LENGTH_SHORT).show();
+                }else {
+                    documentRef.update("habitName", habitName.getText().toString());
+                    documentRef.update("reason", reasonName.getText().toString());
+                    documentRef.update("startDate", startDate.getText().toString());
+                    documentRef.update("day", weekDays.getText().toString());
+                    if (privateSwitch.isChecked()) {
+                        documentRef.update("Private", true);
+                    } else {
+                        documentRef.update("Private", false);
+                    }
+                }
             }
         });
 
