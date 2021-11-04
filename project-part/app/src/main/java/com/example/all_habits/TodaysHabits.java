@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * Lists today's habits
+ * @author Emma
+ */
+
 public class TodaysHabits extends AppCompatActivity {
 
     ImageView habitButton;
