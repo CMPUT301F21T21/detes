@@ -1,6 +1,7 @@
 package com.example.all_habits;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,12 +15,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         habitsListView = findViewById(R.id.habits_list);
         habitArrayList = new ArrayList<>();
 
-        habitArrayList.add(new Habit("HabitTitle1"));
+        //habitArrayList.add(new Habit("HabitTitle1"));
 
         habitAdapter = new HabitsList(this, habitArrayList);
         habitsListView.setAdapter(habitAdapter); //converts data source to ListView
@@ -93,6 +100,24 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TodaysHabits.class);
                 startActivity(intent);
+            }
+        });
+
+
+        // getting data from firebase to your local device (snapshot of database)
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
+                    FirebaseFirestoreException error) {
+                habitArrayList.clear();
+                for(QueryDocumentSnapshot habits: queryDocumentSnapshots)
+                {
+                    Habit habit= habits.toObject(Habit.class);
+                        habitArrayList.add(habit);
+
+                }
+                habitAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
+                //from the cloud
             }
         });
 

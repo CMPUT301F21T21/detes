@@ -145,10 +145,10 @@ public class HabitsList extends ArrayAdapter<Habit> {
         // what should be displayed when the listview item is NOT expanded in the beginning
         Habit habit = habits.get(position);
 
-        // habitTitleText.setText(habit.getTitle());
-        // habitReasonText.setText(habit.getReason());
-        // habitDaysText.setText(habit.getDays());
-        // habitStartDateText.setText(habit.getStartDate());
+        habitTitleText.setText(habit.getHabitName());
+        habitReasonText.setText("Reason: " + habit.getReason());
+        habitDaysText.setText("Days: " + habit.getWeekDays());
+        habitStartDateText.setText("Start Date: " + habit.getStartDate());
 
 
         return view;
