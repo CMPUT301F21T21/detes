@@ -53,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
+
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Create.class);
+                Intent intent = new Intent(MainActivity.this, CreateHabit.class);
                 startActivity(intent);
             }
         });
