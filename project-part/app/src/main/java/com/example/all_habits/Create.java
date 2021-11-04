@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ public class Create extends AppCompatActivity {
     EditText reasonName;
     EditText startDate;
     EditText weekDays;
+    Switch privateSwitch;
     TextView habitTextView;
 
     private FirebaseFirestore db;
@@ -54,6 +56,7 @@ public class Create extends AppCompatActivity {
         startDate = findViewById(R.id.habitStartDate);
         weekDays = findViewById(R.id.habitDays);
         habitTextView = findViewById(R.id.habitNumber);
+        privateSwitch = findViewById(R.id.privateSwitch);
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         cancelButton = findViewById(R.id.cancelButton);
@@ -94,6 +97,11 @@ public class Create extends AppCompatActivity {
                 habit.put("reason", reasonName.getText().toString());
                 habit.put("startDate", startDate.getText().toString());
                 habit.put("weekDays", weekDays.getText().toString());
+                if(privateSwitch.isChecked()){
+                    habit.put("Private", true);
+                }else{
+                    habit.put("Private",false);
+                }
                 collectionReference
                         .document("habit" + habit.get("habitNum"))
                         .set(habit);
