@@ -6,25 +6,52 @@ import java.util.Date;
 
 public class Habit {
 
-    private String title;
+    private String habitName;
     private String reason;
-    private String[] days; // eg. [M,W,F]
-    private Date startDate;
-    private String location;
-    private Comment[] comments;
+    private String habitDays;
+    private String startDate;
 
-    Habit(String title){
-        this.title = title;
+    Habit(String habitName, String reason, String habitDays, String startDate){
+        this.habitName= habitName;
+        this.reason = reason;
+        this.habitDays = habitDays;
+        this.startDate = startDate;
 
     }
 
-    public void setTitle(String inputTitle){
-        this.title = inputTitle;
+    public Habit() {
+
     }
 
-    public String getTitle(){
-        return this.title;
+    public String getHabitName() {
+        return habitName;
     }
 
+    public void setHabitName(String habitName) {
+        this.habitName = habitName;
+    }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getHabitDays() {
+        return habitDays;
+    }
+
+    public void setHabitDays(String habitDays) {
+        this.habitDays = habitDays;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 }
