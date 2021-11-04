@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:onClick="DisplayProfile"
             app:srcCompat="@drawable/ic_person"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="OnClick,SpeakableTextPresentCheck" />
 
     </LinearLayout>
 
@@ -74,7 +74,6 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="28dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_checkmark"
@@ -88,7 +87,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ListView
-            android:id="@+id/habits_list"
+            android:id="@+id/todays_list"
             android:layout_width="426dp"
             android:layout_height="521dp">
 

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView habitsListView;
     ImageView addButton;
+    ImageView homeButton;
     ImageView profileButton;
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitArrayList;
@@ -80,6 +81,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DisplayUserProfile.class);
+                startActivity(intent);
+            }
+        });
+
+
+        //today's habit list
+        homeButton = findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TodaysHabits.class);
                 startActivity(intent);
             }
         });

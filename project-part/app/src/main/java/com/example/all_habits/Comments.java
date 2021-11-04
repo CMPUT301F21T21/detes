@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 public class Comments extends AppCompatActivity {
     // id
@@ -16,13 +19,19 @@ public class Comments extends AppCompatActivity {
     // who the person wrote it for
     // which habit the person wrote the comment on
 
+    private ArrayList<Comments> comments;
     private Button backButton;
     private ImageView user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.comments);
+        if(comments == null) {
+            setContentView(R.layout.empty_comment);
+        } else{
+            setContentView(R.layout.comments);
+        }
         Intent intent = getIntent();
 
         backButton = findViewById(R.id.backButton);
@@ -41,6 +50,9 @@ public class Comments extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
 
 
     }

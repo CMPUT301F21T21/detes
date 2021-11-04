@@ -2,8 +2,10 @@ package com.example.all_habits;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 public class DisplayUserProfile extends AppCompatActivity {
 
@@ -20,4 +22,10 @@ public class DisplayUserProfile extends AppCompatActivity {
         // Hint: use Context's finish() method
         finish();
     }
+
+
 }
+
+
+
+
