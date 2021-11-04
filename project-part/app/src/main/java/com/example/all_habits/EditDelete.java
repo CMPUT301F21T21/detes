@@ -43,7 +43,7 @@ public class EditDelete extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         //Retrieve habit document.
-        DocumentReference documentRef = db.collection("testCollectionDerek").document("habit");
+        DocumentReference documentRef = db.collection(currentFireBaseUser.getUid()).document("habit1");
         documentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task){
@@ -52,10 +52,10 @@ public class EditDelete extends AppCompatActivity {
                     if(document.exists()){
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
                         //Sets all the Edit Text fields to their database counterparts.
-                        habitName.setText(document.getString("name"));
+                        habitName.setText(document.getString("habitName"));
                         reasonName.setText(document.getString("reason"));
                         startDate.setText(document.getString("startDate"));
-                        weekDays.setText(document.getString("weekDays"));
+                        weekDays.setText(document.getString("day"));
                     }else{
                         Log.d("TAG","No such document");
                     }
@@ -70,10 +70,10 @@ public class EditDelete extends AppCompatActivity {
         //Updates text with what is written on the EditText boxes.
         editButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                documentRef.update("name", currentFireBaseUser.getUid());
+                documentRef.update("habitName", habitName.getText().toString());
                 documentRef.update("reason", reasonName.getText().toString());
-                documentRef.update("startDate", 10102);
-                documentRef.update("weekDays", "Wednesdays");
+                documentRef.update("startDate", startDate.getText().toString());
+                documentRef.update("day", weekDays.getText().toString());
             }
         });
 
