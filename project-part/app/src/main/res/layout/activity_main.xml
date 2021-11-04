@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="411dp"
         android:layout_height="53dp"
@@ -30,13 +40,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/addFriend"
+            android:id="@+id/imageView5"
             android:layout_width="56dp"
             android:layout_height="64dp"
             app:srcCompat="@drawable/ic_add_friend" />
 
         <ImageView
-            android:id="@+id/User"
+            android:id="@+id/imageView6"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -48,33 +58,29 @@
         android:id="@+id/homeButton"
         android:layout_width="57dp"
         android:layout_height="59dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_home" />
+        app:srcCompat="@drawable/ic_home"
+        tools:layout_editor_absoluteX="25dp" />
 
     <ImageView
         android:id="@+id/addButton"
-        android:layout_width="40dp"
-        android:layout_height="63dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="44dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_add" />
 
     <ImageView
-        android:id="@+id/allHabits"
+        android:id="@+id/imageView4"
         android:layout_width="54dp"
         android:layout_height="43dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.906"
-        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_checkmark" />
 
     <FrameLayout
@@ -93,37 +99,6 @@
         </ListView>
 
     </FrameLayout>
-
-    <TextView
-        android:id="@+id/todayText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Today"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.091"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeButton" />
-
-    <TextView
-        android:id="@+id/allHabitsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="All Habits"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/createNewHabit"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginTop="8dp"
-        android:text="Create New"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/allHabits" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
