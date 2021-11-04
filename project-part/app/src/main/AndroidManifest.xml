@@ -44,6 +44,9 @@
             android:name=".Comments"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".TodaysHabits"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".DisplayUserProfile"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
