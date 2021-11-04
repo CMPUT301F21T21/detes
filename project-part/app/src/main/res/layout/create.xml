@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -5,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     tools:ignore="ExtraText">
-
-
 
     <TextView
         android:id="@+id/habits_title_textview"
@@ -62,8 +61,19 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="371dp" />
 
+    <EditText
+        android:id="@+id/public_private"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:selectAllOnFocus="true"
+        android:text="Public/Private"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="442dp" />
+
     <Button
-        android:id="@+id/create"
+        android:id="@+id/createButton"
         android:layout_width="166dp"
         android:layout_height="39dp"
         android:layout_gravity="start"
@@ -77,6 +87,16 @@
         android:background="#8FF7F1"
         android:textColor="@android:color/black"/>
 
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CANCEL"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.916"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
