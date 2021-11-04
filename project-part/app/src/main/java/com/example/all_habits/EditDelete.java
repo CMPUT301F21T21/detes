@@ -1,6 +1,4 @@
-//Derek
 package com.example.all_habits;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +13,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+/**
+ * Edit or delete's a habit.
+ * @author Derek
+ */
 public class EditDelete extends AppCompatActivity {
 
     Button cancelButton;
@@ -41,9 +42,12 @@ public class EditDelete extends AppCompatActivity {
         weekDays = findViewById(R.id.habitDays);
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        cancelButton = findViewById(R.id.cancelButton);
+        editButton = findViewById(R.id.createButton);
+        deleteButton = findViewById(R.id.deleteButton);
 
         //Retrieve habit document.
-        DocumentReference documentRef = db.collection("testCollectionDerek").document("habit");
+        DocumentReference documentRef = db.collection(currentFireBaseUser.getUid()).document("habit1");
         documentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task){
@@ -51,11 +55,12 @@ public class EditDelete extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()){
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+
                         //Sets all the Edit Text fields to their database counterparts.
-                        habitName.setText(document.getString("name"));
+                        habitName.setText(document.getString("habitName"));
                         reasonName.setText(document.getString("reason"));
                         startDate.setText(document.getString("startDate"));
-                        weekDays.setText(document.getString("weekDays"));
+                        weekDays.setText(document.getString("day"));
                     }else{
                         Log.d("TAG","No such document");
                     }
@@ -63,17 +68,13 @@ public class EditDelete extends AppCompatActivity {
             }
         });
 
-        cancelButton = findViewById(R.id.cancelButton);
-        editButton = findViewById(R.id.editButton);
-        deleteButton = findViewById(R.id.deleteButton);
-
         //Updates text with what is written on the EditText boxes.
         editButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                documentRef.update("name", currentFireBaseUser.getUid());
+                documentRef.update("habitName", habitName.getText().toString());
                 documentRef.update("reason", reasonName.getText().toString());
-                documentRef.update("startDate", 10102);
-                documentRef.update("weekDays", "Wednesdays");
+                documentRef.update("startDate", startDate.getText().toString());
+                documentRef.update("day", weekDays.getText().toString());
             }
         });
 

@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.All_habits">
         <activity
-            android:name=".CreateHabit"
-            android:exported="false" />
+            android:name=".Create"
+            android:exported="true" />
         <activity
             android:name=".OtherUsersList"
             android:exported="true" />
