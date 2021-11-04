@@ -93,6 +93,7 @@ public class Create extends AppCompatActivity {
                         }
                     }
                 });
+
         //Updates text with what is written on the EditText boxes.
         createButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -106,15 +107,15 @@ public class Create extends AppCompatActivity {
                     habit.put("habitName", habitName.getText().toString());
                     habit.put("reason", reasonName.getText().toString());
                     habit.put("startDate", startDate.getText().toString());
-                    habit.put("weekDays", weekDays.getText().toString());
+                    habit.put("habitDays", weekDays.getText().toString());
                     if (privateSwitch.isChecked()) {
                         habit.put("Private", true);
                     } else {
                         habit.put("Private", false);
                     }
+
                     collectionReference
-                            .document("habit" + habit.get("habitNum"))
-                            .set(habit);
+                            .add(habit);
                     finish();
                 }
             }

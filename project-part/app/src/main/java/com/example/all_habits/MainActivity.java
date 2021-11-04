@@ -25,6 +25,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, EditDelete.class);
+                intent.putExtra("habitNum", position + 1);
                 startActivity(intent);
             }
         });
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // getting data from firebase to your local device (snapshot of database)
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReference.orderBy("habitNum",Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
@@ -101,13 +103,32 @@ public class MainActivity extends AppCompatActivity {
                 for(QueryDocumentSnapshot habits: queryDocumentSnapshots)
                 {
                     Habit habit= habits.toObject(Habit.class);
+                    if(habit.getHabitName() != null) {
                         habitArrayList.add(habit);
-
+                    }
                 }
+
                 habitAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
                 //from the cloud
             }
         });
+
+
+        //Sets the ordered documents to 1 and increments up by 1 until the loop ends.
+        collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        int habitNum = 1;
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document : task.getResult()){
+                                collectionReference.document(document.getId()).update("habitNum", habitNum);
+                                habitNum++;
+                            }
+                        }
+                    }
+                });
+
 
 
     }

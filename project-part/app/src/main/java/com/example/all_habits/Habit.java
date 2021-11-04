@@ -13,7 +13,7 @@ public class Habit {
 
     private String habitName;
     private String reason;
-    private String weekDays;
+    private String habitDays;
     private String startDate;
     private int habitNum;
     private Boolean Private;
@@ -33,7 +33,7 @@ public class Habit {
 
         this.habitName= habitName;
         this.reason = reason;
-        this.weekDays = weekDays;
+        this.habitDays = habitDays;
         this.startDate = startDate;
         this.habitNum = habitNum;
         this.Private = Private;
@@ -60,12 +60,12 @@ public class Habit {
         this.reason = reason;
     }
 
-    public String getWeekDays() {
-        return weekDays;
+    public String getHabitDays() {
+        return habitDays;
     }
 
-    public void setWeekDays(String weekDays) {
-        this.weekDays = weekDays;
+    public void setHabitDays(String weekDays) {
+        this.habitDays = weekDays;
     }
 
     public String getStartDate() {
