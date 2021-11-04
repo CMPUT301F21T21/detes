@@ -4,6 +4,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +24,7 @@ public class EditDelete extends AppCompatActivity {
     Button cancelButton;
     Button editButton;
     Button deleteButton;
+    Switch privateSwitch;
 
     EditText habitName;
     EditText reasonName;
@@ -40,6 +43,7 @@ public class EditDelete extends AppCompatActivity {
         reasonName = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
         weekDays = findViewById(R.id.habitDays);
+        privateSwitch = findViewById(R.id.privateSwitch);
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         cancelButton = findViewById(R.id.cancelButton);
@@ -75,6 +79,11 @@ public class EditDelete extends AppCompatActivity {
                 documentRef.update("reason", reasonName.getText().toString());
                 documentRef.update("startDate", startDate.getText().toString());
                 documentRef.update("day", weekDays.getText().toString());
+                if(privateSwitch.isChecked()){
+                    documentRef.update("Private", true);
+                }else{
+                    documentRef.update("Private",false);
+                }
             }
         });
 
