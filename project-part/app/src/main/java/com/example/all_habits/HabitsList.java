@@ -146,9 +146,9 @@ public class HabitsList extends ArrayAdapter<Habit> {
         Habit habit = habits.get(position);
 
         habitTitleText.setText(habit.getHabitName());
-        habitReasonText.setText(habit.getReason());
-        habitDaysText.setText(habit.getHabitDays());
-        habitStartDateText.setText(habit.getStartDate());
+        habitReasonText.setText("Reason: " + habit.getReason());
+        habitDaysText.setText("Days: " + habit.getWeekDays());
+        habitStartDateText.setText("Start Date: " + habit.getStartDate());
 
 
         return view;

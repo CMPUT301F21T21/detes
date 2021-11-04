@@ -4,18 +4,39 @@ import org.w3c.dom.Comment;
 
 import java.util.Date;
 
+/**
+ * Creates a Habit
+ * @author Elena
+ * @Version 1.0
+ */
 public class Habit {
 
     private String habitName;
     private String reason;
-    private String habitDays;
+    private String weekDays;
     private String startDate;
+    private int habitNum;
+    private Boolean Private;
 
-    Habit(String habitName, String reason, String habitDays, String startDate){
+    /**
+     * Constructor for creating the habit
+     *
+     * @param habitName
+     * @param reason
+     * @param weekDays
+     * @param startDate
+     * @param habitNum
+     * @param Private
+     */
+    Habit(String habitName, String reason, String weekDays, String startDate,
+          int habitNum, Boolean Private){
+
         this.habitName= habitName;
         this.reason = reason;
-        this.habitDays = habitDays;
+        this.weekDays = weekDays;
         this.startDate = startDate;
+        this.habitNum = habitNum;
+        this.Private = Private;
 
     }
 
@@ -39,12 +60,12 @@ public class Habit {
         this.reason = reason;
     }
 
-    public String getHabitDays() {
-        return habitDays;
+    public String getWeekDays() {
+        return weekDays;
     }
 
-    public void setHabitDays(String habitDays) {
-        this.habitDays = habitDays;
+    public void setWeekDays(String weekDays) {
+        this.weekDays = weekDays;
     }
 
     public String getStartDate() {
@@ -53,5 +74,21 @@ public class Habit {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public int getHabitNum() {
+        return habitNum;
+    }
+
+    public void setHabitNum(int habitNum) {
+        this.habitNum = habitNum;
+    }
+
+    public Boolean getPrivate() {
+        return Private;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        Private = aPrivate;
     }
 }
