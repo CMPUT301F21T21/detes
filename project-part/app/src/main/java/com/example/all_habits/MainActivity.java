@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitArrayList;
 
+    ImageView homeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, EditDelete.class);
                 startActivity(intent);
+            }
+        });
+
+        homeButton = findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("TodaysHabits", "click homeButton");
+                Intent intent = new Intent(MainActivity.this, TodaysHabits.class);
+                startActivity(intent);
+
             }
         });
     }

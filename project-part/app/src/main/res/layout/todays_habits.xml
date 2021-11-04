@@ -21,9 +21,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="@string/all_habits"
+            android:text="Today's Habits"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,8 +33,7 @@
             android:id="@+id/addFriend"
             android:layout_width="56dp"
             android:layout_height="64dp"
-            app:srcCompat="@drawable/ic_add_friend"
-            android:contentDescription="TODO" />
+            app:srcCompat="@drawable/ic_add_friend" />
 
         <ImageView
             android:id="@+id/User"
@@ -42,8 +42,7 @@
             android:layout_weight="1"
             android:onClick="DisplayProfile"
             app:srcCompat="@drawable/ic_person"
-            tools:ignore="SpeakableTextPresentCheck"
-            android:contentDescription="@string/todo" />
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </LinearLayout>
 
@@ -52,15 +51,11 @@
         android:layout_width="57dp"
         android:layout_height="59dp"
         android:layout_marginBottom="28dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_home"
-        tools:ignore="SpeakableTextPresentCheck"
-        android:contentDescription="@string/todo"
-        android:focusable="true" />
+        app:srcCompat="@drawable/ic_home" />
 
     <ImageView
         android:id="@+id/addButton"
@@ -71,19 +66,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_add"
-        android:contentDescription="TODO" />
+        app:srcCompat="@drawable/ic_add" />
 
     <ImageView
         android:id="@+id/allHabits"
         android:layout_width="54dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="28dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_checkmark"
-        android:contentDescription="@string/todo" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <FrameLayout
         android:layout_width="426dp"
@@ -107,7 +102,7 @@
         android:id="@+id/todayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/today"
+        android:text="Today"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,11 +112,9 @@
         android:id="@+id/createNewHabit"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:text="@string/create_new"
+        android:text="Create New"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

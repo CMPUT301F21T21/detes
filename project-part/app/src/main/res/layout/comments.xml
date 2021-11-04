@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="411dp"
         android:layout_height="53dp"
         android:background="#8FF7F1"
@@ -38,9 +39,9 @@
 
             app:srcCompat="@drawable/ic_person" />
 
-            android:onClick="DisplayProfile"
-            app:srcCompat="@drawable/ic_person"
-            tools:ignore="SpeakableTextPresentCheck" />
+        android:onClick="DisplayProfile"
+        app:srcCompat="@drawable/ic_person"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     </LinearLayout>
 
@@ -54,6 +55,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ListView
+        android:id="@+id/comments_list"
+        android:layout_width="409dp"
+        android:layout_height="612dp"
+        app:layout_constraintBottom_toTopOf="@+id/backButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

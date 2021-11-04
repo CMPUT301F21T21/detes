@@ -59,6 +59,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
     }
 
+
     /**
      * Handles what happens in each listview item (what is displayed,
      * the actions of button clicks, etc)
@@ -80,6 +81,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         view = convertView;
         ImageView expandArrowButton;
         ImageView commentsButton;
+
 
         TextView habitReasonText;
         TextView habitStartDateText;
@@ -103,6 +105,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                 toComments();
             }
         });
+
 
         // looking for the "hidden" textviews
         habitReasonText = view.findViewById(R.id.habitReason_TextView);

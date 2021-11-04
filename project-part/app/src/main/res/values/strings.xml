@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">all_habits</string>
+    <string name="today">Today</string>
+    <string name="all_habits">All Habits</string>
+    <string name="create_new">Create New</string>
+    <string name="todo">TODO</string>
+
 </resources>
