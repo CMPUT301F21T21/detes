@@ -4,6 +4,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +38,8 @@ public class Create extends AppCompatActivity {
     EditText reasonName;
     EditText startDate;
     EditText weekDays;
+    TextView habitTextView;
+
     private FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
     Query query;
@@ -49,31 +53,40 @@ public class Create extends AppCompatActivity {
         reasonName = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
         weekDays = findViewById(R.id.habitDays);
+        habitTextView = findViewById(R.id.habitNumber);
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         cancelButton = findViewById(R.id.cancelButton);
         createButton = findViewById(R.id.createButton);
 
-
         Map<String, Object> habit = new HashMap<>();
         CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
 
-        /*query = collectionReference.orderBy("habitNum", Query.Direction.DESCENDING).limit(1);
+        //Finds the number of the last habit.
+        query = collectionReference.orderBy("habitNum", Query.Direction.DESCENDING).limit(1);
         query.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document : task.getResult()){
-                                Log.d("Query", "Worked");
-                                habit.put("habitNum",document.getLong("habitNum") + 1);
-                            }else{
-                                Log.d("Query", "Didn't work");
+                                Log.d("Query", "Worked " + document.get("habitNum"));
+                                habit.put("habitNum", document.getLong("habitNum").intValue() + 1);
+
+                                //Set top habit title to the current habit.
+                                habitTextView.setText("Habit #" + (document.getLong("habitNum").intValue() + 1));
                             }
+                            }else{
+                            Log.d("Query", "Didn't work");
+                        }
+
+                        //If the query is empty, set habitNum to 1.
+                        if(task.getResult().isEmpty()){
+                            habit.put("habitNum", habitNum);
+                            habitTextView.setText("Habit #" + habitNum);
                         }
                     }
-                });*/
-
+                });
         //Updates text with what is written on the EditText boxes.
         createButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -82,8 +95,9 @@ public class Create extends AppCompatActivity {
                 habit.put("startDate", startDate.getText().toString());
                 habit.put("weekDays", weekDays.getText().toString());
                 collectionReference
-                        .document("habit6")
+                        .document("habit" + habit.get("habitNum"))
                         .set(habit);
+                finish();
             }
         });
 
