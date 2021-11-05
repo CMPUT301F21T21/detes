@@ -29,6 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Custom ArrayList for comments.
+ */
 public class Comments extends AppCompatActivity implements addCommentFragment.OnFragmentInteractionListener{
 
     private ArrayList<Comment> commentArrayList;
