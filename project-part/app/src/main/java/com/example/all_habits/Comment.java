@@ -11,6 +11,7 @@ public class Comment {
     String commentString;
 
     /**
+
      * Constructor for the Comment class
      * @param userId
      * @param habitId
@@ -18,6 +19,7 @@ public class Comment {
      * @param commenterId
      * @param commentString contains the content of the comment
      */
+     
     public Comment(String userId, String habitId, int commentNum, String commenterId, String commentString) {
         this.userId = userId;
         this.habitId = habitId;

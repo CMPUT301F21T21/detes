@@ -75,14 +75,15 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
             setContentView(R.layout.empty_comment);
         }
          */
+
         Intent commentIntent = getIntent();
         habitNum = commentIntent.getIntExtra("habitNum", 1);
 
         // sets what the habit number is at the top of the comments page
         habitNumText = findViewById(R.id.selectedHabit);
         habitNumText.setText("Habit " + habitNum);
-
         backButton = findViewById(R.id.backButton);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish(); // goes back to the all habits page
@@ -99,6 +100,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
             }
         });
 
+
         addButton = findViewById(R.id.addComment);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +108,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
                 new addCommentFragment().show(getSupportFragmentManager(), "ADD_COMMENT");
             }
         });
+
 
         commentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -151,7 +154,6 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
      */
     @Override
     public void onOkPressed(Comment comment){
-
         CollectionReference collectionReference = db.collection("comments");
         collectionReference.add(comment);
     }

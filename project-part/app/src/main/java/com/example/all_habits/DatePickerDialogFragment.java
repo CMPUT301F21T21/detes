@@ -11,10 +11,14 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
+/**
+ * Create the date picker for the create and edit/delete activity.
+ */
 public class DatePickerDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
 
         //Gets the current YEAR,MONTH,and DAY
         Calendar c = Calendar.getInstance();

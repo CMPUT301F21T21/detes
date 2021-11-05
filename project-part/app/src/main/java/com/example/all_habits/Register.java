@@ -27,6 +27,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Registers for an account that gives the user a unique id in the firestore database.
+ */
 public class Register extends AppCompatActivity {
     //public static final String TAG = "TAG";
     EditText mFullName,mEmail,mPassword,mPhone;
@@ -51,11 +54,11 @@ public class Register extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         //fStore = FirebaseFirestore.getInstance();
 
+        //This means that we are logged in and register automatically goes to the main activity.
         if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
         }
-
 
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +94,7 @@ public class Register extends AppCompatActivity {
 
                             // send verification link
 
-                            /**FirebaseUser fuser = fAuth.getCurrentUser();
+                            /*FirebaseUser fuser = fAuth.getCurrentUser();
                              fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -105,7 +108,7 @@ public class Register extends AppCompatActivity {
                             });*/
 
                             Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
-                            /**userID = fAuth.getCurrentUser().getUid();
+                            /*userID = fAuth.getCurrentUser().getUid();
                              DocumentReference documentReference = fStore.collection("users").document(userID);
                              Map<String,Object> user = new HashMap<>();
                              user.put("fName",fullName);

@@ -29,6 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * The main activity where the habit list is shown and navigation to the other activities happens here.
+ */
 public class MainActivity extends AppCompatActivity {
 
     ListView habitsListView;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         habitAdapter = new HabitsList(this, habitArrayList);
         habitsListView.setAdapter(habitAdapter); //converts data source to ListView
 
+        //Edit a habit that you click on the listView.
         habitsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Add a new habit.
+        //Add a new habit with the create activity.
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Opens the profile page.
+        //Opens the DisplayUserProfile page.
         profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //today's habit list
+        //Opens the todaysHabit page.
         homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //Sets the ordered documents to 1 and increments up by 1 until the loop ends.
+        //Returns an ordered List and increments habitNum starting from 1 until
         collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
