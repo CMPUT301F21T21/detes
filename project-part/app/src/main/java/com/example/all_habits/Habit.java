@@ -2,6 +2,7 @@ package com.example.all_habits;
 
 import org.w3c.dom.Comment;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ public class Habit {
 
     private String habitName;
     private String reason;
-    private String habitDays;
+    private ArrayList<String> habitDays;
     private String startDate;
     private int habitNum;
     private Boolean Private;
@@ -23,12 +24,12 @@ public class Habit {
      *
      * @param habitName
      * @param reason
-     * @param weekDays
+     * @param habitDays
      * @param startDate
      * @param habitNum
      * @param Private
      */
-    Habit(String habitName, String reason, String weekDays, String startDate,
+    Habit(String habitName, String reason, ArrayList<String> habitDays, String startDate,
           int habitNum, Boolean Private){
 
         this.habitName= habitName;
@@ -60,12 +61,13 @@ public class Habit {
         this.reason = reason;
     }
 
-    public String getHabitDays() {
+    public ArrayList<String> getHabitDays() {
         return habitDays;
     }
 
-    public void setHabitDays(String weekDays) {
-        this.habitDays = weekDays;
+    public void setHabitDays(ArrayList<String> habitDays) {
+        this.habitDays = habitDays;
+
     }
 
     public String getStartDate() {

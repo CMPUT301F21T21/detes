@@ -49,22 +49,6 @@
         app:layout_constraintTop_toBottomOf="@+id/habitName" />
 
     <EditText
-        android:id="@+id/habitDays"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:hint="Days of the week"
-        android:inputType="textPersonName"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.537"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habitStartDate" />
-
-    <EditText
         android:id="@+id/habitStartDate"
         android:layout_width="0dp"
         android:layout_height="57dp"
@@ -77,6 +61,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.537"
         app:layout_constraintStart_toStartOf="parent"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         app:layout_constraintTop_toBottomOf="@+id/habitReason" />
 
     <Button
@@ -106,10 +94,80 @@
         android:id="@+id/privateSwitch"
         android:layout_width="105dp"
         android:layout_height="48dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="32dp"
         android:text="Private"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habitDays" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/habitStartDate">
+
+        <CheckBox
+            android:id="@+id/monday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Mon" />
+
+        <CheckBox
+            android:id="@+id/tuesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tues" />
+
+        <CheckBox
+            android:id="@+id/wednesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Wed" />
+
+        <CheckBox
+            android:id="@+id/thursday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Thurs" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="158dp"
+        android:layout_height="46dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <CheckBox
+            android:id="@+id/friday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fri" />
+
+        <CheckBox
+            android:id="@+id/saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sat" />
+
+        <CheckBox
+            android:id="@+id/sunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sun" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
