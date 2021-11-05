@@ -2,18 +2,15 @@ package com.example.all_habits;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -144,10 +141,20 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
         // what should be displayed when the listview item is NOT expanded in the beginning
         Habit habit = habits.get(position);
-
+        ArrayList<String> habitDays = habit.getHabitDays();
+        String habitDayString = new String();
         habitTitleText.setText(habit.getHabitName());
         habitReasonText.setText("Reason: " + habit.getReason());
-        habitDaysText.setText("Days: " + habit.getWeekDays());
+
+        //Creates a string with all the habit days selected, seperated by a ','.
+        for(int i = 0; i < habitDays.size();i++){
+            habitDayString += habitDays.get(i);
+            if(i != habitDays.size() - 1) {
+                habitDayString = habitDayString + ", ";
+            }
+        }
+        habitDaysText.setText("Days: " + habitDayString);
+
         habitStartDateText.setText("Start Date: " + habit.getStartDate());
 
 

@@ -3,6 +3,8 @@ package com.example.all_habits;
 import static android.app.PendingIntent.getActivity;
 
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -73,6 +75,36 @@ public class MainActivityTest {
         solo.clickOnView(expandArrow);
 
     }
+
+    /**
+     * @author Emma
+     */
+    @Test
+    public void checkHomeButton(){
+        //checks that home button is clickable and works
+        View homeButton = solo.getView(R.id.homeButton);
+        solo.clickOnView(homeButton);
+        solo.assertCurrentActivity(String.valueOf(this), TodaysHabits.class);
+    }
+
+    @Test
+    public void checkAllHabitsButton(){
+        //checks All habits button is clickable and works
+        checkHomeButton();
+        View allHabitsButton = solo.getView(R.id.allHabits);
+        solo.clickOnView(allHabitsButton);
+        solo.assertCurrentActivity(String.valueOf(this), MainActivity.class);
+    }
+
+    @Test
+    public void checkComments(){
+        //checks comment is empty message pops up when empty
+        View commentsButton = solo.getView(R.id.Comment);
+        solo.clickOnView(commentsButton);
+        solo.assertCurrentActivity(String.valueOf(this), Comments.class);
+
+    }
+
 
 
     /**
