@@ -45,6 +45,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     Button cancelButton;
     Button editButton;
     Button deleteButton;
+    Button commentButton;
     Switch privateSwitch;
 
     int habitNum;
@@ -96,7 +97,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         Spinner dropdown = findViewById(R.id.habitPosition);
         cancelButton = findViewById(R.id.cancelButton);
         editButton = findViewById(R.id.createButton);
-        deleteButton = findViewById(R.id.deleteButton);
+        deleteButton = findViewById(R.id.deleteComment);
+        commentButton = findViewById(R.id.commentButton);
         Context context = getApplicationContext();
 
         //Populates the spinner.
@@ -308,6 +310,12 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 
+        commentButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(EditDelete.this, Comments.class);
+                startActivity(intent);
+            }
+        });
 
     }
     //Sets the start date of the DatePickerDialog.
@@ -318,7 +326,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         c.set(Calendar.YEAR,year);
         c.set(Calendar.MONTH,month);
         c.set(Calendar.DAY_OF_MONTH,day);
-
+        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.SECOND, 0);
         //Formats the string into the form 01/01/1990
         SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDateString = simpleFormat.format(c.getTime());
