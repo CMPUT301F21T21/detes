@@ -95,7 +95,7 @@
                 android:id="@+id/pending_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="         Pending"
+                android:text="                                  Pending"
                 android:textSize="20sp" />
 
             <ListView
@@ -107,7 +107,7 @@
                 android:id="@+id/completed_text"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:text="         Completed"
+                android:text="                                 Completed"
                 android:textSize="20sp" />
 
             <ListView
