@@ -98,6 +98,7 @@
                 android:layout_width="78dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:focusable="false"
                 android:minHeight="48dp"
                 android:scaleX="1" />
 
