@@ -109,25 +109,27 @@
         app:layout_constraintTop_toBottomOf="@+id/homeButton" />
 
     <TextView
-        android:id="@+id/allHabitsText"
+        android:id="@+id/createNewHabit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="8dp"
-        android:text="All Habits"
+        android:text="Create New"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/allHabits" />
 
     <TextView
-        android:id="@+id/createNewHabit"
+        android:id="@+id/allHabitsText"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="8dp"
         android:text="Create New"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="3dp"
+        android:text="All Habits"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addButton" />
