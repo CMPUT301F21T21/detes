@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +48,9 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     Switch privateSwitch;
 
     int habitNum;
-    String habitId = "habit1";
+    int size;
+    int swapPos = 0;
+    String habitId;
 
     DocumentReference documentRef;
     EditText habitName;
@@ -71,12 +75,16 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         setContentView(R.layout.editdelete);
         Intent intent = getIntent();
         ArrayList<String> habitDayArray = new ArrayList<String>();
+        ArrayList<String> items = new ArrayList<String>();
+
         habitNum = intent.getIntExtra("habitNum",1);
+        size = intent.getIntExtra("size", 0);
         habitName = findViewById(R.id.habitName);
         reason = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
         habitTextView = findViewById(R.id.habitNumber);
         privateSwitch = findViewById(R.id.privateSwitch);
+
         Saturday = findViewById(R.id.saturday);
         Monday = findViewById(R.id.monday);
         Tuesday = findViewById(R.id.tuesday);
@@ -84,12 +92,26 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         Thursday = findViewById(R.id.thursday);
         Friday = findViewById(R.id.friday);
         Sunday = findViewById(R.id.sunday);
+
+        Spinner dropdown = findViewById(R.id.habitPosition);
         cancelButton = findViewById(R.id.cancelButton);
         editButton = findViewById(R.id.createButton);
         deleteButton = findViewById(R.id.deleteButton);
         Context context = getApplicationContext();
+
+        //Populates the spinner.
+        for(int i = 0; i < size; i++){
+            items.add(String.valueOf(i + 1));
+        }
+
+        ArrayAdapter<String>adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setSelection(habitNum - 1);
+
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
+
+        CollectionReference collectionRef = db.collection(currentFireBaseUser.getUid());
 
         //Creates the DatePickerDialog when StartDate EditText is clicked on.
         startDate.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +191,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 if(!Saturday.isChecked() && !Monday.isChecked() && !Tuesday.isChecked() && !Wednesday.isChecked()
                         && !Thursday.isChecked() && !Friday.isChecked() && !Sunday.isChecked()){
                     Toast.makeText(context,"Choose a day of the week or multiple to work on your habit.",Toast.LENGTH_SHORT).show();
+                    return;
                 }else{
                     if(Sunday.isChecked()){
                         habitDayArray.add("Sun");
@@ -192,6 +215,46 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                         habitDayArray.add("Sat");
                     }
                 }
+
+                //Moves the current habit to the position that the spinner has designated.
+                swapPos = Integer.parseInt(dropdown.getSelectedItem().toString());
+                if(swapPos < habitNum) {
+                    Query swapHabit = db.collection(currentFireBaseUser.getUid()).whereGreaterThanOrEqualTo("habitNum", swapPos);
+                    swapHabit.get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    int tempHabitNum = swapPos + 1;
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if (tempHabitNum <= habitNum) {
+                                                db.collection(currentFireBaseUser.getUid()).document(document.getId()).update("habitNum", tempHabitNum);
+                                                tempHabitNum++;
+                                            }
+                                            documentRef.update("habitNum", swapPos);
+                                        }
+                                    }
+                                }
+                            });
+                }else{
+                    documentRef.update("habitNum",swapPos + 1);
+                }
+
+                //Reorders the habitNumbers starting at 1.
+                //Helps keep an ordered list.
+                Query fixHabit = db.collection(currentFireBaseUser.getUid()).orderBy("habitNum", Query.Direction.ASCENDING);
+                fixHabit.get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                int tempHabitNum = 1;
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    db.collection(currentFireBaseUser.getUid()).document(document.getId()).update("habitNum", tempHabitNum);
+                                    tempHabitNum++;
+                                }
+                            }
+                        });
+
                 if(habitName.getText().length() > 20){
                     Toast.makeText(context,"Habit name has to be under 20 characters long.",Toast.LENGTH_SHORT).show();
                 }else if(reason.getText().length() > 30) {
@@ -240,7 +303,6 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 //Go back to list of habits.
                 finish();
             }
@@ -251,10 +313,13 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     //Sets the start date of the DatePickerDialog.
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        //Sets the calendar date to c.
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR,year);
         c.set(Calendar.MONTH,month);
         c.set(Calendar.DAY_OF_MONTH,day);
+
+        //Formats the string into the form 01/01/1990
         SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDateString = simpleFormat.format(c.getTime());
         startDate.setText(currentDateString);
