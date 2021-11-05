@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Profile page that is opened on the MainActivity with the button on the top right.
+ */
 public class DisplayUserProfile extends AppCompatActivity {
     TextView mlogout;
 
@@ -21,6 +24,7 @@ public class DisplayUserProfile extends AppCompatActivity {
         mlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 startActivity(new Intent(getApplicationContext(),Login.class));
             }
         });

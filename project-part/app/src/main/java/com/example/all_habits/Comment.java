@@ -1,11 +1,26 @@
 package com.example.all_habits;
 
+
+/**
+ * Creates a Comment for the CommentsList
+ * @Version 1.0
+ */
 public class Comment {
     String userId;
     String habitId;
     String commenterId;
     int commentNum;
     String commentString;
+
+    /**
+     * Constructor for creating the habit
+     *
+     * @param userId
+     * @param habitId
+     * @param commentNum
+     * @param commenterId
+     * @param commentString
+     */
 
     public Comment(String userId, String habitId, int commentNum, String commenterId, String commentString) {
         this.userId = userId;
@@ -25,6 +40,8 @@ public class Comment {
         this.commentNum = commentNum;
 
     }
+
+
     public String getUserId() {
         return userId;
     }

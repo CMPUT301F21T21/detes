@@ -7,7 +7,6 @@ import java.util.Date;
 
 /**
  * Creates a Habit
- * @author Elena
  * @Version 1.0
  */
 public class Habit {

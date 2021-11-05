@@ -37,8 +37,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Edit or delete's a habit.
- * @author Derek
+ * Edit or delete's a habit created from the create activity.
  */
 public class EditDelete extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
@@ -106,6 +105,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
             items.add(String.valueOf(i + 1));
         }
 
+        //Puts the Spinner values into the Spinner.
         ArrayAdapter<String>adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
         dropdown.setSelection(habitNum - 1);
@@ -141,6 +141,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
 
                         documentRef = db.collection(currentFireBaseUser.getUid()).document(habitId);
                         documentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+
+                            //Finds the current habit document with it's habitId so the fields can be edited.
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task){
                                 ArrayList<String> habitDays =  new ArrayList<String>();
@@ -221,6 +223,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 //Moves the current habit to the position that the spinner has designated.
                 swapPos = Integer.parseInt(dropdown.getSelectedItem().toString());
                 if(swapPos < habitNum) {
+
+                    //Returns a query where the habitNum value is greater than or equal to the position the habit wants to swap to.
                     Query swapHabit = db.collection(currentFireBaseUser.getUid()).whereGreaterThanOrEqualTo("habitNum", swapPos);
                     swapHabit.get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -257,6 +261,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                             }
                         });
 
+                //If the habit name is less than 20, the reason's length is less than 30, and all the boxes are filled in, add the habit.
                 if(habitName.getText().length() > 20){
                     Toast.makeText(context,"Habit name has to be under 20 characters long.",Toast.LENGTH_SHORT).show();
                 }else if(reason.getText().length() > 30) {
@@ -283,7 +288,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
             public void onClick(View v){
                 final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
                 documentRef.delete();
-                //Sets the ordered documents to 1 and increments up by 1 until the loop ends.
+
+                //Increments the habitNum field of the document
                 collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
@@ -298,10 +304,12 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                 }
                             }
                         });
+
                 //Go back to list of habits.
                 finish();
             }
         });
+
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -309,6 +317,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 finish();
             }
         });
+
 
         commentButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -318,6 +327,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         });
 
     }
+
     //Sets the start date of the DatePickerDialog.
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {

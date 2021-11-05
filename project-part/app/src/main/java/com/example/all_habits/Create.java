@@ -39,20 +39,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Creates a habit
- * @author Derek
+ * Creates a habit to display on the MainActivity and stored in the HabitsList
  */
 public class Create extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     Button cancelButton;
     Button createButton;
-
     EditText habitName;
     EditText reasonName;
     EditText startDate;
     Switch privateSwitch;
     TextView habitTextView;
-
     CheckBox Saturday;
     CheckBox Monday;
     CheckBox Tuesday;
@@ -60,10 +57,10 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     CheckBox Thursday;
     CheckBox Friday;
     CheckBox Sunday;
-
     private FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
     Query query;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +138,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
                 if(!Saturday.isChecked() && !Monday.isChecked() && !Tuesday.isChecked() && !Wednesday.isChecked()
                 && !Thursday.isChecked() && !Friday.isChecked() && !Sunday.isChecked()){
                     Toast.makeText(context,"Choose a day of the week or multiple to work on your habit.",Toast.LENGTH_SHORT).show();
+                    return;
                 }else{
                     if(Sunday.isChecked()){
                         habitDayArray.add("Sun");
@@ -164,7 +162,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
                         habitDayArray.add("Sat");
                     }
                 }
-
+                //If the habit name is less than 20, the reason's length is less than 30, and all the boxes are filled in, add the habit.
                 if(habitName.getText().length() > 20){
                     Toast.makeText(context,"Habit name has to be under 20 characters long.",Toast.LENGTH_SHORT).show();
                 }else if(reasonName.getText().length() > 30) {

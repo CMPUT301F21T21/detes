@@ -12,6 +12,9 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * Creates an add comment fragment on the Comments page.
+ */
 public class addCommentFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
 

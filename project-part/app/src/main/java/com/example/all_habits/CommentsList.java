@@ -17,9 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-/**
- *
- */
+//Creates the comments list for the listview.
 public class CommentsList extends ArrayAdapter<Comment> {
 
     private ArrayList<Comment> comments;
@@ -40,10 +38,11 @@ public class CommentsList extends ArrayAdapter<Comment> {
         FirebaseFirestore db;
         db = FirebaseFirestore.getInstance();
         // access the habits_list.xml to work with the buttons
-        if(view == null){
+        if(view == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.comments_list, parent, false);
         }
+
 
         Button deleteComment;
         Comment comment = comments.get(position);
