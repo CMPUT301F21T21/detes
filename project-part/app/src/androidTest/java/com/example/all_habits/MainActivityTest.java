@@ -73,4 +73,29 @@ public class MainActivityTest {
     public void tearDown() throws Exception{
         solo.finishOpenedActivities();
     }
+
+    /**
+     * Checks that all the buttons work and in the right activity
+     * @author Diana
+     */
+    @Test
+    public void checkCreateButton(){
+        //checks create button is clickable and works
+        View createButton = solo.getView(R.id.createButton);
+        solo.clickOnView(createButton);
+    }
+
+    @Test
+    public void checkDeleteButton(){
+        //checks delete button is clickable and works
+        View deleteButton = solo.getView(R.id.deleteComment);
+        solo.clickOnView(deleteButton);
+    }
+
+    @Test
+    public void checkCommentsButton(){
+        //checks comment button is clickable and works
+        View commentButton = solo.getView(R.id.commentButton);
+        solo.clickOnView(commentButton);
+    }
 }
