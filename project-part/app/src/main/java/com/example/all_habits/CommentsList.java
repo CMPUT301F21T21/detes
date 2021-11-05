@@ -27,6 +27,12 @@ public class CommentsList extends ArrayAdapter<Comment> {
     private View view;
 
     TextView commentText;
+
+    /**
+     * Constructor for the CommentsList
+     * @param context
+     * @param comments
+     */
     public CommentsList(@NonNull Context context, ArrayList<Comment> comments) {
         super(context,0, comments);
         this.comments = comments;
