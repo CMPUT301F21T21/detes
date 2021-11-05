@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,8 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
     private ArrayList<Comment> commentArrayList;
     private Button backButton;
     private ImageView user;
+    private int habitNum;
+    private TextView habitNumText;
 
     Button deleteComment;
     Button addButton;
@@ -52,6 +55,9 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comments);
+
+        Intent intent = getIntent();
+
 
         // create an instance of the firestore
         db = FirebaseFirestore.getInstance();
@@ -73,7 +79,12 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
             setContentView(R.layout.empty_comment);
         }
          */
-        Intent intent = getIntent();
+        Intent commentIntent = getIntent();
+        habitNum = commentIntent.getIntExtra("habitNum", 1);
+
+        // sets what the habit number is at the top of the comments page
+        habitNumText = findViewById(R.id.selectedHabit);
+        habitNumText.setText("Habit " + habitNum);
 
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {

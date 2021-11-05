@@ -48,8 +48,9 @@ public class HabitsList extends ArrayAdapter<Habit> {
     /**
      * When the comment button is clicked, we move to the Comments page
      */
-    public void toCommentsPage(){
+    public void toCommentsPage(int habitNum){
         Intent intent = new Intent(context, Comments.class);
+        intent.putExtra("habitNum", habitNum);
         context.startActivity(intent);
 
     }
@@ -93,7 +94,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         commentsButton = view.findViewById(R.id.Comment);
         commentsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                toCommentsPage();
+                toCommentsPage(position + 1);
             }
         });
 
@@ -147,12 +148,13 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitReasonText.setText("Reason: " + habit.getReason());
 
         //Creates a string with all the habit days selected, seperated by a ','.
+        if (habitDays != null){
         for(int i = 0; i < habitDays.size();i++){
             habitDayString += habitDays.get(i);
             if(i != habitDays.size() - 1) {
                 habitDayString = habitDayString + ", ";
             }
-        }
+        }}
         habitDaysText.setText("Days: " + habitDayString);
 
         habitStartDateText.setText("Start Date: " + habit.getStartDate());
