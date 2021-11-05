@@ -30,7 +30,6 @@ import java.util.Date;
 
 /**
  * Lists today's habits
- * @author Emma
  */
 
 public class TodaysHabits extends AppCompatActivity {
