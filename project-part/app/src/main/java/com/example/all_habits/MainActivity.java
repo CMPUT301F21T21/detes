@@ -4,20 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,9 +26,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,11 +49,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // create an instance of the firestore
+        db = FirebaseFirestore.getInstance();
+        currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
+
         // get a reference to the listview and create an object for the city list
         habitsListView = findViewById(R.id.habits_list);
         habitArrayList = new ArrayList<>();
-
-        //habitArrayList.add(new Habit("HabitTitle1"));
 
         habitAdapter = new HabitsList(this, habitArrayList);
         habitsListView.setAdapter(habitAdapter); //converts data source to ListView
@@ -67,15 +66,12 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, EditDelete.class);
                 intent.putExtra("habitNum", position + 1);
+                intent.putExtra("size", habitArrayList.size());
                 startActivity(intent);
             }
         });
 
-        // create an instance of the firestore
-        db = FirebaseFirestore.getInstance();
-        currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
-
+        //Add a new habit.
         addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Opens the profile page.
         profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,10 +137,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
     }
-
 
 }
