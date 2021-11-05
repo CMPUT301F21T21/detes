@@ -55,14 +55,24 @@ public class MainActivityTest {
 
 
     /**
-     * Checks if the intents are working properly
-     *
+     * Checks if the listview items is working properly (can be clicked)
+     * @author Elena
      */
     @Test
-    public void checkIntent(){
+    public void checkListView(){
         // Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.waitForActivity("MainActivity");
 
+        solo.clickInList(1); // clicks on the first listview item
+
+        // clicks on the CANCEL button
+        Button cancelButton = (Button) solo.getView("cancelButton");
+        solo.clickOnView(cancelButton);
+
+
+        View expandArrow = solo.getView(R.id.expandArrow);
+        solo.clickOnView(expandArrow);
 
     }
 
