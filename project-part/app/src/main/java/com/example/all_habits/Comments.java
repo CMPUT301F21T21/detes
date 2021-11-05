@@ -30,10 +30,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class Comments extends AppCompatActivity implements addCommentFragment.OnFragmentInteractionListener{
-    // id
-    // person who wrote it
-    // who the person wrote it for
-    // which habit the person wrote the comment on
 
     private ArrayList<Comment> commentArrayList;
     private Button backButton;
@@ -151,6 +147,11 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
 
 
     }
+
+    /**
+     * Adds the comment into the collection
+     * @param comment
+     */
     @Override
     public void onOkPressed(Comment comment){
         CollectionReference collectionReference = db.collection("comments");

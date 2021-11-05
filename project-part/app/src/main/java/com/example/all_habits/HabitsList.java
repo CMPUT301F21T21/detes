@@ -18,9 +18,6 @@ import java.util.ArrayList;
  * Determines what each listview item will look like, when displayed
  * on the all habits page (see storyboard sequence)
  *
- * @author Elena
- * @version 1.0
- *
  */
 
 public class HabitsList extends ArrayAdapter<Habit> {
