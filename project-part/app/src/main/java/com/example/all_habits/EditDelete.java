@@ -35,6 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Edit or delete's a habit created from the create activity.
@@ -51,6 +52,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     int size;
     int swapPos = 0;
     String habitId;
+    ArrayList<String> completedDaysList;
+    int newProgress;
 
     DocumentReference documentRef;
     EditText habitName;
@@ -79,6 +82,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
 
         habitNum = intent.getIntExtra("habitNum",1);
         size = intent.getIntExtra("size", 0);
+        completedDaysList = intent.getStringArrayListExtra("completedDaysList");
         habitName = findViewById(R.id.habitName);
         reason = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
@@ -277,6 +281,27 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                         documentRef.update("Private", true);
                     } else {
                         documentRef.update("Private", false);
+                    }
+
+                    // check if the user removed a "completed" day (eg. habit completed on Monday, but the habit days
+                    // no longer include Monday
+                    if (completedDaysList != null) {
+                        for (String completedDay : completedDaysList) {
+                            if (completedDay.equals("Tuesday") || completedDay.equals("Thursday")) {
+
+                                // remove "Tues" or "Thurs" (4 characters long)
+                                if (!habitDayArray.contains(completedDay.substring(0, 4))) {
+                                    completedDaysList.remove(completedDay);
+                                }
+                            } else if (!habitDayArray.contains(completedDay.substring(0, 3))) {
+                                completedDaysList.remove(completedDay);
+                            }
+                        }
+
+                        // update the progress and the completed days
+                        newProgress = (int) (((float) completedDaysList.size() / habitDayArray.size()) * 100);
+                        documentRef.update("progress", newProgress);
+                        documentRef.update("completedDaysList", completedDaysList);
                     }
                     finish();
                 }

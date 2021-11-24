@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-
     <list default="true" id="95f73fde-2b3e-4f8c-b8a8-7cfeec2afd2c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/project-part/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project-part/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project-part/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-part/app/src/main/java/com/example/all_habits/HabitsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-part/app/src/main/java/com/example/all_habits/HabitsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-part/app/src/main/res/layout/habits_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project-part/app/src/main/res/layout/habits_list.xml" afterDir="false" />
     </list>
-
-    <list default="true" id="95f73fde-2b3e-4f8c-b8a8-7cfeec2afd2c" name="Default Changelist" comment="" />
-
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,7 +25,6 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

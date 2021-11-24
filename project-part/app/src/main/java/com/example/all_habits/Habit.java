@@ -1,9 +1,6 @@
 package com.example.all_habits;
 
-import org.w3c.dom.Comment;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Creates a Habit
@@ -17,6 +14,9 @@ public class Habit {
     private String startDate;
     private int habitNum;
     private Boolean Private;
+
+    private int progress;
+    private ArrayList<String> completedDaysList = new ArrayList<String>();
 
     /**
      * Constructor for creating the habit
@@ -38,6 +38,7 @@ public class Habit {
         this.habitNum = habitNum;
         this.Private = Private;
 
+        this.progress = 0;
     }
 
     /**
@@ -143,6 +144,43 @@ public class Habit {
      * @param Private
      */
     public void setPrivate(Boolean Private) {
+
         Private = Private;
     }
+
+
+    /**
+     * Sets the progress for the habit
+     *
+     */
+    public void setProgress() {
+
+        float convertToFloatPercent = ((float) this.completedDaysList.size() / this.habitDays.size()) * 100;
+        this.progress = (int) convertToFloatPercent ;
+    }
+
+    /**
+    * Gets the progress for the habit
+     */
+    public int getProgress() {
+        return this.progress;
+    }
+
+    public void addToCompletedDaysList(String weekDay) {
+        this.completedDaysList.add(weekDay);
+    }
+
+    public void removeFromCompletedDaysList(String weekDay) {
+        this.completedDaysList.remove(weekDay);
+    }
+
+    public void clearCompletedDaysList() {
+        this.completedDaysList.clear();
+    }
+
+    public ArrayList<String> getCompletedDaysList() {
+        return this.completedDaysList;
+    }
+
+
 }
