@@ -1,11 +1,6 @@
 package com.example.all_habits;
 
-import android.util.Log;
-
-import org.w3c.dom.Comment;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Creates a Habit
@@ -179,11 +174,13 @@ public class Habit {
         this.completedDaysList.remove(weekDay);
     }
 
-    public void clearCompletedDaysList(String weekDay) {
+    public void clearCompletedDaysList() {
         this.completedDaysList.clear();
     }
 
     public ArrayList<String> getCompletedDaysList() {
         return this.completedDaysList;
     }
+
+
 }

@@ -1,5 +1,7 @@
 package com.example.all_habits;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,14 +25,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -70,6 +69,8 @@ public class HabitsList extends ArrayAdapter<Habit> {
         this.context = context;
     }
 
+
+
     /**
      * When the comment button is clicked, we move to the Comments page
      */
@@ -94,6 +95,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+
         /*
         View objects (ImageViews, TextViews) are added in this method so that we can handle the buttons
         in EACH listview item separately
@@ -101,11 +103,14 @@ public class HabitsList extends ArrayAdapter<Habit> {
         view = convertView;
         ImageView expandArrowButton;
         ImageView commentsButton;
+        ImageView habitPhotoButton;
+        ImageView habitLocationButton;
 
         TextView habitTitleText;
         TextView habitReasonText;
         TextView habitStartDateText;
         TextView habitDaysText;
+        TextView habitPhotoLocationText;
 
         // access the habits_list.xml to work with the buttons
         if (view == null) {
@@ -123,11 +128,15 @@ public class HabitsList extends ArrayAdapter<Habit> {
             }
         });
 
-        // looking for the "hidden" textviews
+        // looking for the "hidden" textviews and image buttons
         habitTitleText = view.findViewById(R.id.habitTitle_TextView);
         habitReasonText = view.findViewById(R.id.habitReason_TextView);
         habitStartDateText = view.findViewById(R.id.habitStartDate_TextView);
         habitDaysText = view.findViewById(R.id.habitDays_TextView);
+        habitPhotoLocationText = view.findViewById(R.id.photos_location_Textview);
+
+        habitPhotoButton = view.findViewById(R.id.photoButton);
+        habitLocationButton = view.findViewById(R.id.locationButton);
 
         expandArrowButton = view.findViewById(R.id.expandArrow);
         expandArrowButton.setTag(EXPAND_CONSTANT); // starts out as being able to "expand"
@@ -144,6 +153,9 @@ public class HabitsList extends ArrayAdapter<Habit> {
                     habitReasonText.setVisibility(View.VISIBLE);
                     habitStartDateText.setVisibility(View.VISIBLE);
                     habitDaysText.setVisibility(View.VISIBLE);
+                    habitPhotoButton.setVisibility(View.VISIBLE);
+                    habitLocationButton.setVisibility(View.VISIBLE);
+                    habitPhotoLocationText.setVisibility(View.VISIBLE);
 
                     // indicates that the arrow is currently the collapse arrow
                     expandArrowButton.setTag(COLLAPSE_CONSTANT);
@@ -158,6 +170,9 @@ public class HabitsList extends ArrayAdapter<Habit> {
                     habitReasonText.setVisibility(View.GONE);
                     habitStartDateText.setVisibility(View.GONE);
                     habitDaysText.setVisibility(View.GONE);
+                    habitPhotoButton.setVisibility(View.GONE);
+                    habitLocationButton.setVisibility(View.GONE);
+                    habitPhotoLocationText.setVisibility(View.GONE);
 
                     expandArrowButton.setTag(EXPAND_CONSTANT);
                 }
@@ -194,6 +209,21 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
         CheckBox checkBox = view.findViewById(R.id.completed_habit_check);
 
+        /*
+        String dateTime;
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEEE h:mm a", Locale.US); //get the full name of the weekday
+        Calendar dateTimeCalendar = Calendar.getInstance();
+        dateTime = dateTimeFormat.format(dateTimeCalendar.getTime());
+
+
+        // resets the progress each week
+        if (dateTime.equals("Sunday 12:00 AM")){
+            completedDaysList.clear();
+            habit.setProgress();;
+        };
+         */
+
+
         // displays the current progress percentage of the habit
         TextView completedPercent_TextView = view.findViewById(R.id.completed_percent);
         completedPercent_TextView.setText(Integer.toString(habit.getProgress()) + '%');
@@ -216,6 +246,9 @@ public class HabitsList extends ArrayAdapter<Habit> {
         // if the user has checked the box for today already, leave it as checked
         if (completedDaysList.contains(todayWeekDay)){
             checkBox.setChecked(true);
+        }
+        else{
+            checkBox.setChecked(false);
         }
 
 
