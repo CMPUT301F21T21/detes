@@ -4,11 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class DisplayUserProfile extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.displayuserprofile);
     }
@@ -16,8 +23,7 @@ public class DisplayUserProfile extends AppCompatActivity {
     public void onClick(View v) {
 
         // TODO:
-        // This function closes Activity Two
-        // Hint: use Context's finish() method
+        // This function closes UserProfile
         finish();
     }
 }
