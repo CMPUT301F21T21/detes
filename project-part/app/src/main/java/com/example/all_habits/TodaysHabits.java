@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Lists today's habits
@@ -40,6 +41,10 @@ public class TodaysHabits extends AppCompatActivity {
     ArrayList<Habit> todayArrayList;
     ArrayAdapter<Habit> todayAdapter;
     String[] daysOfTheWeek = {"Sun","Mon","Tues","Wed","Thurs","Fri","Sat"};
+
+    ListView completedListView;
+    ArrayList<Habit> completedArrayList;
+    ArrayAdapter<Habit> completedAdapter;
 
     //firestore attribute
     FirebaseFirestore db;
@@ -69,6 +74,11 @@ public class TodaysHabits extends AppCompatActivity {
         todayAdapter = new HabitsList(this, todayArrayList);
         todayListView.setAdapter(todayAdapter); //converts data source to ListView
 
+        completedListView = findViewById(R.id.todays_list_completed);
+        completedArrayList = new ArrayList<>();
+        completedAdapter = new HabitsList(this, completedArrayList);
+        completedListView.setAdapter(completedAdapter);
+
 
         // getting data from firebase to your local device (snapshot of database)
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -78,9 +88,8 @@ public class TodaysHabits extends AppCompatActivity {
                 todayArrayList.clear();
                 ArrayList<String> habitDays;
                 String dateString;
-                for(QueryDocumentSnapshot habits: queryDocumentSnapshots)
-                {
-                    Habit habit= habits.toObject(Habit.class);
+                for(QueryDocumentSnapshot habits: queryDocumentSnapshots) {
+                    Habit habit = habits.toObject(Habit.class);
                     habitDays = habit.getHabitDays();
                     dateString = habit.getStartDate();
 
@@ -99,18 +108,38 @@ public class TodaysHabits extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if(habit.getHabitName() != null) {
-                        for(int i = 0;i < habitDays.size();i++){
-                            if(habitDays.get(i).toString().equals(day)){
-                                if(date1.before(date2) || (date1.compareTo(date2) == 0))
-                                todayArrayList.add(habit);
+                    if (habit.getHabitName() != null) {
+                        for (int i = 0; i < habitDays.size(); i++) {
+                            if (habitDays.get(i).toString().equals(day)) {
+                                if (date1.before(date2) || (date1.compareTo(date2) == 0))
+                                    todayArrayList.add(habit);
                             }
                             Log.d("Tag", date1.toString());
                         }
                     }
+
+
+                    String todayWeekDay;
+                    SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US); //get the full name of the weekday
+                    Calendar calendar = Calendar.getInstance();
+                    todayWeekDay = dayFormat.format(calendar.getTime());
+
+                        if (habit.getCompletedDaysList().contains(todayWeekDay)) {
+                            completedArrayList.add(habit);
+                            todayArrayList.remove(habit);
+                        }
+                        else{
+                            completedArrayList.remove(habit);
+                            todayArrayList.add(habit);
+                        }
+
                 }
+
+                Log.d("HABIT_COMPLETE", String.valueOf(completedArrayList));
                 todayAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
                 //from the cloud
+                completedAdapter.notifyDataSetChanged();
+
             }
         });
 
