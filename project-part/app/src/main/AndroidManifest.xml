@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.all_habits">
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.All_habits">
         <activity
+            android:name=".cameraActivity"
+            android:exported="true" />
+        <activity
             android:name=".Create"
             android:exported="true" />
         <activity
@@ -17,31 +28,30 @@
             android:exported="true" />
         <activity
             android:name=".Login"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Register"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".EditDelete"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Comments"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".TodaysHabits"
+            android:exported="true"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DisplayUserProfile"

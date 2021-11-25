@@ -17,30 +17,32 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/SearchUser"
+            android:id="@+id/allHabitsTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="All Habits"
+            android:text="Today's Habits"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/addFriendButton"
+            android:id="@+id/addFriend"
             android:layout_width="56dp"
-            android:layout_height="match_parent"
+            android:layout_height="64dp"
             app:srcCompat="@drawable/ic_add_friend" />
 
         <ImageView
-            android:id="@+id/profileButton"
+            android:id="@+id/User"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_person" />
+            android:onClick="DisplayProfile"
+            app:srcCompat="@drawable/ic_person"
+            tools:ignore="OnClick,SpeakableTextPresentCheck" />
 
     </LinearLayout>
 
@@ -48,19 +50,17 @@
         android:id="@+id/homeButton"
         android:layout_width="57dp"
         android:layout_height="59dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="108dp"
         android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/addButton"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_home" />
 
     <ImageView
         android:id="@+id/addButton"
-        android:layout_width="44dp"
-        android:layout_height="61dp"
+        android:layout_width="40dp"
+        android:layout_height="63dp"
         android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,68 +71,81 @@
     <ImageView
         android:id="@+id/allHabits"
         android:layout_width="54dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.868"
-        app:layout_constraintStart_toEndOf="@+id/addButton"
-        app:srcCompat="@drawable/ic_checkmark" />
+        app:srcCompat="@drawable/ic_checkmark"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <FrameLayout
         android:layout_width="426dp"
         android:layout_height="556dp"
         app:layout_constraintBottom_toTopOf="@+id/addButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ListView
-            android:id="@+id/habits_list"
-            android:layout_width="426dp"
-            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/pending_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="                                  Pending"
+                android:textSize="20sp" />
 
-        </ListView>
+            <ListView
+                android:id="@+id/todays_list_pending"
+                android:layout_width="match_parent"
+                android:layout_height="268dp" />
 
+            <TextView
+                android:id="@+id/completed_text"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:text="                                 Completed"
+                android:textSize="20sp" />
+
+            <ListView
+                android:id="@+id/todays_list_completed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
     </FrameLayout>
 
     <TextView
         android:id="@+id/todayText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="2dp"
         android:text="Today"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeButton" />
 
     <TextView
         android:id="@+id/createNewHabit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="19dp"
         android:text="Create New"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/allHabits"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/addButton" />
 
     <TextView
         android:id="@+id/allHabitsText"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="3dp"
         android:text="All Habits"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintHorizontal_bias="0.94"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addButton" />
+        app:layout_constraintTop_toBottomOf="@+id/allHabits" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
