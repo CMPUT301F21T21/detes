@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -38,6 +39,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
     private Button backButton;
     private ImageView user;
     private int habitNum;
+    private int commentNum = 1;
     private TextView habitNumText;
 
     Button deleteComment;
@@ -49,6 +51,12 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
     //firestore attribute
     FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
+    private CollectionReference habitReference; // collection of selected habit
+    private CollectionReference userCollectionReference; // collection of signed in user
+
+
+    private String habitId; // to keep track of which habit was selected
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +65,14 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
 
         Intent intent = getIntent();
 
-
         // create an instance of the firestore
         db = FirebaseFirestore.getInstance();
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        //final CollectionReference habitReference = db.collection(currentFireBaseUser.getUid());
-        final CollectionReference commentReference = db.collection("comments");
 
-        int commentNum = 0;
+        // current user collection reference
+        //final CollectionReference commentReference = db.collection("comments");
+
+        //commentNum = 1;
 
         commentListView = findViewById(R.id.comments_list);
         commentArrayList = new ArrayList<>();
@@ -87,6 +95,8 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
         habitNumText.setText("Habit " + habitNum);
         backButton = findViewById(R.id.backButton);
 
+
+
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish(); // goes back to the all habits page
@@ -108,9 +118,11 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new addCommentFragment().show(getSupportFragmentManager(), "ADD_COMMENT");
+                new addCommentFragment(commentNum).show(getSupportFragmentManager(), "ADD_COMMENT");
+                commentNum +=1;
             }
         });
+
 
 
         commentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -124,7 +136,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     for(QueryDocumentSnapshot document:task.getResult()){
                                         commentId = document.getId();
-                                        commentReference.document(commentId).delete();
+                                        //commentReference.document(commentId).delete();
                                     }
                             }
                         });
@@ -132,21 +144,37 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
             }
         });
 
-        // getting data from firebase to your local device (snapshot of database)
-        commentReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
-                    FirebaseFirestoreException error) {
-                commentArrayList.clear();
-                for(QueryDocumentSnapshot comments: queryDocumentSnapshots)
-                {
-                    Comment comment = comments.toObject(Comment.class);
-                        commentArrayList.add(comment);
-                }
-                commentAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
-                //from the cloud
-            }
-        });
+        userCollectionReference = db.collection(currentFireBaseUser.getUid());
+        // finds the specific habit
+        Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", habitNum).limit(1);
+        findHabit.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                habitId = document.getId();
+                            }
+                        }
+
+                        habitReference = userCollectionReference.document(habitId).collection("Comments");
+
+                            // getting data from firebase to your local device (snapshot of database)
+                            habitReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
+                                        FirebaseFirestoreException error) {
+                                    commentArrayList.clear();
+                                    for (QueryDocumentSnapshot comments : queryDocumentSnapshots) {
+                                        Comment comment = comments.toObject(Comment.class);
+                                        commentArrayList.add(comment);
+                                    }
+                                    commentAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
+                                    //from the cloud
+                                }
+                            });
+
+                    }});
 
 
     }
@@ -157,8 +185,14 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
      */
     @Override
     public void onOkPressed(Comment comment){
-        CollectionReference collectionReference = db.collection("comments");
-        collectionReference.add(comment);
+        //CollectionReference collectionReference = db.collection("comments");
+        //collectionReference.add(comment);
+        comment.setUserId(currentFireBaseUser.getUid());
+        comment.setHabitId(habitId);
+        habitReference = userCollectionReference.document(habitId).collection("Comments");
+        habitReference.add(comment);
+
+
     }
 
 
