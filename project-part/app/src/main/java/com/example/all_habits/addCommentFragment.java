@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -17,16 +16,10 @@ import androidx.fragment.app.DialogFragment;
  * Creates an add comment fragment on the Comments page.
  */
 public class addCommentFragment extends DialogFragment {
-
-    private int commentNum;
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener{
         void onOkPressed(Comment comment);
-    }
-
-    addCommentFragment(int commentNum){
-        this.commentNum = commentNum;
     }
 
     @Override
@@ -52,11 +45,7 @@ public class addCommentFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogueInterface, int i) {
                         String commentText = commentTextFragment.getText().toString();
-                        if(commentText.length() > 20) {
-                            Toast.makeText(getContext(), "The comment has to be under 20 characters long.", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        listener.onOkPressed(new Comment(commentText,commentNum));
+                        listener.onOkPressed(new Comment(commentText,1));
                     }
                 }).create();
     }
