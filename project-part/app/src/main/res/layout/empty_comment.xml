@@ -22,10 +22,8 @@
             android:layout_width="177dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="Habit Number"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:text="  Habit Number"
+            android:textSize="24sp" />
 
         <ImageView
             android:id="@+id/addFriend"
@@ -58,27 +56,20 @@
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ListView
-        android:id="@+id/comments_list"
-        android:layout_width="409dp"
-        android:layout_height="612dp"
+    <TextView
+        android:id="@+id/empty_comment"
+        android:layout_width="243dp"
+        android:layout_height="154dp"
+        android:layout_marginTop="235dp"
+        android:padding="20dp"
+        android:text="There are no comments on this habit"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/backButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" >
-
-
-    </ListView>
-
-    <Button
-        android:id="@+id/addComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="ADD COMMENT"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

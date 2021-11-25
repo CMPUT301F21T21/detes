@@ -3,6 +3,8 @@ package com.example.all_habits;
 import static android.app.PendingIntent.getActivity;
 
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -53,16 +55,56 @@ public class MainActivityTest {
 
 
     /**
-     * Checks if the intents are working properly
-     *
+     * Checks if the listview items is working properly (can be clicked)
+     * @author Elena
      */
     @Test
-    public void checkIntent(){
+    public void checkListView(){
         // Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.waitForActivity("MainActivity");
 
+        solo.clickInList(1); // clicks on the first listview item
+
+        // clicks on the CANCEL button
+        Button cancelButton = (Button) solo.getView("cancelButton");
+        solo.clickOnView(cancelButton);
+
+
+        View expandArrow = solo.getView(R.id.expandArrow);
+        solo.clickOnView(expandArrow);
 
     }
+
+    /**
+     * @author Emma
+     */
+    @Test
+    public void checkHomeButton(){
+        //checks that home button is clickable and works
+        View homeButton = solo.getView(R.id.homeButton);
+        solo.clickOnView(homeButton);
+        solo.assertCurrentActivity(String.valueOf(this), TodaysHabits.class);
+    }
+
+    @Test
+    public void checkAllHabitsButton(){
+        //checks All habits button is clickable and works
+        checkHomeButton();
+        View allHabitsButton = solo.getView(R.id.allHabits);
+        solo.clickOnView(allHabitsButton);
+        solo.assertCurrentActivity(String.valueOf(this), MainActivity.class);
+    }
+
+    @Test
+    public void checkComments(){
+        //checks comment is empty message pops up when empty
+        View commentsButton = solo.getView(R.id.Comment);
+        solo.clickOnView(commentsButton);
+        solo.assertCurrentActivity(String.valueOf(this), Comments.class);
+
+    }
+
 
 
     /**

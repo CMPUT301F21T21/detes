@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.All_habits">
         <activity
-            android:name=".CreateHabit"
-            android:exported="false" />
+            android:name=".Create"
+            android:exported="true" />
         <activity
             android:name=".OtherUsersList"
             android:exported="true" />
@@ -42,9 +42,15 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Comments"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".TodaysHabits"
+            android:exported = "true"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DisplayUserProfile"
+            android:exported="true"
             android:parentActivityName=".MainActivity" />
     </application>
 
