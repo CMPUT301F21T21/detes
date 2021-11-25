@@ -9,21 +9,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
-import com.robotium.solo.Solo;
 
 import org.junit.After;
 import org.junit.Before;
@@ -137,7 +129,7 @@ public class MainActivityTest {
     @Test
     public void checkCommentsButton(){
         //checks comment button is clickable and works
-        View commentButton = solo.getView(R.id.commentButton);
+        View commentButton = solo.getView(R.id.takePhotoButton);
         solo.clickOnView(commentButton);
     }
 }
