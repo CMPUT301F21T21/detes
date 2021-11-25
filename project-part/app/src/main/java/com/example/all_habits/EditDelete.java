@@ -31,11 +31,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Edit or delete's a habit created from the create activity.
@@ -102,6 +103,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         cancelButton = findViewById(R.id.cancelButton);
         editButton = findViewById(R.id.createButton);
         deleteButton = findViewById(R.id.deleteComment);
+        commentButton = findViewById(R.id.takePhotoButton);
+
         Context context = getApplicationContext();
 
         //Populates the spinner.
@@ -117,7 +120,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        CollectionReference collectionRef = db.collection(currentFireBaseUser.getUid());
+        //CollectionReference collectionRef = db.collection(currentFireBaseUser.getUid());
 
         //Creates the DatePickerDialog when StartDate EditText is clicked on.
         startDate.setOnClickListener(new View.OnClickListener() {
