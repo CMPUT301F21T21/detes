@@ -45,7 +45,6 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     Button cancelButton;
     Button editButton;
     Button deleteButton;
-    Button commentButton;
     Switch privateSwitch;
 
     int habitNum;
@@ -59,6 +58,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     EditText habitName;
     EditText reason;
     EditText startDate;
+    EditText endDate;
     TextView habitTextView;
 
     CheckBox Saturday;
@@ -86,6 +86,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         habitName = findViewById(R.id.habitName);
         reason = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
+        endDate = findViewById(R.id.habitEndDate);
         habitTextView = findViewById(R.id.habitNumber);
         privateSwitch = findViewById(R.id.privateSwitch);
 
@@ -101,7 +102,6 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         cancelButton = findViewById(R.id.cancelButton);
         editButton = findViewById(R.id.createButton);
         deleteButton = findViewById(R.id.deleteComment);
-        commentButton = findViewById(R.id.commentButton);
         Context context = getApplicationContext();
 
         //Populates the spinner.
@@ -127,6 +127,18 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 DialogFragment datePicker = new DatePickerDialogFragment();
                 datePicker.show(getSupportFragmentManager(), "date picker");
+            }
+        });
+
+        //Creates the DatePickerDialog2 when EndDate EditText is clicked on.
+        endDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                DialogFragment datePicker2 = new DatePickerDialogFragment2();
+                datePicker2.show(getSupportFragmentManager(), "date picker");
+
             }
         });
 
@@ -335,25 +347,15 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
             }
         });
 
-
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Go back to list of habits.
                 finish();
             }
         });
-
-
-        commentButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(EditDelete.this, Comments.class);
-                startActivity(intent);
-            }
-        });
-
     }
 
-    //Sets the start date of the DatePickerDialog.
+    //Sets the start date and end date of the DatePickerDialog.
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         //Sets the calendar date to c.
@@ -367,6 +369,6 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDateString = simpleFormat.format(c.getTime());
         startDate.setText(currentDateString);
+        endDate.setText(currentDateString);
     }
-
 }
