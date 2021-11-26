@@ -2,14 +2,12 @@ package com.example.all_habits;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class DisplayUserProfile extends AppCompatActivity {
     TextView mlogout, emailTextView, uidTextView;
+    ImageView backButton;
     private TextView userName;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -35,7 +34,7 @@ public class DisplayUserProfile extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.displayuserprofile);
-
+        backButton = findViewById(R.id.displayBackButton);
         mlogout   = findViewById(R.id.logoutText);
         userName  = findViewById(R.id.Username);
         emailTextView = findViewById(R.id.Email);
@@ -60,7 +59,12 @@ public class DisplayUserProfile extends AppCompatActivity {
             }
         });
 
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         mlogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +77,7 @@ public class DisplayUserProfile extends AppCompatActivity {
 
         // TODO:
         // This function closes UserProfile
-        finish();
-    }
+        //finish()
 
 
 }
