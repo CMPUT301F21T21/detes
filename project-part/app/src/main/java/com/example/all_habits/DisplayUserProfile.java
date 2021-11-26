@@ -23,7 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * Profile page that is opened on the MainActivity with the button on the top right.
  */
+
 public class DisplayUserProfile extends AppCompatActivity {
+
     TextView mlogout, emailTextView, uidTextView;
     ImageView backButton;
     private TextView userName;
