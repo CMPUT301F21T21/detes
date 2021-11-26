@@ -14,8 +14,8 @@ public class Habit {
     private String startDate;
     private int habitNum;
     private Boolean Private;
+    private String comment;
     private String optionalPhoto;
-
 
     private int progress;
     private ArrayList<String> completedDaysList = new ArrayList<String>();
@@ -191,5 +191,11 @@ public class Habit {
         return this.completedDaysList;
     }
 
+    public String getComment() {
+        return comment;
+    }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
