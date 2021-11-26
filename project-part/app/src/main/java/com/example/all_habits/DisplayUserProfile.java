@@ -2,13 +2,11 @@ package com.example.all_habits;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,14 +20,16 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class DisplayUserProfile extends AppCompatActivity {
     TextView mlogout, emailTextView, uidTextView;
+    ImageView backButton;
     private TextView userName;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.displayuserprofile);
-
+        backButton = findViewById(R.id.displayBackButton);
         mlogout   = findViewById(R.id.logoutText);
         userName  = findViewById(R.id.Username);
         emailTextView = findViewById(R.id.Email);
@@ -44,23 +44,22 @@ public class DisplayUserProfile extends AppCompatActivity {
         //userName.setText(ref.get().getResult().getValue().toString());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(),Login.class));
-                finish();
-                System.exit(0);
-
-
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userName.setText(snapshot.getValue().toString());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         mlogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +70,9 @@ public class DisplayUserProfile extends AppCompatActivity {
         });
 
 
+        // TODO:
+        // This function closes UserProfile
+        //finish()
     }
 
 
