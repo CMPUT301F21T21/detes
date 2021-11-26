@@ -26,6 +26,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,7 +44,7 @@ public class cameraActivity extends AppCompatActivity {
     private StorageReference storage;
     ActivityResultLauncher<String> getContent;
     ActivityResultLauncher<Intent> activityResultLauncher;
-    public Uri imageUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +56,15 @@ public class cameraActivity extends AppCompatActivity {
         ImageView habitPicture = findViewById(R.id.habitPicture);
         storage = FirebaseStorage.getInstance().getReference();
 
-
         habitPicture.setDrawingCacheEnabled(true);
         habitPicture.buildDrawingCache();
+        FirebaseFirestore db;
+        FirebaseUser currentFireBaseUser;
+
+        // create an instance of the firestore
+        db = FirebaseFirestore.getInstance();
+        currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
 
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
@@ -74,8 +84,6 @@ public class cameraActivity extends AppCompatActivity {
                 }
             }
         });
-
-
 
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
