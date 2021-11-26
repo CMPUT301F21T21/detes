@@ -15,6 +15,7 @@ public class Habit {
     private int habitNum;
     private Boolean Private;
     private String comment;
+    private String optionalPhoto;
 
     private int progress;
     private ArrayList<String> completedDaysList = new ArrayList<String>();
@@ -38,7 +39,6 @@ public class Habit {
         this.startDate = startDate;
         this.habitNum = habitNum;
         this.Private = Private;
-
         this.progress = 0;
     }
 
@@ -138,6 +138,14 @@ public class Habit {
      */
     public Boolean getPrivate() {
         return Private;
+    }
+
+    public void setOptionalPhoto(String optionalPhoto) {
+        this.optionalPhoto = optionalPhoto;
+    }
+
+    public String getOptionalPhoto(){
+        return optionalPhoto;
     }
 
     /**
