@@ -12,6 +12,7 @@ public class Habit {
     private String reason;
     private ArrayList<String> habitDays;
     private String startDate;
+    private String endDate;
     private int habitNum;
     private Boolean Private;
     private String comment;
@@ -197,5 +198,13 @@ public class Habit {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getEndDate() {
+        return this.endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }
