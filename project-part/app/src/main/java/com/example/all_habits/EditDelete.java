@@ -60,6 +60,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     EditText startDate;
     EditText endDate;
     TextView habitTextView;
+    EditText clickedEditText;
 
     CheckBox Saturday;
     CheckBox Monday;
@@ -128,6 +129,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 DialogFragment datePicker = new DatePickerDialogFragment();
+                clickedEditText = startDate;
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
         });
@@ -139,7 +141,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 DialogFragment datePicker2 = new DatePickerDialogFragment2();
-                datePicker2.show(getSupportFragmentManager(), "date picker");
+                clickedEditText = endDate;
+                datePicker2.show(getSupportFragmentManager(), "date picker 2");
 
             }
         });
@@ -173,6 +176,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                         habitName.setText(document.getString("habitName"));
                                         reason.setText(document.getString("reason"));
                                         startDate.setText(document.getString("startDate"));
+                                        endDate.setText(document.getString("endDate"));
                                         habitTextView.setText("Habit #" + habitNum);
                                         habitDays = (ArrayList<String>) document.get("habitDays");
                                         for(int i = 0; i < habitDays.size();i++) {
@@ -290,6 +294,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                     documentRef.update("habitName", habitName.getText().toString());
                     documentRef.update("reason", reason.getText().toString());
                     documentRef.update("startDate", startDate.getText().toString());
+                    documentRef.update("endDate", endDate.getText().toString());
                     documentRef.update("habitDays", habitDayArray);
                     if (privateSwitch.isChecked()) {
                         documentRef.update("Private", true);
@@ -370,7 +375,9 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         //Formats the string into the form 01/01/1990
         SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDateString = simpleFormat.format(c.getTime());
-        startDate.setText(currentDateString);
-        endDate.setText(currentDateString);
+       // startDate.setText(currentDateString);
+       // endDate.setText(currentDateString);
+
+        clickedEditText.setText(currentDateString);
     }
 }

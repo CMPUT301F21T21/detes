@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +29,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Determines what each listview item will look like, when displayed
@@ -258,6 +262,22 @@ public class HabitsList extends ArrayAdapter<Habit> {
         else{
             checkBox.setChecked(false);
         }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date startDate = dateFormat.parse(habit.getStartDate());
+
+            if (habit.getEndDate() != null) {
+                Date endDate = dateFormat.parse(habit.getEndDate());
+                long timeDifference = endDate.getTime() - startDate.getTime();
+                Log.d("Days Difference", "Days: " + TimeUnit.DAYS.convert(timeDifference, TimeUnit.MILLISECONDS));
+                int numWeeks = (int) Math.ceil(timeDifference / 7);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.d("Parsing Error", "parse was not successful");
+        }
+
 
 
         checkBox.setOnClickListener(new View.OnClickListener() {
