@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -105,6 +106,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         ImageView commentsButton;
         ImageView habitPhotoButton;
         ImageView habitLocationButton;
+        Button habitCompleteButton;
 
         TextView habitTitleText;
         TextView habitReasonText;
@@ -125,6 +127,15 @@ public class HabitsList extends ArrayAdapter<Habit> {
         commentsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 toCommentsPage(position + 1);
+            }
+        });
+
+        habitCompleteButton = view.findViewById(R.id.habitCompleteButton);
+        habitCompleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HabitEvents.class);
+                intent.putExtra("habitNum", position + 1);
+                context.startActivity(intent);
             }
         });
 

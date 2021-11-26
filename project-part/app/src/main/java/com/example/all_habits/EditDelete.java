@@ -47,6 +47,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     Button editButton;
     Button deleteButton;
     Switch privateSwitch;
+    Button commentButton;
 
     int habitNum;
     int size;

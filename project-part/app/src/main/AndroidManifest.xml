@@ -57,6 +57,10 @@
             android:name=".DisplayUserProfile"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".HabitEvents"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
