@@ -20,6 +20,7 @@ public class Habit {
 
     private int progress;
     private ArrayList<String> completedDaysList = new ArrayList<String>();
+    private ArrayList<String> totalDaysList = new ArrayList<String>();
 
     /**
      * Constructor for creating the habit
@@ -165,8 +166,12 @@ public class Habit {
      */
     public void setProgress() {
 
-        float convertToFloatPercent = ((float) this.completedDaysList.size() / this.habitDays.size()) * 100;
+        float convertToFloatPercent = ((float) this.completedDaysList.size() / this.totalDaysList.size()) * 100;
         this.progress = (int) convertToFloatPercent ;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
     }
 
     /**
@@ -192,6 +197,8 @@ public class Habit {
         return this.completedDaysList;
     }
 
+
+
     public String getComment() {
         return comment;
     }
@@ -206,5 +213,13 @@ public class Habit {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public ArrayList<String> getTotalDaysList() {
+        return this.totalDaysList;
+    }
+
+    public void setTotalDaysList(ArrayList<String> totalDaysList) {
+        this.totalDaysList = totalDaysList;
     }
 }
