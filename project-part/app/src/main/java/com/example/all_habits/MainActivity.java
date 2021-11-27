@@ -121,21 +121,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         //Returns an ordered List and increments habitNum starting from 1 until
-        collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int habitNum = 1;
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
-                                collectionReference.document(document.getId()).update("habitNum", habitNum);
-                                habitNum++;
-                            }
-                        }
+        collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int habitNum = 1;
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        collectionReference.document(document.getId()).update("habitNum", habitNum);
+                        habitNum++;
                     }
-                });
+                }
+            }
+        });
     }
-
 }
+

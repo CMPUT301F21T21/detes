@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/ic_background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -25,7 +26,9 @@
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="Today's Habits"
-            android:textSize="20sp"
+            android:textSize="30dp"
+            android:textColorHint="@color/black"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -96,7 +99,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="                                  Pending"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="italic"/>
 
             <ListView
                 android:id="@+id/todays_list_pending"
@@ -108,7 +112,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:text="                                 Completed"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="italic"/>
 
             <ListView
                 android:id="@+id/todays_list_completed"

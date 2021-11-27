@@ -45,7 +45,6 @@ public class HabitEvents extends AppCompatActivity {
     private CollectionReference userCollectionReference; // collection of signed in user
     private DocumentReference documentRef;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +73,11 @@ public class HabitEvents extends AppCompatActivity {
                                 commentString = document.getString("comment");
 
                                 // if the comment string is not empty
-                                if (!commentString.equals("")) {
-                                    commentEditText.setText(document.getString("comment"));
+                                if (commentString != null) {
+                                    if (!commentString.equals("")) {
+                                        commentEditText.setText(document.getString("comment"));
+                                    }
                                 }
-
-
                             }
                         }
 
@@ -90,14 +89,11 @@ public class HabitEvents extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "The comment has to be under 20 characters long.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 documentRef.update("comment", commentEditText.getText().toString());
                 Toast.makeText(getApplicationContext(), "Your comment has been saved", Toast.LENGTH_SHORT).show();
-
 
               }});
             }
         });
-
     }
 }
