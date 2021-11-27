@@ -31,14 +31,21 @@ import com.google.firebase.storage.StorageReference;
 public class HabitEvents extends AppCompatActivity {
 
     final long ONE_MEGABYTE = 1024 * 1024;
+
     private TextView commentEditText;
     private ImageView habitEventImage;
     private Button saveCommentButton;
     private Button habitEventImageButton;
+    private Button habitEventLocationButton;
     public String photoName;
     private String habitId;
     private String commentString;
+    public String locationCoordinate;
+    ImageView backButton;
+
+
     private ArrayAdapter<Comment> commentAdapter;
+
     FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
     private CollectionReference habitReference; // collection of selected habit
@@ -47,6 +54,7 @@ public class HabitEvents extends AppCompatActivity {
     private StorageReference storageRef;
     private StorageReference imageRef;
     private StorageReference resetRef;
+
     private int habitNum;
 
     //When activity is returned to. checks if the habit picture has been changed.
@@ -86,11 +94,15 @@ public class HabitEvents extends AppCompatActivity {
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
         storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://projecthabits.appspot.com");
+
         //userCollectionReference = db.collection(currentFireBaseUser.getUid());
         commentEditText = findViewById(R.id.commentEditText);
         saveCommentButton = findViewById(R.id.saveCommentButton);
         habitEventImageButton = findViewById(R.id.habitEventImageButton);
         habitEventImage = findViewById(R.id.habitEventImage);
+        habitEventLocationButton = findViewById(R.id.habitEventLocationButton);
+
+        backButton = findViewById(R.id.displayBackButton);
 
         Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", habitNum).limit(1);
         findHabit.get()
@@ -101,8 +113,10 @@ public class HabitEvents extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 habitId = document.getId();
                                 documentRef = db.collection(currentFireBaseUser.getUid()).document(habitId);
-                                commentString = document.getString("comment");
+                                commentString = document.getString("optionalComment");
                                 photoName = document.getString("optionalPhoto");
+                                locationCoordinate = document.getString("optionalLocation");
+
                                 // if the comment string is not empty
                                 if (commentString != null) {
                                     if (!commentString.equals("")) {
@@ -112,20 +126,23 @@ public class HabitEvents extends AppCompatActivity {
                             }
                         }
 
+                        backButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                finish();
+                            }
+                        });
+
                         saveCommentButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
-
                                 if (commentEditText.getText().toString().length() > 20) {
                                     Toast.makeText(getApplicationContext(), "The comment has to be under 20 characters long.", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
-                                documentRef.update("comment", commentEditText.getText().toString());
+                                documentRef.update("optionalComment", commentEditText.getText().toString());
                                 Toast.makeText(getApplicationContext(), "Your comment has been saved", Toast.LENGTH_SHORT).show();
-
-
                             }
                         });
 
@@ -134,6 +151,17 @@ public class HabitEvents extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 Intent intent = new Intent(getApplicationContext(), cameraActivity.class);
+                                intent.putExtra("habitId", habitId);
+                                intent.putExtra("photoName", photoName);
+                                startActivity(intent);
+                            }
+                        });
+
+                        //Starts CurrentLocation.
+                        habitEventLocationButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getApplicationContext(), CurrentLocation.class);
                                 intent.putExtra("habitId", habitId);
                                 intent.putExtra("photoName", photoName);
                                 startActivity(intent);
@@ -152,16 +180,6 @@ public class HabitEvents extends AppCompatActivity {
                             });
                         }
                     }
-
-                if (commentEditText.getText().toString().length() > 20){
-                    Toast.makeText(getApplicationContext(), "The comment has to be under 20 characters long.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                documentRef.update("comment", commentEditText.getText().toString());
-                Toast.makeText(getApplicationContext(), "Your comment has been saved", Toast.LENGTH_SHORT).show();
-
-              }});
-            }
-        });
+                });
     }
 }
