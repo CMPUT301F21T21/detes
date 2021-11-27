@@ -256,11 +256,8 @@ public class HabitsList extends ArrayAdapter<Habit> {
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         // if the user has checked the box for today already, leave it as checked
-        if (completedDaysList.contains(dateFormat.format(todayDate))){
+        if (completedDaysList.contains(dateFormat.format(todayDate)) && habit.getProgress() != 0){
             checkBox.setChecked(true);
-        }
-        else if (habit.getProgress() == 0){
-            checkBox.setChecked(false);
         }
         else{
             checkBox.setChecked(false);
