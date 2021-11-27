@@ -104,17 +104,18 @@ public class HabitEvents extends AppCompatActivity {
                                 commentString = document.getString("comment");
                                 photoName = document.getString("optionalPhoto");
                                 // if the comment string is not empty
-                                if (!commentString.equals("")) {
-                                    commentEditText.setText(document.getString("comment"));
+                                if (commentString != null) {
+                                    if (!commentString.equals("")) {
+                                        commentEditText.setText(document.getString("comment"));
+                                    }
                                 }
-
-
                             }
                         }
 
                         saveCommentButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
 
                                 if (commentEditText.getText().toString().length() > 20) {
                                     Toast.makeText(getApplicationContext(), "The comment has to be under 20 characters long.", Toast.LENGTH_SHORT).show();
@@ -151,6 +152,16 @@ public class HabitEvents extends AppCompatActivity {
                             });
                         }
                     }
+
+                if (commentEditText.getText().toString().length() > 20){
+                    Toast.makeText(getApplicationContext(), "The comment has to be under 20 characters long.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                documentRef.update("comment", commentEditText.getText().toString());
+                Toast.makeText(getApplicationContext(), "Your comment has been saved", Toast.LENGTH_SHORT).show();
+
+              }});
+            }
         });
     }
 }

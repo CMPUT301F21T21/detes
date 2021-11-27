@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Determines what each listview item will look like, when displayed
@@ -46,7 +52,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
     private FirebaseUser currentFireBaseUser;
     private DocumentReference documentRef;
     private String habitId; // to keep track of which habit was selected
-
 
     // values will not be changed
     private final String EXPAND_CONSTANT = "EXPAND";
@@ -107,6 +112,19 @@ public class HabitsList extends ArrayAdapter<Habit> {
         TextView habitStartDateText;
         TextView habitDaysText;
         TextView habitPhotoLocationText;
+        TextView habitEndDateText;
+
+        Date startDate;
+        Date endDate;
+        Date todayDate;
+        SimpleDateFormat dateFormat;
+        Date firstDayOfWeek;
+        Date startOfWeek;
+        ArrayList<Date> daysOfFirstWeek = new ArrayList<>();
+        ArrayList<String> allDaysForHabit = new ArrayList<>();
+        Calendar cal;
+        String startDateString;
+        String endDateString;
 
         // access the habits_list.xml to work with the buttons
         if (view == null) {
@@ -139,6 +157,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitStartDateText = view.findViewById(R.id.habitStartDate_TextView);
         habitDaysText = view.findViewById(R.id.habitDays_TextView);
         habitPhotoLocationText = view.findViewById(R.id.photos_location_Textview);
+        habitEndDateText = view.findViewById(R.id.habitEndDate_TextView);
 
         habitPhotoButton = view.findViewById(R.id.photoButton);
         habitLocationButton = view.findViewById(R.id.locationButton);
@@ -161,6 +180,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                     habitPhotoButton.setVisibility(View.VISIBLE);
                     habitLocationButton.setVisibility(View.VISIBLE);
                     habitPhotoLocationText.setVisibility(View.VISIBLE);
+                    habitEndDateText.setVisibility(View.VISIBLE);
 
                     // indicates that the arrow is currently the collapse arrow
                     expandArrowButton.setTag(COLLAPSE_CONSTANT);
@@ -178,6 +198,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                     habitPhotoButton.setVisibility(View.GONE);
                     habitLocationButton.setVisibility(View.GONE);
                     habitPhotoLocationText.setVisibility(View.GONE);
+                    habitEndDateText.setVisibility(View.GONE);
 
                     expandArrowButton.setTag(EXPAND_CONSTANT);
                 }
@@ -199,6 +220,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitTitleText.setText(habit.getHabitName());
         habitReasonText.setText("Reason: " + habit.getReason());
 
+
         //Creates a string with all the habit days selected, seperated by a ','.
         if (habitDays != null){
         for(int i = 0; i < habitDays.size();i++){
@@ -210,24 +232,10 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitDaysText.setText("Days: " + habitDayString);
 
         habitStartDateText.setText("Start Date: " + habit.getStartDate());
+        habitEndDateText.setText("End Date: " + habit.getEndDate());
 
 
         CheckBox checkBox = view.findViewById(R.id.completed_habit_check);
-
-        /*
-        String dateTime;
-        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEEE h:mm a", Locale.US); //get the full name of the weekday
-        Calendar dateTimeCalendar = Calendar.getInstance();
-        dateTime = dateTimeFormat.format(dateTimeCalendar.getTime());
-
-
-        // resets the progress each week
-        if (dateTime.equals("Sunday 12:00 AM")){
-            completedDaysList.clear();
-            habit.setProgress();;
-        };
-         */
-
 
         // displays the current progress percentage of the habit
         TextView completedPercent_TextView = view.findViewById(R.id.completed_percent);
@@ -243,19 +251,85 @@ public class HabitsList extends ArrayAdapter<Habit> {
         progressBar.setProgress(habit.getProgress());
         progressBar.setProgressDrawable(drawableProgress);
 
-        String todayWeekDay;
-        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US); //get the full name of the weekday
-        Calendar calendar = Calendar.getInstance();
-        todayWeekDay = dayFormat.format(calendar.getTime());
+        String todayWeekDay; // the weekday for today's date
+        SimpleDateFormat weekDayFormat = new SimpleDateFormat("EEEE", Locale.US); //get the full name of the weekday
+        cal = Calendar.getInstance();
+        todayWeekDay = weekDayFormat.format(cal.getTime());
+        todayDate = cal.getTime(); // gets today's date
+
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         // if the user has checked the box for today already, leave it as checked
-        if (completedDaysList.contains(todayWeekDay)){
+        if (completedDaysList.contains(dateFormat.format(todayDate)) && habit.getProgress() != 0){
             checkBox.setChecked(true);
         }
         else{
             checkBox.setChecked(false);
         }
 
+        try {
+            startDate = dateFormat.parse(habit.getStartDate()); // change date to a Date object
+
+            if (habit.getEndDate() != null) {
+                endDate = dateFormat.parse(habit.getEndDate());
+
+                cal = Calendar.getInstance();
+                cal.setTime(startDate); // set the date to the start date
+
+                // gets the date for the start of the week
+                cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+                startOfWeek = cal.getTime();
+
+                // Gets us an ArrayList of all the dates of the first week
+                for (int i = 0; i < 7; i++){
+                    daysOfFirstWeek.add(startOfWeek);
+                    cal.add(Calendar.DAY_OF_MONTH, 1); // increase the day by 1
+                    startOfWeek = cal.getTime();
+                }
+
+                startDateString = dateFormat.format(startDate);
+                endDateString = dateFormat.format(endDate);
+                // getting all the days for the habit by checking if it's one of the habit days
+                for (int i = 0; i < daysOfFirstWeek.size(); i++) {
+                    String weekDay = weekDayFormat.format(daysOfFirstWeek.get(i)); // weekday for that date
+
+                    for (int j = 0; j < habitDays.size(); j++) {
+                        // if the weekday is a habit day
+                        if (weekDay.contains(habitDays.get(j))) {
+                            cal.setTime(daysOfFirstWeek.get(i));
+
+                            // checks if the date happens after but not including the start date and is not equal to the end date
+                            if (cal.getTime().after(startDate) && cal.getTime().before(endDate)){
+                                allDaysForHabit.add(dateFormat.format(cal.getTime()));
+                            }
+
+                            // keep getting the habit days as long as it's before the end date
+                            while (cal.getTime().before(endDate)) {
+                                cal.add(Calendar.DAY_OF_MONTH, 7);
+                                if (cal.getTime().before(endDate)) {
+                                    allDaysForHabit.add(dateFormat.format(cal.getTime()));
+                                }
+                            }
+                        }
+
+                        // checks if the start date itself needs to be included as one of the dates where the habit will occur
+                        if (weekDayFormat.format(startDate).contains(habitDays.get(j)) && !allDaysForHabit.contains(startDateString)){
+                            allDaysForHabit.add(dateFormat.format(startDate));
+                        }
+
+                        // checks if the end date itself needs to be included as one of the dates where the habit will occur
+                        if (weekDayFormat.format(endDate).contains(habitDays.get(j)) && !allDaysForHabit.contains(endDateString)){
+                            allDaysForHabit.add(dateFormat.format(endDate));
+                        }
+                    }
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // update the total days list
+        habit.setTotalDaysList(allDaysForHabit);
 
         checkBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -270,47 +344,35 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         habitId = document.getId();
                                     }
-
                                 }
 
+                                String todayDateString = dateFormat.format(todayDate);
                                 if (checkBox.isChecked()) {
 
-                                    // if the user checks off a box, add today's weekday to the list of completed days (finished for today)
-                                    for (int i=0; i < habitDays.size(); i++){
-
-                                        // eg. if Tuesday contains Tues and the day has not been added to the list yet
-                                        if ((todayWeekDay.contains(habitDays.get(i))) && !completedDaysList.contains(todayWeekDay)){
-                                            habit.addToCompletedDaysList(todayWeekDay);
-                                        }
+                                    // if today's date is when the habit should be happening, and it's not marked as as completed day yet
+                                    if (allDaysForHabit.contains(todayDateString) && !completedDaysList.contains(todayDateString)){
+                                        completedDaysList.add(todayDateString);
+                                        habit.setProgress(); // updates the progress
                                     }
-
-                                    // updates the progress
-                                    habit.setProgress();
-
                                 }
 
                                 else if (!checkBox.isChecked()) {
-
-                                    // not done for today --> remove today's weekday from the list
-                                    for (int i=0; i < habitDays.size(); i++){
-                                        if (completedDaysList.contains(todayWeekDay)){
-                                            habit.removeFromCompletedDaysList(todayWeekDay);
-                                        }
+                                    if (allDaysForHabit.contains(todayDateString) && completedDaysList.contains(todayDateString)){
+                                        completedDaysList.remove(todayDateString);
+                                        habit.setProgress(); // update the progress
                                     }
-                                    habit.setProgress(); // update the progress
-
                                 }
 
                                 // make updates to firebase
                                 if (habitId != null) {
                                     documentRef = db.collection(currentFireBaseUser.getUid()).document(habitId);
+                                    documentRef.update("totalDaysList", allDaysForHabit);
                                     documentRef.update("completedDaysList", habit.getCompletedDaysList());
                                     documentRef.update("progress", habit.getProgress());
 
                                 }
                             }
                         });
-
             }
         });
 

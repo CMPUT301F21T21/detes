@@ -3,6 +3,7 @@ package com.example.all_habits;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,11 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
  * If a user already exists, then they can login through this activity.
  */
 public class Login extends AppCompatActivity {
+
     EditText mEmail,mPassword;
     Button mLoginBtn;
     TextView mCreateBtn,forgotTextLink;
     FirebaseAuth fAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,8 @@ public class Login extends AppCompatActivity {
                         }else {
                             Toast.makeText(Login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
-
             }
         });
 
