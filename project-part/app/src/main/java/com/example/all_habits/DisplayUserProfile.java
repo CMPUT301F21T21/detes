@@ -47,12 +47,14 @@ public class DisplayUserProfile extends AppCompatActivity {
         setContentView(R.layout.displayuserprofile);
 
         backButton = findViewById(R.id.displayBackButton);
+      
         logOutButton = findViewById(R.id.logoutText);
         followersButton = findViewById(R.id.Followers);
         followingButton = findViewById(R.id.Following);
 
         greetingTextView = findViewById(R.id.Greeting);
         usernameTextView = findViewById(R.id.Username);
+
         emailTextView = findViewById(R.id.Email);
         uidTextView = findViewById(R.id.UserID);
         String uid = user.getUid();
@@ -87,7 +89,9 @@ public class DisplayUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(),Login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
         });
-}}
+    }
+}
+

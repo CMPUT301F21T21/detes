@@ -170,6 +170,10 @@ public class Habit {
         this.progress = (int) convertToFloatPercent ;
     }
 
+    /**
+     * Sets the progress for the habit (allows you to pass in a parameter this time)
+     * @param progress
+     */
     public void setProgress(int progress) {
         this.progress = progress;
     }

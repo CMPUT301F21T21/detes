@@ -113,6 +113,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         TextView habitStartDateText;
         TextView habitDaysText;
         TextView habitPhotoLocationText;
+        TextView habitEndDateText;
 
         Date startDate;
         Date endDate;
@@ -157,6 +158,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitStartDateText = view.findViewById(R.id.habitStartDate_TextView);
         habitDaysText = view.findViewById(R.id.habitDays_TextView);
         habitPhotoLocationText = view.findViewById(R.id.photos_location_Textview);
+        habitEndDateText = view.findViewById(R.id.habitEndDate_TextView);
 
         habitPhotoButton = view.findViewById(R.id.photoButton);
         habitLocationButton = view.findViewById(R.id.locationButton);
@@ -179,6 +181,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                     habitPhotoButton.setVisibility(View.VISIBLE);
                     habitLocationButton.setVisibility(View.VISIBLE);
                     habitPhotoLocationText.setVisibility(View.VISIBLE);
+                    habitEndDateText.setVisibility(View.VISIBLE);
 
                     // indicates that the arrow is currently the collapse arrow
                     expandArrowButton.setTag(COLLAPSE_CONSTANT);
@@ -196,6 +199,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                     habitPhotoButton.setVisibility(View.GONE);
                     habitLocationButton.setVisibility(View.GONE);
                     habitPhotoLocationText.setVisibility(View.GONE);
+                    habitEndDateText.setVisibility(View.GONE);
 
                     expandArrowButton.setTag(EXPAND_CONSTANT);
                 }
@@ -217,6 +221,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitTitleText.setText(habit.getHabitName());
         habitReasonText.setText("Reason: " + habit.getReason());
 
+
         //Creates a string with all the habit days selected, seperated by a ','.
         if (habitDays != null){
         for(int i = 0; i < habitDays.size();i++){
@@ -228,6 +233,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitDaysText.setText("Days: " + habitDayString);
 
         habitStartDateText.setText("Start Date: " + habit.getStartDate());
+        habitEndDateText.setText("End Date: " + habit.getEndDate());
 
 
         CheckBox checkBox = view.findViewById(R.id.completed_habit_check);
@@ -255,11 +261,8 @@ public class HabitsList extends ArrayAdapter<Habit> {
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         // if the user has checked the box for today already, leave it as checked
-        if (completedDaysList.contains(dateFormat.format(todayDate))){
+        if (completedDaysList.contains(dateFormat.format(todayDate)) && habit.getProgress() != 0){
             checkBox.setChecked(true);
-        }
-        else if (habit.getProgress() == 0){
-            checkBox.setChecked(false);
         }
         else{
             checkBox.setChecked(false);
