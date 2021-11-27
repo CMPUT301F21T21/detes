@@ -56,6 +56,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
     private FirebaseUser currentFireBaseUser;
     private DocumentReference documentRef;
     private String habitId; // to keep track of which habit was selected
+    private String todayDateString;
 
     // values will not be changed
     private final String EXPAND_CONSTANT = "EXPAND";
@@ -319,7 +320,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
         if (habit.getProgress() == 100){
             checkBox.setChecked(true);
-            checkBox.setEnabled(false); // checkbox no longer clickable
         }
 
         ArrayList<String> allDaysForHabit = new ArrayList<>();
@@ -343,7 +343,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                     }
                                 }
 
-                                String todayDateString = dateFormat.format(todayDate);
+                                todayDateString = dateFormat.format(todayDate);
 
                                 if (checkBox.isChecked()) {
 
@@ -363,7 +363,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                                             // If the user clicks yes
                                                             Intent intent = new Intent(context, HabitEvents.class);
                                                             intent.putExtra("habitNum", position + 1);
-                                                            checkBox.setEnabled(false);
                                                             context.startActivity(intent);
 
                                                         }
@@ -411,7 +410,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                     // If the user clicks yes
                                     habit.setProgress(100);
                                     checkBox.setChecked(true);
-                                    checkBox.setEnabled(false); // checkbox no longer clickable
                                     Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", position + 1).limit(1);
                                     findHabit.get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -422,10 +420,31 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                                             habitId = document.getId();
                                                         }
                                                     }
+
                                                     // make updates to firebase
                                                     if (habitId != null) {
                                                         documentRef = db.collection(currentFireBaseUser.getUid()).document(habitId);
                                                         documentRef.update("progress", habit.getProgress());
+                                                        habit.setEndDate(todayDateString);
+                                                        documentRef.update("endDate", habit.getEndDate());
+
+                                                        ArrayList<String> totalDaysList = habit.getTotalDaysList();
+                                                        for (int i = 0; i < totalDaysList.size(); i++){
+                                                            try {
+                                                                Date endDateObject = dateFormat.parse(habit.getEndDate());
+                                                                if (dateFormat.parse(totalDaysList.get(i)).after(endDateObject)) {
+                                                                    habit.removefromTotalDaysList(totalDaysList.get(i));
+                                                                }
+                                                            }
+                                                            catch (ParseException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+                                                        documentRef.update("totalDaysList", habit.getTotalDaysList());
+
+                                                        habit.addToCompletedDaysList(todayDateString);
+                                                        documentRef.update("completedDaysList", habit.getCompletedDaysList());
+
                                                         context.startActivity(intent);
                                                     }
                                                 }

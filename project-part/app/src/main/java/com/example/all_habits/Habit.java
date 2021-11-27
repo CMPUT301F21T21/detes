@@ -226,4 +226,7 @@ public class Habit {
     public void setTotalDaysList(ArrayList<String> totalDaysList) {
         this.totalDaysList = totalDaysList;
     }
+    public void removefromTotalDaysList(String date){
+        this.totalDaysList.remove(date);
+    }
 }
