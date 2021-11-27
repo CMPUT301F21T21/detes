@@ -40,8 +40,12 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     EditText habitName;
     EditText reasonName;
     EditText startDate;
+    EditText endDate;
+
     Switch privateSwitch;
+
     TextView habitTextView;
+
     CheckBox Saturday;
     CheckBox Monday;
     CheckBox Tuesday;
@@ -49,9 +53,11 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
     CheckBox Thursday;
     CheckBox Friday;
     CheckBox Sunday;
+
     private FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
     private EditText clickedEditText;
+
     Query query;
 
     @Override
@@ -65,6 +71,10 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         habitName = findViewById(R.id.habitName);
         reasonName = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
+
+        // adding an end date to implement the visual indicator, geo and photo
+        endDate = findViewById(R.id.habitEndDate);
+
         habitTextView = findViewById(R.id.habitNumber);
         privateSwitch = findViewById(R.id.privateSwitch);
         Saturday = findViewById(R.id.saturday);
@@ -91,6 +101,18 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
                 DialogFragment datePicker = new DatePickerDialogFragment();
                 clickedEditText = startDate;
                 datePicker.show(getSupportFragmentManager(), "date picker");
+
+            }
+        });
+
+        //Creates the DatePickerDialog2 when EndDate EditText is clicked on.
+        endDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                DialogFragment datePicker2 = new DatePickerDialogFragment2();
+                datePicker2.show(getSupportFragmentManager(), "date picker");
 
             }
         });
@@ -196,6 +218,11 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         c.set(Calendar.DAY_OF_MONTH,day);
         SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDateString = simpleFormat.format(c.getTime());
+
+        startDate.setText(currentDateString);
+        endDate.setText(currentDateString);
+
         clickedEditText.setText(currentDateString);
+
     }
 }
