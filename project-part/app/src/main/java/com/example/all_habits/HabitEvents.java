@@ -73,8 +73,10 @@ public class HabitEvents extends AppCompatActivity {
                                 commentString = document.getString("comment");
 
                                 // if the comment string is not empty
-                                if (!commentString.equals("")) {
-                                    commentEditText.setText(document.getString("comment"));
+                                if (commentString != null) {
+                                    if (!commentString.equals("")) {
+                                        commentEditText.setText(document.getString("comment"));
+                                    }
                                 }
                             }
                         }
