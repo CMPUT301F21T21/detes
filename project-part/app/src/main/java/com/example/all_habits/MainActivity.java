@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, EditDelete.class);
                 intent.putExtra("habitNum", position + 1);
                 intent.putExtra("size", habitArrayList.size());
+                intent.putStringArrayListExtra("completedDaysList", habitArrayList.get(position).getCompletedDaysList());
                 startActivity(intent);
             }
         });
