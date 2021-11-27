@@ -152,16 +152,6 @@ public class HabitEvents extends AppCompatActivity {
                             });
                         }
                     }
-
-                if (commentEditText.getText().toString().length() > 20){
-                    Toast.makeText(getApplicationContext(), "The comment has to be under 20 characters long.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                documentRef.update("comment", commentEditText.getText().toString());
-                Toast.makeText(getApplicationContext(), "Your comment has been saved", Toast.LENGTH_SHORT).show();
-
-              }});
-            }
         });
     }
 }
