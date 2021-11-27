@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth;
 /**
  * If a user already exists, then they can login through this activity.
  */
-
 public class Login extends AppCompatActivity {
 
     EditText mEmail,mPassword;

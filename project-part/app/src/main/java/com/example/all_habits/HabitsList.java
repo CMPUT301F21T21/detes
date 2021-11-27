@@ -54,7 +54,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
     private DocumentReference documentRef;
     private String habitId; // to keep track of which habit was selected
 
-
     // values will not be changed
     private final String EXPAND_CONSTANT = "EXPAND";
     private final String COLLAPSE_CONSTANT = "COLLAPSE";

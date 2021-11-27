@@ -72,7 +72,6 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         reasonName = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
 
-        // adding an end date to implement the visual indicator, geo and photo
         endDate = findViewById(R.id.habitEndDate);
 
         habitTextView = findViewById(R.id.habitNumber);
