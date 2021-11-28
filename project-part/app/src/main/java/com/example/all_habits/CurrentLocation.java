@@ -9,33 +9,23 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.google.protobuf.DescriptorProtos;
 
 /**
  * Get the optional location for where the habit was completed
@@ -46,8 +36,6 @@ public class CurrentLocation extends AppCompatActivity {
     SupportMapFragment MapFragment;
     private LatLng latLng;
     private MarkerOptions markerOptions;
-
-    private GeoPoint geoPoint;
 
     Button uploadButton;
     private StorageReference storage;
@@ -86,12 +74,11 @@ public class CurrentLocation extends AppCompatActivity {
                         storage = FirebaseStorage.getInstance().getReference();
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         FirebaseUser currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        //final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
 
                         uploadButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                locationCoordinate coordinate = new locationCoordinate(location.getLongitude(), location.getLatitude());
+                                locationCoordinate coordinate = new locationCoordinate(location.getLatitude(),location.getLongitude());
                                 db.collection(currentFireBaseUser.getUid()).document(habitId).update("optionalLocation",coordinate);
                             }
                         });
