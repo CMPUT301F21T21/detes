@@ -59,6 +59,7 @@ public class SearchPage extends AppCompatActivity {
 
         userArrayAdapter = new SearchList(this, userArrayList);
         searchListView.setAdapter(userArrayAdapter);
+
         //Searches for users with the same name
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +83,7 @@ public class SearchPage extends AppCompatActivity {
             }
         });
 
+        //Creates a DialogBox when a name is clicked to ask if you want to follow that user.
         searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -125,12 +127,12 @@ public class SearchPage extends AppCompatActivity {
                             }
                         }
                 );
-
                 AlertDialog searchDialog = builder.create();
                 searchDialog.show();
                 }
             });
 
+        //Opens up the Following Request activity.
         checkRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -96,6 +96,14 @@ public class DisplayUserProfile extends AppCompatActivity {
             }
         });
 
+        followingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DisplayUserProfile.this, Following.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
 

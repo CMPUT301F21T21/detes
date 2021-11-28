@@ -48,6 +48,7 @@ public class Requests extends AppCompatActivity {
         userArrayAdapter = new SearchList(this, userArrayList);
         requestsList.setAdapter(userArrayAdapter);
 
+        //Gets all the users that requested to follow you.
         usersRef.document(uid).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -67,9 +68,9 @@ public class Requests extends AppCompatActivity {
                             }
                         });
                     }
-
                 });
 
+        //Opens up a DialogBox to ask if you want to Deny or Accept a Follower Request.
         requestsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -92,6 +93,7 @@ public class Requests extends AppCompatActivity {
 
                                                 }
 
+                                                //Adds a follower and removes a follower request.
                                                 followers.add(userArrayList.get(position).getUid());
                                                 requestsListArray.remove(userArrayList.get(position).getUid());
                                                 usersRef.document(uid).update("requestsList", requestsListArray);
@@ -109,6 +111,8 @@ public class Requests extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+
+                                //Removes a follow request.
                                 requestsListArray = new ArrayList<String>();
                                 requestsListArray.remove(userArrayList.get(position).getUid());
                                 usersRef.document(uid).update("requestsList", requestsListArray);

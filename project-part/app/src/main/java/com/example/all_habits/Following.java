@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,9 +25,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class Followers extends AppCompatActivity {
+public class Following extends AppCompatActivity {
 
-    private ListView followersList;
+    private ListView followingList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference usersRef = db.collection("Users");
     private ArrayList<User> userArrayList;
@@ -39,15 +40,15 @@ public class Followers extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers);
-        followersList = findViewById(R.id.followingList);
+        followingList = findViewById(R.id.followingList);
 
         userArrayList = new ArrayList<User>();
         followers = new ArrayList<String>();
         userArrayAdapter = new SearchList(this, userArrayList);
-        followersList.setAdapter(userArrayAdapter);
+        followingList.setAdapter(userArrayAdapter);
 
         //Retrieves all of your followers.
-        usersRef.document(uid).get()
+        usersRef.document().get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -62,7 +63,9 @@ public class Followers extends AppCompatActivity {
                                         if(task.isSuccessful()){
                                             userArrayList.clear();
                                             for(QueryDocumentSnapshot document : task.getResult()){
-                                                if(followers.contains(document.get("uid"))){
+                                                followers = (ArrayList<String>) document.get("followers");
+                                                if(followers.contains(uid)){
+                                                    Log.e("Test","test");
                                                     userArrayList.add(document.toObject(User.class));
                                                 }
                                             }
@@ -74,48 +77,9 @@ public class Followers extends AppCompatActivity {
                 });
 
         //On a long press, asks to delete a follower.
-        followersList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Followers.this);
-                builder.setMessage("Delete Follower?");
-                builder.setCancelable(false);
-                builder
-                        .setPositiveButton(
-                                "Yes",
-                                new DialogInterface.OnClickListener(){
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        followers = new ArrayList<String>();
-                                        usersRef.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    followers = (ArrayList<String>) task.getResult().get("followers");
-
-                                                }
-
-                                                //Removes a follower.
-                                                followers.remove(userArrayList.get(position).getUid());
-                                                usersRef.document(uid).update("followers", followers);
-                                                Toast.makeText(getApplicationContext(),"Removed Follower",Toast.LENGTH_SHORT).show();
-                                                userArrayList.remove(position);
-                                                userArrayAdapter.notifyDataSetChanged();
-                                            }
-                                        });
-                                    }
-                                });
-
-                builder.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                            }
-                        }
-                );
-                AlertDialog searchDialog = builder.create();
-                searchDialog.show();
+        followingList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 return true;
             }
         });

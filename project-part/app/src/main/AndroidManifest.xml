@@ -24,6 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.All_habits">
         <activity
+            android:name=".FollowingHabits"
+            android:exported="false" />
+        <activity
+            android:name=".Following"
+            android:exported="false" />
+        <activity
             android:name=".Followers"
             android:exported="false"
             android:label="@string/title_activity_followers"
