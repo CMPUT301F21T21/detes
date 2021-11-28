@@ -134,7 +134,7 @@
         app:layout_constraintTop_toBottomOf="@+id/UserIDTitle" />
 
     <Button
-        android:id="@+id/Followers"
+        android:id="@+id/followerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Followers"
@@ -148,7 +148,7 @@
         app:layout_constraintVertical_bias="0.765" />
 
     <Button
-        android:id="@+id/Following"
+        android:id="@+id/followingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Following"

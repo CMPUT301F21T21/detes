@@ -23,6 +23,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.All_habits">
+        <activity
+            android:name=".Followers"
+            android:exported="false"
+            android:label="@string/title_activity_followers"
+            android:theme="@style/Theme.All_habits.NoActionBar" />
+        <activity
+            android:name=".Requests"
+            android:exported="false" />
+        <activity
+            android:name=".SearchPage"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -44,8 +44,8 @@ public class DisplayUserProfile extends AppCompatActivity {
         backButton = findViewById(R.id.displayBackButton);
       
         logOutButton = findViewById(R.id.logoutText);
-        followersButton = findViewById(R.id.Followers);
-        followingButton = findViewById(R.id.Following);
+        followersButton = findViewById(R.id.followerButton);
+        followingButton = findViewById(R.id.followingButton);
 
         greetingTextView = findViewById(R.id.Greeting);
         usernameTextView = findViewById(R.id.Username);
@@ -87,6 +87,15 @@ public class DisplayUserProfile extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Login.class));
             }
         });
+
+        followersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DisplayUserProfile.this, Followers.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
 

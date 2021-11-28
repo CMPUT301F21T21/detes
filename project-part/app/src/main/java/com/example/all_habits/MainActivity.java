@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView addButton;
     ImageView homeButton;
     ImageView profileButton;
+    ImageView addUserButton;
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitArrayList;
 
@@ -101,6 +102,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        addUserButton = findViewById(R.id.addUserButton);
+        addUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SearchPage.class);
+                startActivity(intent);
+            }
+        });
 
         // getting data from firebase to your local device (snapshot of database)
         collectionReference.orderBy("habitNum",Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
