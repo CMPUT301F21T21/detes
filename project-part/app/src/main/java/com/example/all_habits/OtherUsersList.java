@@ -1,7 +1,6 @@
 package com.example.all_habits;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 public class OtherUsersList extends AppCompatActivity {
