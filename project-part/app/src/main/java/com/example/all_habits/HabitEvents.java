@@ -13,11 +13,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,6 +32,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Map;
+
 public class HabitEvents extends AppCompatActivity {
 
     final long ONE_MEGABYTE = 1024 * 1024;
@@ -37,12 +43,15 @@ public class HabitEvents extends AppCompatActivity {
     private Button saveCommentButton;
     private Button habitEventImageButton;
     private Button habitEventLocationButton;
+    private MapView habitEventLocation;
     public String photoName;
     private String habitId;
     private String commentString;
     public String locationCoordinate;
+    public double locationlatitude;
+    public double locationlongtitude;
     ImageView backButton;
-
+    private LatLng latLng;
 
     private ArrayAdapter<Comment> commentAdapter;
 
@@ -101,6 +110,7 @@ public class HabitEvents extends AppCompatActivity {
         habitEventImageButton = findViewById(R.id.habitEventImageButton);
         habitEventImage = findViewById(R.id.habitEventImage);
         habitEventLocationButton = findViewById(R.id.habitEventLocationButton);
+        habitEventLocation = findViewById(R.id.habitEventLocation);
 
         backButton = findViewById(R.id.displayBackButton);
 
@@ -163,7 +173,6 @@ public class HabitEvents extends AppCompatActivity {
                             public void onClick(View view) {
                                 Intent intent = new Intent(getApplicationContext(), CurrentLocation.class);
                                 intent.putExtra("habitId", habitId);
-                                intent.putExtra("photoName", photoName);
                                 startActivity(intent);
                             }
                         });
@@ -171,6 +180,24 @@ public class HabitEvents extends AppCompatActivity {
                         //If this habit has a picture, display it in the habitEventImage.
                         if (photoName != null) {
                             imageRef = storageRef.child(photoName);
+                            imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                @Override
+                                public void onSuccess(byte[] bytes) {
+                                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    habitEventImage.setImageBitmap(bmp);
+                                }
+                            });
+                        }
+
+                        //If this habit has a coordinate, display it in the habitEventLocation.
+                        if (locationCoordinate != null) {
+                            habitEventLocation.onCreate(savedInstanceState);
+                            ValueEventListener listener =
+
+
+                            coordinateRef = storageRef.child(locationCoordinate);
+
+
                             imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                                 @Override
                                 public void onSuccess(byte[] bytes) {

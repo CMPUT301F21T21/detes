@@ -53,13 +53,13 @@
         android:id="@+id/commentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="52dp"
         android:text="Comment:"
-        android:textSize="18sp"
         android:textColorHint="@color/black"
+        android:textSize="18sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintHorizontal_bias="0.072"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/optionalText" />
 
@@ -79,7 +79,7 @@
         android:id="@+id/saveCommentButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="172dp"
         android:text="SAVE Comment"
         android:textColorHint="@color/black"
         android:textStyle="bold"
@@ -103,10 +103,10 @@
 
     <ImageView
         android:id="@+id/habitEventImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="166dp"
+        android:layout_height="157dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintHorizontal_bias="0.097"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/photoText" />
 
@@ -114,13 +114,13 @@
         android:id="@+id/photoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="52dp"
         android:text="Photograph"
         android:textColorHint="@color/black"
         android:textSize="18sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.077"
+        app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/commentEditText" />
 
@@ -128,12 +128,38 @@
         android:id="@+id/habitEventLocationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get Current location"
+        android:text="Current location"
         android:textColorHint="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.411"
+        app:layout_constraintStart_toEndOf="@+id/habitEventLocation"
+        app:layout_constraintTop_toBottomOf="@+id/habitEventImageButton"
+        app:layout_constraintVertical_bias="0.662" />
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="Location"
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.077"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/habitEventImageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/habitEventImage" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/habitEventLocation"
+        android:layout_width="165dp"
+        android:layout_height="169dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationText"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
