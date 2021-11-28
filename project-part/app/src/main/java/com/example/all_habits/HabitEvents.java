@@ -208,5 +208,6 @@ public class HabitEvents extends AppCompatActivity {
                         }
                     }
                 });
+        });
     }
 }
