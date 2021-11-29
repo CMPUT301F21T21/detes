@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,12 +36,29 @@ public class MainActivity extends AppCompatActivity {
     ImageView addUserButton;
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitArrayList;
-
+    CollectionReference collectionReference;
     //firestore attribute
     FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
 
-    final String TAG = "Sample";
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
+        collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int habitNum = 1;
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        collectionReference.document(document.getId()).update("habitNum", habitNum);
+                        habitNum++;
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         // create an instance of the firestore
         db = FirebaseFirestore.getInstance();
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
+        collectionReference = db.collection(currentFireBaseUser.getUid().toString());
 
         // get a reference to the listview and create an object for the city list
         habitsListView = findViewById(R.id.habits_list);
@@ -128,20 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
                 habitAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
                 //from the cloud
-            }
-        });
-
-        //Returns an ordered List and increments habitNum starting from 1 until
-        collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                int habitNum = 1;
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document : task.getResult()){
-                        collectionReference.document(document.getId()).update("habitNum", habitNum);
-                        habitNum++;
-                    }
-                }
             }
         });
     }
