@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,11 +15,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -29,7 +42,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class HabitEvents extends AppCompatActivity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback {
 
     final long ONE_MEGABYTE = 1024 * 1024;
 
@@ -41,6 +57,8 @@ public class HabitEvents extends AppCompatActivity {
     public String photoName;
     private String habitId;
     private String commentString;
+    private MapView habitEventLocation;
+    private GoogleMap gMap;
 
     ImageView backButton;
 
@@ -80,6 +98,9 @@ public class HabitEvents extends AppCompatActivity {
                 }
             }
         });
+        //habitEventLocation.postInvalidate();
+        habitEventLocation.getMapAsync(this);
+
 
     }
 
@@ -87,6 +108,7 @@ public class HabitEvents extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_events);
+
         Intent intent = getIntent();
         habitNum = intent.getIntExtra("habitNum", 1); // gets the habit that was clicked on
 
@@ -101,6 +123,11 @@ public class HabitEvents extends AppCompatActivity {
         habitEventImageButton = findViewById(R.id.habitEventImageButton);
         habitEventImage = findViewById(R.id.habitEventImage);
         habitEventLocationButton = findViewById(R.id.habitEventLocationButton);
+
+        habitEventLocation = findViewById(R.id.habitEventLocation);
+        habitEventLocation.onCreate(savedInstanceState);
+        habitEventLocation.getMapAsync(this);
+
 
         backButton = findViewById(R.id.displayBackButton);
 
@@ -162,7 +189,10 @@ public class HabitEvents extends AppCompatActivity {
                             public void onClick(View view) {
                                 Intent intent = new Intent(getApplicationContext(), CurrentLocation.class);
                                 intent.putExtra("habitId", habitId);
+                                intent.putExtra("habitNum", habitNum);
                                 startActivity(intent);
+
+
                             }
                         });
 
@@ -180,4 +210,72 @@ public class HabitEvents extends AppCompatActivity {
                     }
         });
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+       habitEventLocation.onResume();
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        habitEventLocation.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        habitEventLocation.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        habitEventLocation.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        habitEventLocation.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        habitEventLocation.onLowMemory();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.clear();
+        Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", habitNum).limit(1);
+        findHabit.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String habitId = document.getId();
+                                Map<String, Double> locationData = (Map<String, Double>) document.get("optionalLocation");
+
+                                if (locationData != null){
+                                    LatLng latLng = new LatLng(locationData.get("latitude"), locationData.get("longitude"));
+                                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Habit completed here");
+                                    //markerOptions.draggable(true);
+                                    googleMap.addMarker(markerOptions);
+                                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                                }
+
+                            }
+
+                        }
+                    }
+                });
+    }
+
 }

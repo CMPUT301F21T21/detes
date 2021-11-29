@@ -60,6 +60,8 @@ public class HabitsList extends ArrayAdapter<Habit> {
     // values will not be changed
     private final String EXPAND_CONSTANT = "EXPAND";
     private final String COLLAPSE_CONSTANT = "COLLAPSE";
+    private final String CHECKED_CONSTANT = "CHECKED";
+    private final String UNCHECKED_CONSTANT = "UNCHECKED";
 
     /**
      * Constructor for the HabitsList
@@ -288,6 +290,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitEndDateText.setText("End Date: " + habit.getEndDate());
 
         CheckBox checkBox = view.findViewById(R.id.completed_habit_check);
+        checkBox.setTag(UNCHECKED_CONSTANT);
 
         // displays the current progress percentage of the habit
         TextView completedPercent_TextView = view.findViewById(R.id.completed_percent);
@@ -312,14 +315,24 @@ public class HabitsList extends ArrayAdapter<Habit> {
         // if the user has checked the box for today already, leave it as checked
         if (completedDaysList.contains(dateFormat.format(todayDate)) && habit.getProgress() != 0){
             checkBox.setChecked(true);
+            checkBox.setTag(CHECKED_CONSTANT);
         }
         else{
             checkBox.setChecked(false);
+            checkBox.setTag(UNCHECKED_CONSTANT);
         }
 
         if (habit.getProgress() == 100){
             checkBox.setChecked(true);
+            checkBox.setTag(CHECKED_CONSTANT);
         }
+
+        if (checkBox.getTag().equals(CHECKED_CONSTANT)){
+            checkBox.setChecked(true);
+            checkBox.setEnabled(false);
+        }
+
+
 
         ArrayList<String> allDaysForHabit = new ArrayList<>();
         allDaysForHabit = getAllDaysForHabit(habit.getStartDate(), habit.getEndDate(), habitDays);
@@ -350,6 +363,8 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                     if (habit.getTotalDaysList().contains(todayDateString) && !completedDaysList.contains(todayDateString)){
                                         completedDaysList.add(todayDateString);
                                         habit.setProgress(); // updates the progress
+                                        checkBox.setTag(CHECKED_CONSTANT);
+
 
                                         if (habit.getProgress() == 100){
                                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
