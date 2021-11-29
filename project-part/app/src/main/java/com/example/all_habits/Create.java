@@ -199,7 +199,11 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
                     habit.put("startDate", startDate.getText().toString());
                     habit.put("endDate", endDate.getText().toString());
                     habit.put("habitDays", habitDayArray);
+
+                    habit.put("progress", 0);
+
                     habit.put("optionalPhoto", "");
+
                     if (privateSwitch.isChecked()) {
                         habit.put("Private", true);
                     } else {
