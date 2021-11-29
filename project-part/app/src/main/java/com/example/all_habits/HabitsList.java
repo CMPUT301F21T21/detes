@@ -188,7 +188,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
          */
         view = convertView;
         ImageView expandArrowButton;
-        ImageView commentsButton;
         Button habitCompleteButton;
 
         TextView habitTitleText;
@@ -206,16 +205,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             view = inflater.inflate(R.layout.habits_list, parent, false);
         }
-
-        /*
-        Takes user to the comments page when the button is clicked
-         */
-        commentsButton = view.findViewById(R.id.Comment);
-        commentsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                toCommentsPage(position + 1);
-            }
-        });
 
         Habit habit = habits.get(position); // gets the selected habit
 
@@ -293,9 +282,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitStartDateText.setText("Start Date: " + habit.getStartDate());
         habitEndDateText.setText("End Date: " + habit.getEndDate());
 
-        CheckBox checkBox = view.findViewById(R.id.completed_habit_check);
-        checkBox.setTag(UNCHECKED_CONSTANT);
-
         // displays the current progress percentage of the habit
         TextView completedPercent_TextView = view.findViewById(R.id.completed_percent);
         completedPercent_TextView.setText(Integer.toString(habit.getProgress()) + '%');
@@ -315,27 +301,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         todayDate = cal.getTime(); // gets today's date
 
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        // if the user has checked the box for today already, leave it as checked
-        if (completedDaysList.contains(dateFormat.format(todayDate)) && habit.getProgress() != 0){
-            checkBox.setChecked(true);
-            checkBox.setTag(CHECKED_CONSTANT);
-        }
-        else{
-            checkBox.setChecked(false);
-            checkBox.setTag(UNCHECKED_CONSTANT);
-        }
-
-        if (habit.getProgress() == 100){
-            checkBox.setChecked(true);
-            checkBox.setTag(CHECKED_CONSTANT);
-        }
-
-        if (checkBox.getTag().equals(CHECKED_CONSTANT)){
-            checkBox.setChecked(true);
-            checkBox.setEnabled(false);
-        }
-
+        todayDateString = dateFormat.format(todayDate);
 
 
         ArrayList<String> allDaysForHabit = new ArrayList<>();
@@ -343,76 +309,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
         // update the total days list
         habit.setTotalDaysList(allDaysForHabit);
-
-        checkBox.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                // finds the specific habit
-                Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", position + 1).limit(1);
-                findHabit.get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        habitId = document.getId();
-                                    }
-                                }
-
-                                todayDateString = dateFormat.format(todayDate);
-
-                                if (checkBox.isChecked()) {
-
-                                    // if today's date is when the habit should be happening, and it's not marked as as completed day yet
-                                    if (habit.getTotalDaysList().contains(todayDateString) && !completedDaysList.contains(todayDateString)){
-                                        completedDaysList.add(todayDateString);
-                                        habit.setProgress(); // updates the progress
-                                        checkBox.setTag(CHECKED_CONSTANT);
-
-
-                                        if (habit.getProgress() == 100){
-                                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                            builder
-                                                    .setTitle("Habit Complete!")
-                                                    .setMessage("This habit is now 100% complete! Do you want to continue to the habit events?")
-                                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            // If the user clicks yes
-                                                            Intent intent = new Intent(context, HabitEvents.class);
-                                                            intent.putExtra("habitNum", position + 1);
-                                                            context.startActivity(intent);
-
-                                                        }
-                                                    })
-                                                    .setNegativeButton("No", null)
-                                                    .show();
-                                        }
-
-                                    }
-                                }
-
-                                else if (!checkBox.isChecked()) {
-                                    if (habit.getTotalDaysList().contains(todayDateString) && completedDaysList.contains(todayDateString)){
-                                        completedDaysList.remove(todayDateString);
-                                        habit.setProgress(); // update the progress
-                                    }
-                                }
-
-                                // make updates to firebase
-                                if (habitId != null) {
-                                    documentRef = db.collection(currentFireBaseUser.getUid()).document(habitId);
-                                    documentRef.update("totalDaysList", habit.getTotalDaysList());
-                                    documentRef.update("completedDaysList", habit.getCompletedDaysList());
-                                    documentRef.update("progress", habit.getProgress());
-
-                                }
-                            }
-                        });
-            }
-
-        });
-
 
         // if the user finishes the habit early
         habitCompleteButton.setOnClickListener(new View.OnClickListener() {
@@ -430,7 +326,6 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // If the user clicks yes
                                     habit.setProgress(100);
-                                    checkBox.setChecked(true);
                                     Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", position + 1).limit(1);
                                     findHabit.get()
                                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -449,22 +344,11 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                                         habit.setEndDate(todayDateString);
                                                         documentRef.update("endDate", habit.getEndDate());
 
-                                                        ArrayList<String> totalDaysList = habit.getTotalDaysList();
-                                                        for (int i = 0; i < totalDaysList.size(); i++){
-                                                            try {
-                                                                Date endDateObject = dateFormat.parse(habit.getEndDate());
-                                                                if (dateFormat.parse(totalDaysList.get(i)).after(endDateObject)) {
-                                                                    habit.removefromTotalDaysList(totalDaysList.get(i));
-                                                                }
-                                                            }
-                                                            catch (ParseException e) {
-                                                                e.printStackTrace();
-                                                            }
+                                                        if (!habit.getCompletedDaysList().contains(todayDateString)) {
+                                                            habit.addToCompletedDaysList(todayDateString);
                                                         }
-                                                        documentRef.update("totalDaysList", habit.getTotalDaysList());
-
-                                                        habit.addToCompletedDaysList(todayDateString);
                                                         documentRef.update("completedDaysList", habit.getCompletedDaysList());
+                                                        documentRef.update("totalDaysList", habit.getCompletedDaysList());
 
                                                         context.startActivity(intent);
                                                     }
