@@ -72,11 +72,9 @@ public class HabitEvents extends AppCompatActivity {
                                 habitId = document.getId();
                                 documentRef = db.collection(currentFireBaseUser.getUid()).document(habitId);
                                 commentString = document.getString("comment");
+                                commentEditText.setText(document.getString("comment"));
 
-                                // if the comment string is not empty
-                                if (!commentString.equals("")) {
-                                    commentEditText.setText(document.getString("comment"));
-                                }
+
 
 
                             }

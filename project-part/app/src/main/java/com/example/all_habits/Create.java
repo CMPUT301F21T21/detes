@@ -35,6 +35,7 @@ import java.util.Map;
  */
 public class Create extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    //initialize
     Button cancelButton;
     Button createButton;
     EditText habitName;
@@ -68,6 +69,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         int habitNum = 1;
         ArrayList<String> habitDayArray = new ArrayList<String>();
 
+        //initialize
         habitName = findViewById(R.id.habitName);
         reasonName = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
@@ -89,6 +91,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         cancelButton = findViewById(R.id.cancelButton);
         createButton = findViewById(R.id.createButton);
 
+        //create firestore base for each habit and what information should be provided for each
         Map<String, Object> habit = new HashMap<>();
         CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
 
@@ -200,6 +203,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
             }
         });
 
+        //cancels create
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 

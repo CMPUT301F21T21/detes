@@ -25,9 +25,13 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
+/**
+ * Access to camera to allow a photo to be taken and saved
+ */
 public class cameraActivity extends AppCompatActivity {
 
 
+    //storage of the picture
     private StorageReference storage;
     ActivityResultLauncher<String> getContent;
     ActivityResultLauncher<Intent> activityResultLauncher;
@@ -37,6 +41,8 @@ public class cameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        //initializing
         Button takePhoto = findViewById(R.id.takePhotoButton);
         Button gallery = findViewById(R.id.galleryButton);
         Button uploadButton = findViewById(R.id.uploadImageButton);
@@ -53,6 +59,7 @@ public class cameraActivity extends AppCompatActivity {
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
 
+        //know location of where to access picture
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
             public void onActivityResult(Uri result) {
@@ -61,6 +68,7 @@ public class cameraActivity extends AppCompatActivity {
             }
         });
 
+        //launch camera app
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
@@ -72,6 +80,7 @@ public class cameraActivity extends AppCompatActivity {
             }
         });
 
+        //take a photo
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +93,7 @@ public class cameraActivity extends AppCompatActivity {
             }
         });
 
+        //access picture taken
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +101,7 @@ public class cameraActivity extends AppCompatActivity {
             }
         });
 
+        //upload picture in app
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
