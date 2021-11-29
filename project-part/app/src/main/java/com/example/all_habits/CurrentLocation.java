@@ -71,7 +71,7 @@ public class CurrentLocation extends AppCompatActivity implements OnMapReadyCall
 
         MapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
 
-        assert MapFragment != null;
+
         MapFragment.getMapAsync(this);
 
         // check that we have permission to access location
@@ -132,8 +132,13 @@ public class CurrentLocation extends AppCompatActivity implements OnMapReadyCall
                                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                                 }
                                 else{
+                                    if (ActivityCompat.checkSelfPermission(CurrentLocation.this,
+                                            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                                            ActivityCompat.checkSelfPermission(CurrentLocation.this,
+                                                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                                     mMap.setMyLocationEnabled(true);
                                     mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                                    }
                                 }
 
                             }
@@ -168,6 +173,7 @@ public class CurrentLocation extends AppCompatActivity implements OnMapReadyCall
     //add location
     @Override
     public void onMapLongClick(@NonNull LatLng latLng) {
+        mMap.clear();
         mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(String.valueOf(latLng.latitude) + "," +String.valueOf(latLng.longitude)));
 
     }
