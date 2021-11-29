@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Lists today's habits
@@ -32,10 +35,18 @@ import java.util.Date;
 public class TodaysHabits extends AppCompatActivity {
 
     ImageView habitButton;
+    ImageView addButton;
+    ImageView homeButton;
+    ImageView profileButton;
+
 
     ListView todayListView;
     ArrayList<Habit> todayArrayList;
     ArrayAdapter<Habit> todayAdapter;
+
+    ListView completedListView;
+    ArrayList<Habit> completedTodayArrayList;
+    ArrayAdapter<Habit> completedTodayAdapter;
     String[] daysOfTheWeek = {"Sun","Mon","Tues","Wed","Thurs","Fri","Sat"};
 
     //firestore attribute
@@ -43,6 +54,9 @@ public class TodaysHabits extends AppCompatActivity {
     private FirebaseUser currentFireBaseUser;
 
 
+    public ArrayList<Habit> getTodayArrayList() {
+        return todayArrayList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +77,15 @@ public class TodaysHabits extends AppCompatActivity {
         todayListView = findViewById(R.id.todays_list_pending);
         todayArrayList = new ArrayList<>();
 
-        todayAdapter = new HabitsList(this, todayArrayList);
+        todayAdapter = new TodaysHabitsList(this, todayArrayList);
         todayListView.setAdapter(todayAdapter); //converts data source to ListView
+
+        completedListView = findViewById( R.id.todays_list_completed );
+        completedTodayArrayList = new ArrayList<>();
+
+        completedTodayAdapter = new TodaysHabitsList(  this, completedTodayArrayList );
+        completedListView.setAdapter( completedTodayAdapter );
+
 
 
         // getting data from firebase to your local device (snapshot of database)
@@ -101,12 +122,28 @@ public class TodaysHabits extends AppCompatActivity {
                             if(habitDays.get(i).toString().equals(day)){
                                 if(date1.before(date2) || (date1.compareTo(date2) == 0))
                                 todayArrayList.add(habit);
+
+
                             }
                             Log.d("Tag", date1.toString());
                         }
                     }
+
+
+                    String todayWeekDay;
+                    SimpleDateFormat dayFormat = new SimpleDateFormat( "EEEE", Locale.US ); //get the full name of the weekday
+                    Calendar calendar = Calendar.getInstance();
+                    todayWeekDay = dayFormat.format( calendar.getTime() );
+
+
+                    if (habit.getCompletedDaysList().contains( todayWeekDay )) {
+                        completedTodayArrayList.add( habit );
+                        todayArrayList.remove( habit );
+
+                    }
                 }
-                todayAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
+                todayAdapter.notifyDataSetChanged();
+                completedTodayAdapter.notifyDataSetChanged();// Notifying the adapter to render any new data fetched
                 //from the cloud
             }
         });
@@ -121,5 +158,37 @@ public class TodaysHabits extends AppCompatActivity {
 
 
         });
+
+        //Opens the todaysHabit page.
+        homeButton = findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TodaysHabits.this, "Already showing Today's Habits", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Add a new habit with the create activity.
+        addButton = findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TodaysHabits.this, Create.class);
+                startActivity(intent);
+            }
+        });
+
+        //Opens the DisplayUserProfile page.
+        profileButton = findViewById(R.id.User);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TodaysHabits.this, DisplayUserProfile.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }
+

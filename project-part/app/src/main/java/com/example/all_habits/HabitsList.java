@@ -3,7 +3,9 @@ package com.example.all_habits;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,14 +27,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -57,16 +65,13 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
     /**
      * Constructor for the HabitsList
-     *
-     * @param context Activity context
-     * @param habits  an ArrayList that contains Habit objects
-     */
+     *  @param context Activity context
+     * @param habits  an ArrayList that contains Habit objects*/
     public HabitsList(Context context, ArrayList<Habit> habits) {
         super(context, 0, habits);
         this.habits = habits;
         this.context = context;
     }
-
 
 
     /**
@@ -94,6 +99,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
 
+
         /*
         View objects (ImageViews, TextViews) are added in this method so that we can handle the buttons
         in EACH listview item separately
@@ -105,17 +111,33 @@ public class HabitsList extends ArrayAdapter<Habit> {
         ImageView habitLocationButton;
         Button habitCompleteButton;
 
+        ListView habitListView = null;
+        ArrayList<Habit> habitArrayList;
+        ArrayAdapter<Habit> habitAdapter;
+        String[] daysOfTheWeek = {"Sun","Mon","Tues","Wed","Thurs","Fri","Sat"};
+
+        LinearLayout habitRow;
         TextView habitTitleText;
         TextView habitReasonText;
         TextView habitStartDateText;
         TextView habitDaysText;
         TextView habitPhotoLocationText;
 
+
         // access the habits_list.xml to work with the buttons
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             view = inflater.inflate(R.layout.habits_list, parent, false);
         }
+
+        habitCompleteButton = view.findViewById(R.id.habitCompleteButton);
+        habitCompleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HabitEvents.class);
+                intent.putExtra("habitNum", position + 1);
+                context.startActivity(intent);
+            }
+        });
 
         /*
         Takes user to the comments page when the button is clicked
@@ -137,6 +159,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         });
 
         // looking for the "hidden" textviews and image buttons
+        habitRow = view.findViewById( R.id.row );
         habitTitleText = view.findViewById(R.id.habitTitle_TextView);
         habitReasonText = view.findViewById(R.id.habitReason_TextView);
         habitStartDateText = view.findViewById(R.id.habitStartDate_TextView);
@@ -214,6 +237,13 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
         habitStartDateText.setText("Start Date: " + habit.getStartDate());
 
+
+
+        Calendar c = Calendar.getInstance();
+        habitArrayList = new ArrayList<Habit>();
+        int dayNum = c.get(Calendar.DAY_OF_WEEK) - 1;
+        String day = daysOfTheWeek[dayNum];
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         CheckBox checkBox = view.findViewById(R.id.completed_habit_check);
 
@@ -316,6 +346,93 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
             }
         });
+
+        // getting data from firebase to your local device (snapshot of database)
+        ArrayList<Habit> finalHabitArrayList = habitArrayList;
+        ListView finalHabitListView = habitListView;
+        collectionReference.addSnapshotListener( new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
+                    FirebaseFirestoreException error) {
+
+                ArrayList<String> habitDays;
+                String dateString;
+                for(QueryDocumentSnapshot habits: queryDocumentSnapshots)
+                {
+                    Habit habit= habits.toObject(Habit.class);
+                    habitDays = habit.getHabitDays();
+                    dateString = habit.getStartDate();
+                    finalHabitArrayList.clear();
+                    //Formats the string into the form 01/01/1990
+                    SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String currentDateString = simpleFormat.format(c.getTime());
+                    Date date1 = null;
+
+                    c.set(Calendar.MILLISECOND, 0);
+                    c.set(Calendar.SECOND, 0);
+                    c.set(Calendar.HOUR, 0);
+                    c.set(Calendar.MINUTE, 0);
+                    Date date2 = c.getTime();
+                    try {
+                        date1 = simpleFormat.parse(dateString);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if(habit.getHabitName() != null) {
+                        for(int i = 0;i < habitDays.size();i++){
+                            if(habitDays.get(i).toString().equals(day)){
+                                if(date1.before(date2) || (date1.compareTo(date2) == 0))
+                                    if(habit.getHabitName() != null){
+                                        finalHabitArrayList.add(habit);
+
+
+
+                                    }
+                            }
+
+                            Log.d("Tag", date1.toString());
+                        }
+
+                        /*
+                        for(int i =0; i < finalHabitArrayList.size(); i++) {
+                            finalHabitArrayList.get( i ).setBackgroundColor( 0xff999999 );
+                        }
+
+                         */
+                    }
+
+
+                }
+
+                // Notifying the adapter to render any new data fetched
+                //from the cloud
+            }
+        });
+        /*
+        for(int i = 0; i < finalHabitArrayList.size(); i ++){
+            if(habit.getHabitName().equals(finalHabitArrayList.get(i))){
+                view.setBackgroundColor( 0xff8ff7f1 );
+            }
+            else{
+                view.setBackgroundColor( Color.WHITE );
+            }
+        }
+
+
+        for(int i =0; i < finalHabitArrayList.size(); i++) {
+            if(getItem( position ).equals( finalHabitArrayList.get(i) )){
+                row.setBackgroundColor( 0xff8ff7f1 );
+            }
+            else{
+                row.setBackgroundColor( Color.WHITE );
+            }
+            return row;
+        }
+
+         */
+
+
+
 
         progressBar.setMax(100);
         progressBar.setProgress(0);
