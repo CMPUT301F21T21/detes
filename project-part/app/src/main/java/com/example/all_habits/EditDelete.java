@@ -90,7 +90,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         //initialize
         ArrayList<String> habitDayArray = new ArrayList<String>();
         ArrayList<String> items = new ArrayList<String>();
-
+        completedDaysList = new ArrayList<String>();
         habitNum = intent.getIntExtra("habitNum",1);
         size = intent.getIntExtra("size", 0);
         completedDaysList = intent.getStringArrayListExtra("completedDaysList");
@@ -130,8 +130,6 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        //CollectionReference collectionRef = db.collection(currentFireBaseUser.getUid());
-
         //Creates the DatePickerDialog when StartDate EditText is clicked on.
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +164,6 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document:task.getResult()){
                                 habitId = document.getId();
-                                Log.d("TAG", habitId);
                             }
                         }
 
@@ -180,7 +177,6 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                 if(task.isSuccessful()){
                                     DocumentSnapshot document = task.getResult();
                                     if(document.exists()){
-                                        Log.d("TAG", "DocumentSnapshot data: " + document.getData());
 
                                         //Sets all the Edit Text fields to their database counterparts.
                                         habitName.setText(document.getString("habitName"));
@@ -189,6 +185,10 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                         endDate.setText(document.getString("endDate"));
                                         habitTextView.setText("Habit #" + habitNum);
                                         habitDays = (ArrayList<String>) document.get("habitDays");
+
+                                        if(document.getBoolean("Private") == true){
+                                            privateSwitch.setChecked(true);
+                                        }
                                         for(int i = 0; i < habitDays.size();i++) {
                                             if (habitDays.get(i).equals("Sun")) {
                                                 Sunday.setChecked(true);
@@ -255,6 +255,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
 
                 //Moves the current habit to the position that the spinner has designated.
                 swapPos = Integer.parseInt(dropdown.getSelectedItem().toString());
+                Log.e("Tag", String.valueOf(habitNum));
+                Log.e("Tag", String.valueOf(swapPos));
                 if(swapPos < habitNum) {
 
                     //Returns a query where the habitNum value is greater than or equal to the position the habit wants to swap to.
@@ -270,29 +272,14 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                                 db.collection(currentFireBaseUser.getUid()).document(document.getId()).update("habitNum", tempHabitNum);
                                                 tempHabitNum++;
                                             }
-                                            documentRef.update("habitNum", swapPos);
                                         }
+                                        documentRef.update("habitNum",swapPos);
                                     }
                                 }
                             });
                 }else{
                     documentRef.update("habitNum",swapPos + 1);
                 }
-
-                //Reorders the habitNumbers starting at 1.
-                //Helps keep an ordered list.
-                Query fixHabit = db.collection(currentFireBaseUser.getUid()).orderBy("habitNum", Query.Direction.ASCENDING);
-                fixHabit.get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                int tempHabitNum = 1;
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    db.collection(currentFireBaseUser.getUid()).document(document.getId()).update("habitNum", tempHabitNum);
-                                    tempHabitNum++;
-                                }
-                            }
-                        });
 
                 //If the habit name is less than 20, the reason's length is less than 30, and all the boxes are filled in, add the habit.
                 if(habitName.getText().length() > 20){
@@ -371,16 +358,17 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                         e.printStackTrace();
                     }
 
+
                     if (completedDaysList != null) {
                         int numSameElements = 0; // counts the number of same elements in all the habit days and the completed days
-                        for (int i = 0; i < allDaysForHabit.size(); i++){
-                            for (int j = 0; j < completedDaysList.size(); j++){
+                        for (int i = 0; i < allDaysForHabit.size(); i++) {
+                            for (int j = 0; j < completedDaysList.size(); j++) {
                                 if (allDaysForHabit.get(i).equals(completedDaysList.get(j))) {
                                     numSameElements += 1;
                                 }
 
                                 // if the completed day is no longer considered (eg. start date was moved to a later date)
-                                if (!allDaysForHabit.contains(completedDaysList.get(j))){
+                                if (!allDaysForHabit.contains(completedDaysList.get(j))) {
                                     completedDaysList.remove(completedDaysList.get(j));
                                 }
 
