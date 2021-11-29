@@ -1,23 +1,31 @@
 package com.example.all_habits;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.text.ParseException;
@@ -39,14 +47,16 @@ public class TodaysHabits extends AppCompatActivity {
     ImageView homeButton;
     ImageView profileButton;
 
-
     ListView todayListView;
     ArrayList<Habit> todayArrayList;
     ArrayAdapter<Habit> todayAdapter;
+    String currentDateString;
+    ArrayList<Integer> completedHabitsList; // tracked using habit nums
 
     ListView completedListView;
-    ArrayList<Habit> completedTodayArrayList;
-    ArrayAdapter<Habit> completedTodayAdapter;
+    ArrayList<Habit> completedArrayList;
+    ArrayAdapter<Habit> completedAdapter;
+
     String[] daysOfTheWeek = {"Sun","Mon","Tues","Wed","Thurs","Fri","Sat"};
 
     //firestore attribute
@@ -54,11 +64,7 @@ public class TodaysHabits extends AppCompatActivity {
     private FirebaseUser currentFireBaseUser;
 
 
-    public ArrayList<Habit> getTodayArrayList() {
-        return todayArrayList;
-    }
 
-    //gets today's date and creates an array list of the habits for today
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,24 +85,24 @@ public class TodaysHabits extends AppCompatActivity {
         todayListView = findViewById(R.id.todays_list_pending);
         todayArrayList = new ArrayList<>();
 
-        todayAdapter = new TodaysHabitsList(this, todayArrayList);
+        todayAdapter = new TodaysList(this, todayArrayList, true);
         todayListView.setAdapter(todayAdapter); //converts data source to ListView
 
-        completedListView = findViewById( R.id.todays_list_completed );
-        completedTodayArrayList = new ArrayList<>();
-
-        completedTodayAdapter = new TodaysHabitsList(  this, completedTodayArrayList );
-        completedListView.setAdapter( completedTodayAdapter );
-
+        completedListView = findViewById(R.id.todays_list_completed);
+        completedArrayList = new ArrayList<>();
+        completedAdapter = new TodaysList(this, completedArrayList, false);
+        completedListView.setAdapter(completedAdapter); //converts data source to ListView
 
 
         // getting data from firebase to your local device (snapshot of database)
-        //adds habit of today to the array list pending
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
                     FirebaseFirestoreException error) {
                 todayArrayList.clear();
+                completedArrayList.clear();
+                ArrayList<Integer> trackList = new ArrayList<Integer>();
+
                 ArrayList<String> habitDays;
                 String dateString;
                 for(QueryDocumentSnapshot habits: queryDocumentSnapshots)
@@ -107,7 +113,7 @@ public class TodaysHabits extends AppCompatActivity {
 
                     //Formats the string into the form 01/01/1990
                     SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String currentDateString = simpleFormat.format(c.getTime());
+                    currentDateString = simpleFormat.format(c.getTime());
                     Date date1 = null;
 
                     c.set(Calendar.MILLISECOND, 0);
@@ -123,35 +129,72 @@ public class TodaysHabits extends AppCompatActivity {
                     if(habit.getHabitName() != null) {
                         for(int i = 0;i < habitDays.size();i++){
                             if(habitDays.get(i).toString().equals(day)){
-                                if(date1.before(date2) || (date1.compareTo(date2) == 0))
+                                if(date1.before(date2) || (date1.compareTo(date2) == 0) && !trackList.contains(habit.getHabitNum()))
                                 todayArrayList.add(habit);
-
-
+                                trackList.add(habit.getHabitNum());
                             }
                             Log.d("Tag", date1.toString());
                         }
                     }
 
-                    //gets date
-                    String todayWeekDay;
-                    SimpleDateFormat dayFormat = new SimpleDateFormat( "EEEE", Locale.US ); //get the full name of the weekday
-                    Calendar calendar = Calendar.getInstance();
-                    todayWeekDay = dayFormat.format( calendar.getTime() );
-
-                    //uses code from HabitsList
-                    //moves habit from pending to complete and back based on if checkboxes are checked or not
-                    if (habit.getCompletedDaysList().contains( todayWeekDay )) {
-                        completedTodayArrayList.add( habit );
-                        todayArrayList.remove( habit );
-
+                    completedHabitsList = new ArrayList<Integer>();
+                    if (habit.getCompletedDaysList().contains(currentDateString) && !completedHabitsList.contains(habit.getHabitNum())){
+                        completedHabitsList.add(habit.getHabitNum());
+                        todayArrayList.remove(habit);
+                        completedArrayList.add(habit);
                     }
                 }
-                // Notifying the adapter to render any new data fetched
+                todayAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
                 //from the cloud
-                todayAdapter.notifyDataSetChanged();
-                completedTodayAdapter.notifyDataSetChanged();
+                completedAdapter.notifyDataSetChanged();
+
+                Log.d("todayArrayList_", String.valueOf(todayArrayList));
+                Log.d("completedArrayList_", String.valueOf(completedArrayList));
             }
         });
+
+        todayListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Habit habit = todayArrayList.get(position);
+
+                if (!completedHabitsList.contains(habit.getHabitNum())) {
+                    completedArrayList.add(todayArrayList.get(position)); // adding today's habit that was completed
+                }
+                todayArrayList.remove(todayArrayList.get(position));
+
+                if (!(habit.getCompletedDaysList().contains(currentDateString))) {
+                    habit.addToCompletedDaysList(currentDateString);
+                }
+                habit.setProgress();
+
+                Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", habit.getHabitNum()).limit(1);
+                findHabit.get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        String habitId = document.getId();
+                                        DocumentReference documentRef = db.collection(currentFireBaseUser.getUid()).document(habitId);
+                                        documentRef.update("completedDaysList", habit.getCompletedDaysList());
+                                        documentRef.update("progress", habit.getProgress());
+                                    }
+
+                                }
+
+                            }
+                        });
+
+                todayAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched
+                //from the cloud
+                completedAdapter.notifyDataSetChanged();
+            }
+
+        });
+
+        completedAdapter.notifyDataSetChanged();
+        todayAdapter.notifyDataSetChanged();
 
         //to return to the all habits button
         habitButton = findViewById(R.id.allHabits);
@@ -181,6 +224,8 @@ public class TodaysHabits extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(TodaysHabits.this, Create.class);
                 startActivity(intent);
+                todayAdapter.notifyDataSetChanged();
+                completedAdapter.notifyDataSetChanged();
             }
         });
 
@@ -197,4 +242,3 @@ public class TodaysHabits extends AppCompatActivity {
 
     }
 }
-
