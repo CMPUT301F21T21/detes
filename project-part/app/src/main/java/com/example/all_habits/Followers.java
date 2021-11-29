@@ -24,8 +24,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Shows a list of your followers and allows you to delete them
+ */
+
 public class Followers extends AppCompatActivity {
 
+    //initialize
     private ListView followersList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference usersRef = db.collection("Users");

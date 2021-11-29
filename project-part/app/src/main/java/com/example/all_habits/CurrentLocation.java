@@ -47,6 +47,7 @@ import java.util.Map;
  */
 public class CurrentLocation extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener {
 
+    //initialize
     private GoogleMap mMap;
 
     FusedLocationProviderClient client;
@@ -60,6 +61,7 @@ public class CurrentLocation extends AppCompatActivity implements OnMapReadyCall
     private FirebaseUser currentFireBaseUser;
     private Marker marker;
 
+    //Getting location
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +106,7 @@ public class CurrentLocation extends AppCompatActivity implements OnMapReadyCall
 
     }
 
+    //Access to map
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -141,24 +144,28 @@ public class CurrentLocation extends AppCompatActivity implements OnMapReadyCall
     }
 
 
+    //moving location end location
     @Override
     public void onMarkerDragEnd(@NonNull Marker marker) {
         latLng = marker.getPosition();
         marker.setTitle(String.valueOf(latLng.latitude) + "," +String.valueOf(latLng.longitude));
     }
 
+    //moving location
     @Override
     public void onMarkerDrag (@NonNull Marker marker){
         latLng = marker.getPosition();
         marker.setTitle(String.valueOf(latLng.latitude) + "," +String.valueOf(latLng.longitude));
     }
 
+    //moving location start location
     @Override
     public void onMarkerDragStart (@NonNull Marker marker){
         latLng = marker.getPosition();
 
     }
 
+    //add location
     @Override
     public void onMapLongClick(@NonNull LatLng latLng) {
         mMap.addMarker(new MarkerOptions().position(latLng).draggable(true).title(String.valueOf(latLng.latitude) + "," +String.valueOf(latLng.longitude)));

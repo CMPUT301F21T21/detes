@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //to return to the all habits button
+        //All habits button is clicked
         habitButton = findViewById(R.id.allHabits);
         habitButton.setOnClickListener(new View.OnClickListener() {
             @Override

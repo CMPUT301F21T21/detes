@@ -388,6 +388,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                                     .setNegativeButton("No", null)
                                                     .show();
                                         }
+
                                     }
                                 }
 
@@ -409,7 +410,9 @@ public class HabitsList extends ArrayAdapter<Habit> {
                             }
                         });
             }
+
         });
+
 
         // if the user finishes the habit early
         habitCompleteButton.setOnClickListener(new View.OnClickListener() {

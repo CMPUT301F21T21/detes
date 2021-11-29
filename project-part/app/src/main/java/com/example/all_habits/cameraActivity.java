@@ -94,7 +94,7 @@ public class cameraActivity extends AppCompatActivity {
             }
         });
 
-        //launch camera app
+
         //Sets the imageView to the camera picture
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override

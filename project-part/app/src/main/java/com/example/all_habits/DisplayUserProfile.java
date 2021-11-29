@@ -58,6 +58,7 @@ public class DisplayUserProfile extends AppCompatActivity {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(uid);
 
+        //shows your profile
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,6 +93,7 @@ public class DisplayUserProfile extends AppCompatActivity {
             }
         });
 
+        //follow another user
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +102,7 @@ public class DisplayUserProfile extends AppCompatActivity {
             }
         });
 
+        //following another user - access to their profile
         followingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

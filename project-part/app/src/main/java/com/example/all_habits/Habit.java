@@ -236,21 +236,42 @@ public class Habit {
         this.comment = comment;
     }
 
+    /**
+     * gets end date of habit
+     * @return
+     */
     public String getEndDate() {
         return this.endDate;
     }
 
+    /**
+     * sets end date of habit
+     * @param endDate
+     */
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
+    /**
+     * gets a list of total days a habit will be active
+     * @return
+     */
     public ArrayList<String> getTotalDaysList() {
         return this.totalDaysList;
     }
 
+    /**
+     * sets a list of total days a habit will be active
+     * @param totalDaysList
+     */
     public void setTotalDaysList(ArrayList<String> totalDaysList) {
         this.totalDaysList = totalDaysList;
     }
+
+    /**
+     * remove days from a list of total days a habit will be active
+     * @param date
+     */
     public void removefromTotalDaysList(String date){
         this.totalDaysList.remove(date);
     }
