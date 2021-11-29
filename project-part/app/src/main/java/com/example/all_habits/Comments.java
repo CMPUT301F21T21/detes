@@ -31,6 +31,7 @@ import java.util.ArrayList;
  */
 public class Comments extends AppCompatActivity implements addCommentFragment.OnFragmentInteractionListener{
 
+    //initialize
     private ArrayList<Comment> commentArrayList;
     private Button backButton;
     private ImageView user;
@@ -53,7 +54,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
 
     private String habitId; // to keep track of which habit was selected
 
-
+    //displays list of all the comments for a habit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +93,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
         backButton = findViewById(R.id.backButton);
 
 
-
+        //return to previous page
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish(); // goes back to the all habits page
@@ -100,6 +101,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
         });
 
 
+        //displays user profile
         user = findViewById(R.id.User);
         user.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +111,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
             }
         });
 
-
+        //adds comment
         addButton = findViewById(R.id.addComment);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +122,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
         });
 
 
-
+        //view list of comments
         commentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -140,6 +142,7 @@ public class Comments extends AppCompatActivity implements addCommentFragment.On
             }
         });
 
+        //adds comments to database
         userCollectionReference = db.collection(currentFireBaseUser.getUid());
         // finds the specific habit
         Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", habitNum).limit(1);

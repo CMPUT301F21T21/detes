@@ -1,15 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/todays_habits"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="213dp"
         android:layout_height="wrap_content"
-        android:text="Today's Habits"
-        android:padding="20dp"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/habitTitle_TextView"
+            android:layout_width="227dp"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:text="Habits Name"
+            android:textSize="20sp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/habitReason_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Habits Reason"
+            android:textSize="20sp"
+            android:visibility="gone"></TextView>
+
+        <TextView
+            android:id="@+id/habitStartDate_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Habits Start Date"
+            android:textSize="20sp"
+            android:visibility="gone"></TextView>
+
+        <TextView
+            android:id="@+id/habitDays_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Habits Days"
+            android:textSize="20sp"
+            android:visibility="gone"></TextView>
+
+        <TextView
+            android:id="@+id/habitEndDate_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Habits End Date"
+            android:textSize="20sp"
+            android:visibility="gone"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="123dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="213dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/commentsButton"
+                android:layout_width="183dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="Comments"
+                android:visibility="gone" />
+
+
+            <ImageView
+                android:id="@+id/Comment"
+                android:layout_width="8dp"
+                android:layout_height="43dp"
+                android:layout_gravity="right|top"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_comment"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <CheckBox
+                android:id="@+id/completed_habit_check"
+                android:layout_width="78dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:minHeight="48dp"
+                android:scaleX="1"
+                android:visibility="gone" />
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="151dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/text_view2"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="comments | completed?"
+                android:textSize="10sp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="139dp"
+                android:layout_height="98dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/completed_percent"
+                    android:layout_width="68dp"
+                    android:layout_height="34dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginEnd="42dp"
+                    android:layout_weight="1"
+                    android:hint="0%"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <ProgressBar
+                    android:id="@+id/completionProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/completion_progress_bar"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

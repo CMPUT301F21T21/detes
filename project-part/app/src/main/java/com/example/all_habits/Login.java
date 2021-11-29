@@ -31,12 +31,14 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        //initialize
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.password);
         fAuth = FirebaseAuth.getInstance();
         mLoginBtn = findViewById(R.id.loginBtn);
         mCreateBtn = findViewById(R.id.createText);
 
+        //takes email and password and logs into the account associated
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +61,7 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
+                //checks if valid login or not, responds accordingly
                 fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -72,10 +75,14 @@ public class Login extends AppCompatActivity {
                 });
             }
         });
+
+        //skips login page, if already has an account
         if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
         }
+
+        //takes user to register page to create a new user
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

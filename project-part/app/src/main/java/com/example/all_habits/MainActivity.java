@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,9 +31,11 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity {
 
+    //initialize
     ListView habitsListView;
     ImageView addButton;
     ImageView homeButton;
+    ImageView habitButton;
     ImageView profileButton;
     ImageView addUserButton;
     ArrayAdapter<Habit> habitAdapter;
@@ -41,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
 
-
+    //view habits in proper order to the habit list after restarting
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //view habits in proper order on habits list accessed by firestore
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +92,17 @@ public class MainActivity extends AppCompatActivity {
                 intent.putStringArrayListExtra("completedDaysList", habitArrayList.get(position).getCompletedDaysList());
                 startActivity(intent);
             }
+        });
+
+        //All habits button is clicked
+        habitButton = findViewById(R.id.allHabits);
+        habitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Already showing All Habits page", Toast.LENGTH_SHORT).show();
+            }
+
+
         });
 
         //Add a new habit with the create activity.
@@ -120,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //Add user button is clicked
         addUserButton = findViewById(R.id.addUserButton);
         addUserButton.setOnClickListener(new View.OnClickListener() {
             @Override

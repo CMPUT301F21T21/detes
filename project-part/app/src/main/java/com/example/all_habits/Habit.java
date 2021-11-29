@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Habit {
 
+    //initialize
     private String habitName;
     private String reason;
     private ArrayList<String> habitDays;
@@ -185,47 +186,92 @@ public class Habit {
         return this.progress;
     }
 
+    /**
+     * adds weekdays to an array list until the week restarts
+     * @param weekDay
+     */
+
     public void addToCompletedDaysList(String weekDay) {
         this.completedDaysList.add(weekDay);
     }
 
+    /**
+     * removes weekdays from the array list
+     * @param weekDay
+     */
     public void removeFromCompletedDaysList(String weekDay) {
         this.completedDaysList.remove(weekDay);
     }
 
+    /**
+     * clears weekday array list to start week over
+     */
     public void clearCompletedDaysList() {
         this.completedDaysList.clear();
     }
 
+    /**
+     * get the array list with all completed weekdays at the moment
+     * @return
+     */
     public ArrayList<String> getCompletedDaysList() {
         return this.completedDaysList;
     }
 
 
 
+    /**
+     * gets the comments
+     * @return
+     */
     public String getComment() {
         return comment;
     }
 
+    /**
+     * sets comments
+     * @param comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
+    /**
+     * gets end date of habit
+     * @return
+     */
     public String getEndDate() {
         return this.endDate;
     }
 
+    /**
+     * sets end date of habit
+     * @param endDate
+     */
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
+    /**
+     * gets a list of total days a habit will be active
+     * @return
+     */
     public ArrayList<String> getTotalDaysList() {
         return this.totalDaysList;
     }
 
+    /**
+     * sets a list of total days a habit will be active
+     * @param totalDaysList
+     */
     public void setTotalDaysList(ArrayList<String> totalDaysList) {
         this.totalDaysList = totalDaysList;
     }
+
+    /**
+     * remove days from a list of total days a habit will be active
+     * @param date
+     */
     public void removefromTotalDaysList(String date){
         this.totalDaysList.remove(date);
     }

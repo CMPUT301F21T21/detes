@@ -19,7 +19,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * Allows you to see a list of habits for all those you follow
+ */
+
 public class FollowingHabitList extends ArrayAdapter<Habit> {
+
+    //initialize
     private ArrayList<Habit> habits;
     private Context context;
     private View view;
@@ -33,6 +39,7 @@ public class FollowingHabitList extends ArrayAdapter<Habit> {
         this.context = context;
     }
 
+    //shows you a list of all public habits of all followers
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

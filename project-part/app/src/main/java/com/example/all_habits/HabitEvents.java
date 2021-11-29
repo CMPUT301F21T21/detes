@@ -44,11 +44,14 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Habit Events: camera, comments, location that are accessed after the habit has been completed
+ */
 public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback {
 
     final long ONE_MEGABYTE = 1024 * 1024;
 
+    //initialize
     private TextView commentEditText;
     private ImageView habitEventImage;
     private Button saveCommentButton;
@@ -109,15 +112,18 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_events);
 
+        //getting information of which habit has been ended
         Intent intent = getIntent();
         habitNum = intent.getIntExtra("habitNum", 1); // gets the habit that was clicked on
 
+        //firestore access
         db = FirebaseFirestore.getInstance();
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
         storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://projecthabits.appspot.com");
 
         //userCollectionReference = db.collection(currentFireBaseUser.getUid());
+
         commentEditText = findViewById(R.id.commentEditText);
         saveCommentButton = findViewById(R.id.saveCommentButton);
         habitEventImageButton = findViewById(R.id.habitEventImageButton);
@@ -131,6 +137,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
 
         backButton = findViewById(R.id.displayBackButton);
 
+        //adding a comment once the habit has been ended
         Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", habitNum).limit(1);
         findHabit.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -152,6 +159,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                             }
                         }
 
+                        //returns to previous page
                         backButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -159,6 +167,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                             }
                         });
 
+                        //saves comment
                         saveCommentButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -211,7 +220,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-
+    //continues where you left off for map location
     @Override
     protected void onResume() {
         super.onResume();
@@ -220,24 +229,28 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    //begins map location
     @Override
     protected void onStart() {
         super.onStart();
         habitEventLocation.onStart();
     }
 
+    //stops map location
     @Override
     protected void onStop() {
         super.onStop();
         habitEventLocation.onStop();
     }
 
+    //pauses map location
     @Override
     protected void onPause() {
         habitEventLocation.onPause();
         super.onPause();
     }
 
+    //destroys map location previously saved
     @Override
     protected void onDestroy() {
         habitEventLocation.onDestroy();
@@ -250,6 +263,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
         habitEventLocation.onLowMemory();
     }
 
+    //saves map location of choice for the habit
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.clear();

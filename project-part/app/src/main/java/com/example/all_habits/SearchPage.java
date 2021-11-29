@@ -28,8 +28,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Searches for users based on search
+ */
+
 public class SearchPage extends AppCompatActivity {
 
+    //initialize
     private EditText searchName;
     private ListView searchListView;
     private String searchedName;
@@ -47,6 +52,7 @@ public class SearchPage extends AppCompatActivity {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String uid = user.getUid();
 
+    //searches for users and displays them
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

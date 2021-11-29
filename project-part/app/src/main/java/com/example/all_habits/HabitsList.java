@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -45,6 +48,7 @@ import java.util.Locale;
 
 public class HabitsList extends ArrayAdapter<Habit> {
 
+    //initialize
     private ArrayList<Habit> habits;
     private Context context;
     private View view;
@@ -382,6 +386,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                                                     .setNegativeButton("No", null)
                                                     .show();
                                         }
+
                                     }
                                 }
 
@@ -403,7 +408,9 @@ public class HabitsList extends ArrayAdapter<Habit> {
                             }
                         });
             }
+
         });
+
 
         // if the user finishes the habit early
         habitCompleteButton.setOnClickListener(new View.OnClickListener() {

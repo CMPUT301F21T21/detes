@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
  */
 public class addCommentFragment extends DialogFragment {
 
+    //intialize
     private int commentNum;
     private OnFragmentInteractionListener listener;
 
@@ -28,6 +29,7 @@ public class addCommentFragment extends DialogFragment {
         this.commentNum = commentNum;
     }
 
+    //comment for specific habit
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -38,6 +40,7 @@ public class addCommentFragment extends DialogFragment {
         }
     }
 
+    //add comment no more than 20 characters
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_comment_fragment_layout, null);
 

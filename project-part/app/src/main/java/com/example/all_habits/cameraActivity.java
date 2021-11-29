@@ -30,9 +30,13 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
+/**
+ * Access to camera to allow a photo to be taken and saved
+ */
 public class cameraActivity extends AppCompatActivity {
 
 
+    //storage of the picture
     private StorageReference storage;
     private StorageReference imageRef;
     ActivityResultLauncher<String> getContent;
@@ -43,6 +47,8 @@ public class cameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        //initializing
         Intent intent = getIntent();
 
         Button takePhoto = findViewById(R.id.takePhotoButton);
@@ -65,6 +71,7 @@ public class cameraActivity extends AppCompatActivity {
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
 
+        //know location of where to access picture
 
         if(!photoName.equals("")){
             imageRef = storageRefUrl.child(photoName);
@@ -86,6 +93,7 @@ public class cameraActivity extends AppCompatActivity {
 
             }
         });
+
 
         //Sets the imageView to the camera picture
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {

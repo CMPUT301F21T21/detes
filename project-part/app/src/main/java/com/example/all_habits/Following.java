@@ -22,8 +22,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Shows you a list of who you are following
+ */
+
 public class Following extends AppCompatActivity {
 
+    //initialize
     private ListView followingList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference usersRef = db.collection("Users");
@@ -72,6 +77,7 @@ public class Following extends AppCompatActivity {
                     }
                 });
 
+        //takes you to follow their habits
         followingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {

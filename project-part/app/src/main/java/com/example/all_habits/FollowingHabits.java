@@ -27,8 +27,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Allows you to see the public habits of a specific user you follow
+ */
+
 public class FollowingHabits extends AppCompatActivity {
 
+    //initialize
     private ListView followingHabitList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionRef;
@@ -40,6 +45,8 @@ public class FollowingHabits extends AppCompatActivity {
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String uid = user.getUid();
+
+    //getting user and a list of their public habits and their progress
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

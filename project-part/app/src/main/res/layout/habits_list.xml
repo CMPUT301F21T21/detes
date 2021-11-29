@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -99,6 +100,7 @@
                 android:layout_gravity="right|top"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_comment"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -109,7 +111,8 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:minHeight="48dp"
-                android:scaleX="1" />
+                android:scaleX="1"
+                android:visibility="gone" />
 
 
 
@@ -127,7 +130,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="comments | completed?"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/habitCompleteButton"
