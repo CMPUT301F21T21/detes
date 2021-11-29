@@ -46,6 +46,7 @@ public class TodaysHabits extends AppCompatActivity {
     ImageView addButton;
     ImageView homeButton;
     ImageView profileButton;
+    ImageView addUserButton;
 
     ListView todayListView;
     ArrayList<Habit> todayArrayList;
@@ -130,7 +131,7 @@ public class TodaysHabits extends AppCompatActivity {
                         for(int i = 0;i < habitDays.size();i++){
                             if(habitDays.get(i).toString().equals(day)){
                                 if(date1.before(date2) || (date1.compareTo(date2) == 0) && !trackList.contains(habit.getHabitNum()))
-                                todayArrayList.add(habit);
+                                    todayArrayList.add(habit);
                                 trackList.add(habit.getHabitNum());
                             }
                             Log.d("Tag", date1.toString());
@@ -153,6 +154,7 @@ public class TodaysHabits extends AppCompatActivity {
             }
         });
 
+        //click on item in listview pending to move to completed
         todayListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -238,6 +240,19 @@ public class TodaysHabits extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        //goes to the search user page
+        addUserButton = findViewById(R.id.addFriend);
+        addUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TodaysHabits.this, SearchPage.class);
+                startActivity(intent);
+            }
+        });
+
+
 
 
     }
