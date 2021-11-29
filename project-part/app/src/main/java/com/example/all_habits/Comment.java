@@ -4,6 +4,8 @@ package com.example.all_habits;
  * Creates a Comment object
  */
 public class Comment {
+
+    //initialize
     String userId;
     String habitId;
     String commenterId;

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 //Creates the comments list for the listview.
 public class CommentsList extends ArrayAdapter<Comment> {
 
+    //initialize
     private ArrayList<Comment> comments;
     private Context context;
     private View view;
@@ -32,6 +33,7 @@ public class CommentsList extends ArrayAdapter<Comment> {
         this.context = context;
     }
 
+    //sets layout of comments in listview
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
