@@ -46,11 +46,11 @@ public class Register extends AppCompatActivity {
         mLoginBtn    = findViewById(R.id.createText);
         fAuth        = FirebaseAuth.getInstance();
 
-        //already a user
+        /*//already a user
         if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
-        }
+        }*/
 
         //make a new user
         //gets information of name, email and password
