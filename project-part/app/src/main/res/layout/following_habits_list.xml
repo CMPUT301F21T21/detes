@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout6"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="139dp"
+        android:layout_height="98dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/completed_percent2"
+            android:layout_width="68dp"
+            android:layout_height="34dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="44dp"
+            android:layout_weight="1"
+            android:hint="0%"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/completionProgressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            android:progressDrawable="@drawable/completion_progress_bar"
+            android:visibility="visible" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/followingHabitName"
-        android:layout_width="match_parent"
-        android:layout_height="83dp"
+        android:layout_width="210dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
         android:text="followingHabitName"
         android:textAlignment="viewStart"
-        android:textSize="20sp" />
-</LinearLayout>
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

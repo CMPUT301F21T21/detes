@@ -30,6 +30,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 
@@ -77,7 +79,9 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     CheckBox Thursday;
     CheckBox Friday;
     CheckBox Sunday;
-
+    private String optionalPhoto;
+    private StorageReference imageRef;
+    private StorageReference storageRef;
     private FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
 
@@ -186,6 +190,9 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                         habitTextView.setText("Habit #" + habitNum);
                                         habitDays = (ArrayList<String>) document.get("habitDays");
 
+
+                                        optionalPhoto = document.getString("optionalPhoto");
+
                                         if(document.getBoolean("Private") == true){
                                             privateSwitch.setChecked(true);
                                         }
@@ -255,8 +262,6 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
 
                 //Moves the current habit to the position that the spinner has designated.
                 swapPos = Integer.parseInt(dropdown.getSelectedItem().toString());
-                Log.e("Tag", String.valueOf(habitNum));
-                Log.e("Tag", String.valueOf(swapPos));
                 if(swapPos < habitNum) {
 
                     //Returns a query where the habitNum value is greater than or equal to the position the habit wants to swap to.
@@ -383,11 +388,16 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 }
             }
         });
-
+        storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://projecthabits.appspot.com");
         //Deletes the habit.
         deleteButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
+                if(!optionalPhoto.equals("")){
+                    imageRef = storageRef.child(optionalPhoto);
+                    imageRef.delete();
+                }
+
                 documentRef.delete();
 
                 //Increments the habitNum field of the document
