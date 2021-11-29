@@ -76,11 +76,14 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        /*
         //skips login page, if already has an account
         if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
         }
+
+         */
 
         //takes user to register page to create a new user
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
