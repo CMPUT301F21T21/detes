@@ -34,6 +34,7 @@ import java.util.Locale;
 
 public class TodaysHabits extends AppCompatActivity {
 
+    //initialize
     ImageView habitButton;
     ImageView addButton;
     ImageView homeButton;
@@ -58,11 +59,13 @@ public class TodaysHabits extends AppCompatActivity {
         return todayArrayList;
     }
 
+    //gets today's date and creates an array list of the habits for today
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todays_habits);
 
+        //gets date today
         Calendar c = Calendar.getInstance();
         todayArrayList = new ArrayList<Habit>();
         int dayNum = c.get(Calendar.DAY_OF_WEEK) - 1;
@@ -73,7 +76,7 @@ public class TodaysHabits extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
-        // get a reference to the listview and create an object for the city list
+        // get a reference to the listview and create an object for the todaylist
         todayListView = findViewById(R.id.todays_list_pending);
         todayArrayList = new ArrayList<>();
 
@@ -89,6 +92,7 @@ public class TodaysHabits extends AppCompatActivity {
 
 
         // getting data from firebase to your local device (snapshot of database)
+        //adds habit of today to the array list pending
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
@@ -129,25 +133,28 @@ public class TodaysHabits extends AppCompatActivity {
                         }
                     }
 
-
+                    //gets date
                     String todayWeekDay;
                     SimpleDateFormat dayFormat = new SimpleDateFormat( "EEEE", Locale.US ); //get the full name of the weekday
                     Calendar calendar = Calendar.getInstance();
                     todayWeekDay = dayFormat.format( calendar.getTime() );
 
-
+                    //uses code from HabitsList
+                    //moves habit from pending to complete and back based on if checkboxes are checked or not
                     if (habit.getCompletedDaysList().contains( todayWeekDay )) {
                         completedTodayArrayList.add( habit );
                         todayArrayList.remove( habit );
 
                     }
                 }
-                todayAdapter.notifyDataSetChanged();
-                completedTodayAdapter.notifyDataSetChanged();// Notifying the adapter to render any new data fetched
+                // Notifying the adapter to render any new data fetched
                 //from the cloud
+                todayAdapter.notifyDataSetChanged();
+                completedTodayAdapter.notifyDataSetChanged();
             }
         });
 
+        //to return to the all habits button
         habitButton = findViewById(R.id.allHabits);
         habitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +171,7 @@ public class TodaysHabits extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TodaysHabits.this, "Already showing Today's Habits", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TodaysHabits.this, "Already showing Today's Habits page", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -35,12 +35,13 @@ import java.util.Locale;
 
 /**
  * Determines what each listview item will look like, when displayed
- * on the all habits page (see storyboard sequence)
+ * on the todays habits page (see storyboard sequence)
  *
  */
 
 public class TodaysHabitsList extends ArrayAdapter<Habit> {
 
+    //initialize
     private ArrayList<Habit> habits;
     private Context context;
     private View view;
@@ -239,16 +240,6 @@ public class TodaysHabitsList extends ArrayAdapter<Habit> {
         progressBar.setProgress(habit.getProgress());
         progressBar.setProgressDrawable(drawableProgress);
 
-        String todayWeekDay;
-        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.US); //get the full name of the weekday
-        Calendar calendar = Calendar.getInstance();
-        todayWeekDay = dayFormat.format(calendar.getTime());
-
-
-        progressBar.setMax(100);
-        progressBar.setProgress(0);
-        progressBar.setProgress(habit.getProgress());
-        progressBar.setProgressDrawable(drawableProgress);
 
         return view;
     }

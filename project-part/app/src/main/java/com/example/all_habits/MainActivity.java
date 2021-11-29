@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,9 +30,11 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity {
 
+    //initialize
     ListView habitsListView;
     ImageView addButton;
     ImageView homeButton;
+    ImageView habitButton;
     ImageView profileButton;
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitArrayList;
@@ -67,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("size", habitArrayList.size());
                 startActivity(intent);
             }
+        });
+
+        //to return to the all habits button
+        habitButton = findViewById(R.id.allHabits);
+        habitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Already showing All Habits page", Toast.LENGTH_SHORT).show();
+            }
+
+
         });
 
         //Add a new habit with the create activity.

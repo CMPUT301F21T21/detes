@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class Register extends AppCompatActivity {
 
+    //initialize
     EditText mFullName,mEmail,mPassword;
     Button mRegisterBtn;
     TextView mLoginBtn;
@@ -34,6 +35,7 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
+        //initialize
         mFullName    = findViewById(R.id.fullName);
         mEmail       = findViewById(R.id.Email);
         mPassword    = findViewById(R.id.password);
@@ -41,11 +43,14 @@ public class Register extends AppCompatActivity {
         mLoginBtn    = findViewById(R.id.createText);
         fAuth        = FirebaseAuth.getInstance();
 
+        //already a user
         if(fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
         }
 
+        //make a new user
+        //gets information of name, email and password
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +75,7 @@ public class Register extends AppCompatActivity {
                 }
 
 
+                //create new user
                 fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -94,7 +100,7 @@ public class Register extends AppCompatActivity {
         });
 
 
-
+        //goes to login page
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
