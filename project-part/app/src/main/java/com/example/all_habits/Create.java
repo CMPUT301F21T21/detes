@@ -1,4 +1,5 @@
 package com.example.all_habits;
+
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -74,7 +75,6 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         reasonName = findViewById(R.id.habitReason);
         startDate = findViewById(R.id.habitStartDate);
 
-        // adding an end date to implement the visual indicator, geo and photo
         endDate = findViewById(R.id.habitEndDate);
 
         habitTextView = findViewById(R.id.habitNumber);
@@ -115,6 +115,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
                 InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 DialogFragment datePicker2 = new DatePickerDialogFragment2();
+                clickedEditText = endDate;
                 datePicker2.show(getSupportFragmentManager(), "date picker");
 
             }
@@ -191,6 +192,7 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
                     habit.put("habitName", habitName.getText().toString());
                     habit.put("reason", reasonName.getText().toString());
                     habit.put("startDate", startDate.getText().toString());
+                    habit.put("endDate", endDate.getText().toString());
                     habit.put("habitDays", habitDayArray);
                     if (privateSwitch.isChecked()) {
                         habit.put("Private", true);
@@ -222,9 +224,6 @@ public class Create extends AppCompatActivity implements DatePickerDialog.OnDate
         c.set(Calendar.DAY_OF_MONTH,day);
         SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDateString = simpleFormat.format(c.getTime());
-
-        startDate.setText(currentDateString);
-        endDate.setText(currentDateString);
 
         clickedEditText.setText(currentDateString);
 

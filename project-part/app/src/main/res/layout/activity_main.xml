@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/ic_background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -25,12 +26,14 @@
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="All Habits"
-            android:textSize="20sp"
+            android:textSize="30sp"
+            android:textColorHint="@color/black"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/addFriendButton"
+            android:id="@+id/addUserButton"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_add_friend" />

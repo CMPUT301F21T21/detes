@@ -1,4 +1,5 @@
 package com.example.all_habits;
+
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +16,9 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,9 +31,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Edit or delete's a habit created from the create activity.
@@ -53,7 +56,11 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     int swapPos = 0;
     String habitId;
     ArrayList<String> completedDaysList;
+    ArrayList<String> allDaysForHabit;
+    ArrayList<String> habitDays;
     int newProgress;
+    String startDateString;
+    String endDateString;
 
     DocumentReference documentRef;
     EditText habitName;
@@ -61,6 +68,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
     EditText startDate;
     EditText endDate;
     TextView habitTextView;
+    EditText clickedEditText;
 
     CheckBox Saturday;
     CheckBox Monday;
@@ -131,6 +139,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 DialogFragment datePicker = new DatePickerDialogFragment();
+                clickedEditText = startDate;
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
         });
@@ -142,7 +151,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                 InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 DialogFragment datePicker2 = new DatePickerDialogFragment2();
-                datePicker2.show(getSupportFragmentManager(), "date picker");
+                clickedEditText = endDate;
+                datePicker2.show(getSupportFragmentManager(), "date picker 2");
 
             }
         });
@@ -166,7 +176,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                             //Finds the current habit document with it's habitId so the fields can be edited.
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task){
-                                ArrayList<String> habitDays =  new ArrayList<String>();
+                                habitDays =  new ArrayList<String>();
                                 if(task.isSuccessful()){
                                     DocumentSnapshot document = task.getResult();
                                     if(document.exists()){
@@ -176,6 +186,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                         habitName.setText(document.getString("habitName"));
                                         reason.setText(document.getString("reason"));
                                         startDate.setText(document.getString("startDate"));
+                                        endDate.setText(document.getString("endDate"));
                                         habitTextView.setText("Habit #" + habitNum);
                                         habitDays = (ArrayList<String>) document.get("habitDays");
                                         for(int i = 0; i < habitDays.size();i++) {
@@ -201,6 +212,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                                 Saturday.setChecked(true);
                                             }
                                         }
+
                                     }else{
                                         Log.d("TAG","No such document");
                                     }
@@ -293,6 +305,7 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                     documentRef.update("habitName", habitName.getText().toString());
                     documentRef.update("reason", reason.getText().toString());
                     documentRef.update("startDate", startDate.getText().toString());
+                    documentRef.update("endDate", endDate.getText().toString());
                     documentRef.update("habitDays", habitDayArray);
                     if (privateSwitch.isChecked()) {
                         documentRef.update("Private", true);
@@ -300,25 +313,83 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                         documentRef.update("Private", false);
                     }
 
-                    // check if the user removed a "completed" day (eg. habit completed on Monday, but the habit days
-                    // no longer include Monday
-                    if (completedDaysList != null) {
-                        for (String completedDay : completedDaysList) {
-                            if (completedDay.equals("Tuesday") || completedDay.equals("Thursday")) {
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        Date startDateObject = dateFormat.parse(startDate.getText().toString()); // change date to a Date object
 
-                                // remove "Tues" or "Thurs" (4 characters long)
-                                if (!habitDayArray.contains(completedDay.substring(0, 4))) {
-                                    completedDaysList.remove(completedDay);
+                        if (endDate.getText().toString() != null) {
+                            Date endDateObject = dateFormat.parse(endDate.getText().toString());
+
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(startDateObject); // set the date to the start date
+                            cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+                            Date startOfWeek = cal.getTime(); // gets the date for the start of the week
+
+                            // Gets us an ArrayList of all the dates of the first week
+                            ArrayList<Date> daysOfFirstWeek = new ArrayList<>();
+                            for (int i = 0; i < 7; i++){
+                                daysOfFirstWeek.add(startOfWeek);
+                                cal.add(Calendar.DAY_OF_MONTH, 1);
+                                startOfWeek = cal.getTime();
+                            }
+
+                            SimpleDateFormat weekDayFormat = new SimpleDateFormat("EEEE", Locale.US); //get the full name of the weekday
+                            allDaysForHabit = new ArrayList<>();
+                            for (int i = 0; i < daysOfFirstWeek.size(); i++) {
+                                String weekDay = weekDayFormat.format(daysOfFirstWeek.get(i)); // weekday for that date
+
+                                for (int j = 0; j < habitDayArray.size(); j++) {
+                                    if (weekDay.contains(habitDayArray.get(j))) {
+                                        cal.setTime(daysOfFirstWeek.get(i));
+                                        if (cal.getTime().after(startDateObject) && cal.getTime().before(endDateObject)){
+                                            allDaysForHabit.add(dateFormat.format(cal.getTime()));
+                                        }
+
+                                        while (cal.getTime().before(endDateObject)) {
+                                            cal.add(Calendar.DAY_OF_MONTH, 7);
+                                            if (cal.getTime().before(endDateObject)) {
+                                                allDaysForHabit.add(dateFormat.format(cal.getTime()));
+                                            }
+                                        }
+                                    }
+
+                                    startDateString = dateFormat.format(startDateObject);
+                                    endDateString = dateFormat.format(endDateObject);
+
+                                    if (weekDayFormat.format(startDateObject).contains(habitDayArray.get(j)) && !allDaysForHabit.contains(startDateString)){
+                                        allDaysForHabit.add(dateFormat.format(startDateObject));
+                                    }
+
+                                    if (weekDayFormat.format(endDateObject).contains(habitDayArray.get(j)) && !allDaysForHabit.contains(endDateString)){
+                                        allDaysForHabit.add(dateFormat.format(endDateObject));
+                                    }
                                 }
-                            } else if (!habitDayArray.contains(completedDay.substring(0, 3))) {
-                                completedDaysList.remove(completedDay);
+                            }
+
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (completedDaysList != null) {
+                        int numSameElements = 0; // counts the number of same elements in all the habit days and the completed days
+                        for (int i = 0; i < allDaysForHabit.size(); i++){
+                            for (int j = 0; j < completedDaysList.size(); j++){
+                                if (allDaysForHabit.get(i).equals(completedDaysList.get(j))) {
+                                    numSameElements += 1;
+                                }
+
+                                // if the completed day is no longer considered (eg. start date was moved to a later date)
+                                if (!allDaysForHabit.contains(completedDaysList.get(j))){
+                                    completedDaysList.remove(completedDaysList.get(j));
+                                }
+
                             }
                         }
-
-                        // update the progress and the completed days
-                        newProgress = (int) (((float) completedDaysList.size() / habitDayArray.size()) * 100);
+                        newProgress = (int) ((((float) numSameElements / allDaysForHabit.size())) * 100);
                         documentRef.update("progress", newProgress);
                         documentRef.update("completedDaysList", completedDaysList);
+                        documentRef.update("totalDaysList", allDaysForHabit);
                     }
                     finish();
                 }
@@ -373,7 +444,9 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         //Formats the string into the form 01/01/1990
         SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
         String currentDateString = simpleFormat.format(c.getTime());
-        startDate.setText(currentDateString);
-        endDate.setText(currentDateString);
+       // startDate.setText(currentDateString);
+       // endDate.setText(currentDateString);
+
+        clickedEditText.setText(currentDateString);
     }
 }

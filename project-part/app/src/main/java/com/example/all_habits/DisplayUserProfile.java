@@ -5,13 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.EditText;
 import android.widget.TextView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,11 +19,20 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * Profile page that is opened on the MainActivity with the button on the top right.
  */
+
 public class DisplayUserProfile extends AppCompatActivity {
     //initialize
-    TextView mlogout, emailTextView, uidTextView;
+    Button followersButton;
+    Button followingButton;
+    Button logOutButton;
+
     ImageView backButton;
-    private TextView userName;
+
+    TextView greetingTextView;
+    TextView emailTextView;
+    TextView uidTextView;
+    private TextView usernameTextView;
+
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
@@ -36,24 +41,32 @@ public class DisplayUserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.displayuserprofile);
 
+
         //initialize
         backButton = findViewById(R.id.displayBackButton);
-        mlogout = findViewById(R.id.logoutText);
-        userName = findViewById(R.id.Username);
-        emailTextView = findViewById(R.id.Email);
-        uidTextView = findViewById(R.id.User_ID);
-        String uid = user.getUid();
 
-        emailTextView.setText(user.getEmail());
-        uidTextView.setText(uid);
+        logOutButton = findViewById(R.id.logoutText);
+        followersButton = findViewById(R.id.followerButton);
+        followingButton = findViewById(R.id.followingButton);
+
+        greetingTextView = findViewById(R.id.Greeting);
+        usernameTextView = findViewById(R.id.Username);
+
+        emailTextView = findViewById(R.id.Email);
+        uidTextView = findViewById(R.id.UserID);
+        String uid = user.getUid();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(uid);
 
-        //userName.setText(ref.get().getResult().getValue().toString());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userName.setText(snapshot.getValue().toString());
+                usernameTextView.setText(snapshot.getValue().toString());
+                emailTextView.setText(user.getEmail());
+                uidTextView.setText(uid);
+
+                String userName = snapshot.getValue().toString();
+                greetingTextView.setText("Hello, " + userName + "!");
             }
 
             @Override
@@ -71,7 +84,7 @@ public class DisplayUserProfile extends AppCompatActivity {
         });
 
         //logout of app
-        mlogout.setOnClickListener(new View.OnClickListener() {
+        logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -79,9 +92,22 @@ public class DisplayUserProfile extends AppCompatActivity {
             }
         });
 
+        followersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DisplayUserProfile.this, Followers.class);
+                startActivity(intent);
+            }
+        });
 
-        // TODO:
-        // This function closes UserProfile
-        //finish()
+        followingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DisplayUserProfile.this, Following.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
+

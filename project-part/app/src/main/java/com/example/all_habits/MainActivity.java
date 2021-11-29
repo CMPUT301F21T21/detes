@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView homeButton;
     ImageView habitButton;
     ImageView profileButton;
+    ImageView addUserButton;
     ArrayAdapter<Habit> habitAdapter;
     ArrayList<Habit> habitArrayList;
 
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, EditDelete.class);
                 intent.putExtra("habitNum", position + 1);
                 intent.putExtra("size", habitArrayList.size());
+                intent.putStringArrayListExtra("completedDaysList", habitArrayList.get(position).getCompletedDaysList());
                 startActivity(intent);
             }
         });
@@ -116,6 +118,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        addUserButton = findViewById(R.id.addUserButton);
+        addUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SearchPage.class);
+                startActivity(intent);
+            }
+        });
+
         // getting data from firebase to your local device (snapshot of database)
         collectionReference.orderBy("habitNum",Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -135,21 +146,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         //Returns an ordered List and increments habitNum starting from 1 until
-        collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        int habitNum = 1;
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
-                                collectionReference.document(document.getId()).update("habitNum", habitNum);
-                                habitNum++;
-                            }
-                        }
+        collectionReference.orderBy("habitNum", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int habitNum = 1;
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        collectionReference.document(document.getId()).update("habitNum", habitNum);
+                        habitNum++;
                     }
-                });
+                }
+            }
+        });
     }
-
 }
+
