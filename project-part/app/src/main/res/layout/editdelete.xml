@@ -217,7 +217,7 @@
         android:id="@+id/privateSwitch"
         android:layout_width="105dp"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:text="Private"
         android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -233,7 +233,17 @@
         android:layout_marginEnd="16dp"
         android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/privateSwitch" />
+
+    <TextView
+        android:id="@+id/habitPositionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Habit Position"
+        app:layout_constraintBottom_toTopOf="@+id/habitPosition"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/privateSwitch" />
 

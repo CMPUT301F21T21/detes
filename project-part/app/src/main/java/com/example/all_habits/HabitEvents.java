@@ -55,6 +55,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
     private TextView commentEditText;
     private ImageView habitEventImage;
     private Button saveCommentButton;
+    private Button deleteCommentButton;
     private Button habitEventImageButton;
     private Button habitEventLocationButton;
     public String photoName;
@@ -124,6 +125,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
 
         //userCollectionReference = db.collection(currentFireBaseUser.getUid());
 
+        deleteCommentButton = findViewById( R.id.delete_comment );
         commentEditText = findViewById(R.id.commentEditText);
         saveCommentButton = findViewById(R.id.saveCommentButton);
         habitEventImageButton = findViewById(R.id.habitEventImageButton);
@@ -180,6 +182,20 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                                 Toast.makeText(getApplicationContext(), "Your comment has been saved", Toast.LENGTH_SHORT).show();
                             }
                         });
+
+                        //deletes comment
+                        deleteCommentButton.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(commentString == null){
+                                    Toast.makeText(getApplicationContext(), "There is no comment to Delete", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    documentRef.update("optionalComment", null);
+                                    Toast.makeText(getApplicationContext(), "Your comment has been deleted", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } );
 
                         //Starts CameraActivity.
                         habitEventImageButton.setOnClickListener(new View.OnClickListener() {
