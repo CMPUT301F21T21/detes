@@ -375,11 +375,17 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
                                 if (allDaysForHabit.get(i).equals(completedDaysList.get(j))) {
                                     numSameElements += 1;
                                 }
+
+                                // if the completed day is no longer considered (eg. start date was moved to a later date)
+                                if (!allDaysForHabit.contains(completedDaysList.get(j))){
+                                    completedDaysList.remove(completedDaysList.get(j));
+                                }
+
                             }
                         }
                         newProgress = (int) ((((float) numSameElements / allDaysForHabit.size())) * 100);
                         documentRef.update("progress", newProgress);
-                        //documentRef.update("completedDaysList", completedDaysList);
+                        documentRef.update("completedDaysList", completedDaysList);
                         documentRef.update("totalDaysList", allDaysForHabit);
                     }
                     finish();
