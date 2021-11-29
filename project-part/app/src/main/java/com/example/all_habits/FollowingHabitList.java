@@ -1,10 +1,14 @@
 package com.example.all_habits;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +24,6 @@ public class FollowingHabitList extends ArrayAdapter<Habit> {
     private Context context;
     private View view;
     private TextView habitName;
-
     private FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
 
@@ -39,10 +42,22 @@ public class FollowingHabitList extends ArrayAdapter<Habit> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             view = inflater.inflate(R.layout.following_habits_list,parent,false);
         }
-
+        Habit habit = habits.get(position);
         habitName = view.findViewById(R.id.followingHabitName);
         habitName.setText(habits.get(position).getHabitName().toString());
 
+        TextView completedPercent_TextView = view.findViewById(R.id.completed_percent2);
+        completedPercent_TextView.setText(Integer.toString(habit.getProgress()) + '%');
+
+        ProgressBar progressBar = view.findViewById(R.id.completionProgressBar2);
+        Resources resources = context.getResources();
+        Drawable drawableProgress = resources.getDrawable(R.drawable.completion_progress_bar);
+
+        // displays the progress in the progress bar
+        progressBar.setMax(100);
+        //progressBar.setProgress(50);
+        progressBar.setProgress(habit.getProgress());
+        //progressBar.setProgressDrawable(drawableProgress);
 
         return view;
     }

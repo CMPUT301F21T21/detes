@@ -7,6 +7,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String optionalPhoto;
     private ArrayList<String> requestsList = new ArrayList<String>();
     private ArrayList<String> followers = new ArrayList<String>();
     private ArrayList<String> following = new ArrayList<String>();
@@ -14,7 +15,7 @@ public class User {
     public User() {
     }
 
-    public User(String uid, String name, String email, String password, ArrayList<String> requestsList, ArrayList<String> followers, ArrayList<String> following) {
+    public User(String uid, String name, String email, String password, ArrayList<String> requestsList, ArrayList<String> followers, ArrayList<String> following, String optionalPhoto) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -22,6 +23,7 @@ public class User {
         this.requestsList = requestsList;
         this.followers = followers;
         this.following = following;
+        this.optionalPhoto = optionalPhoto;
     }
 
     public User(String uid, String name, String email, String password) {
@@ -69,6 +71,14 @@ public class User {
 
     public void setRequestsList(ArrayList<String> requestsList) {
         this.requestsList = requestsList;
+    }
+
+    public String getOptionalPhoto() {
+        return optionalPhoto;
+    }
+
+    public void setOptionalPhoto(String optionalPhoto) {
+        this.optionalPhoto = optionalPhoto;
     }
 
     public ArrayList<String> getFollowers() {
