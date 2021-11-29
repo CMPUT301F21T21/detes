@@ -41,6 +41,7 @@ import java.util.Calendar;
  */
 public class EditDelete extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
+    //initialize
     Button cancelButton;
     Button editButton;
     Button deleteButton;
@@ -77,6 +78,8 @@ public class EditDelete extends AppCompatActivity implements DatePickerDialog.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editdelete);
         Intent intent = getIntent();
+
+        //initialize
         ArrayList<String> habitDayArray = new ArrayList<String>();
         ArrayList<String> items = new ArrayList<String>();
 

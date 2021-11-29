@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Habit {
 
+    //initialize
     private String habitName;
     private String reason;
     private ArrayList<String> habitDays;
@@ -175,26 +176,50 @@ public class Habit {
         return this.progress;
     }
 
+    /**
+     * adds weekdays to an array list until the week restarts
+     * @param weekDay
+     */
+
     public void addToCompletedDaysList(String weekDay) {
         this.completedDaysList.add(weekDay);
     }
 
+    /**
+     * removes weekdays from the array list
+     * @param weekDay
+     */
     public void removeFromCompletedDaysList(String weekDay) {
         this.completedDaysList.remove(weekDay);
     }
 
+    /**
+     * clears weekday array list to start week over
+     */
     public void clearCompletedDaysList() {
         this.completedDaysList.clear();
     }
 
+    /**
+     * get the array list with all completed weekdays at the moment
+     * @return
+     */
     public ArrayList<String> getCompletedDaysList() {
         return this.completedDaysList;
     }
 
+    /**
+     * gets the comments
+     * @return
+     */
     public String getComment() {
         return comment;
     }
 
+    /**
+     * sets comments
+     * @param comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }

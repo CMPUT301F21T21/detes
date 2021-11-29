@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
  * Profile page that is opened on the MainActivity with the button on the top right.
  */
 public class DisplayUserProfile extends AppCompatActivity {
+    //initialize
     TextView mlogout, emailTextView, uidTextView;
     ImageView backButton;
     private TextView userName;
@@ -34,6 +35,8 @@ public class DisplayUserProfile extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.displayuserprofile);
+
+        //initialize
         backButton = findViewById(R.id.displayBackButton);
         mlogout = findViewById(R.id.logoutText);
         userName = findViewById(R.id.Username);
@@ -59,6 +62,7 @@ public class DisplayUserProfile extends AppCompatActivity {
             }
         });
 
+        //returns you back to previous page
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +70,7 @@ public class DisplayUserProfile extends AppCompatActivity {
             }
         });
 
+        //logout of app
         mlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
