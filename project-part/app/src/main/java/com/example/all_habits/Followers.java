@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class Followers extends AppCompatActivity {
     private ArrayAdapter<User> userArrayAdapter;
     private ArrayList<String> followers;
 
+    ImageView backButton;
+
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String uid = user.getUid();
     @Override
@@ -46,10 +49,20 @@ public class Followers extends AppCompatActivity {
         setContentView(R.layout.activity_followers);
         followersList = findViewById(R.id.followingHabitList);
 
+        backButton = findViewById(R.id.displayBackButton);
+
         userArrayList = new ArrayList<User>();
         followers = new ArrayList<String>();
         userArrayAdapter = new SearchList(this, userArrayList);
         followersList.setAdapter(userArrayAdapter);
+
+        //returns you back to previous page
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         //Retrieves all of your followers.
         usersRef.document(uid).get()

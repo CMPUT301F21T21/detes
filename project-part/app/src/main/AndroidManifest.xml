@@ -57,9 +57,6 @@
             android:name=".Create"
             android:exported="true" />
         <activity
-            android:name=".OtherUsersList"
-            android:exported="true" />
-        <activity
             android:name=".Login"
             android:exported="true">
             <intent-filter>
