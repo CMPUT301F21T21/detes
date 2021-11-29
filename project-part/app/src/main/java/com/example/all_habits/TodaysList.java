@@ -37,8 +37,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+
 public class TodaysList extends ArrayAdapter<Habit> {
 
+    //initialize
     private ArrayList<Habit> habits;
     private Context context;
     private View view;
@@ -87,7 +89,7 @@ public class TodaysList extends ArrayAdapter<Habit> {
         SimpleDateFormat dateFormat;
         Calendar cal;
 
-
+        //view of layout
         if (view == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             view = inflater.inflate(R.layout.todays_list, parent, false);

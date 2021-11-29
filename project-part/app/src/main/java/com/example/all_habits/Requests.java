@@ -25,8 +25,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Allows you to see your follow requests and answer them
+ */
+
 public class Requests extends AppCompatActivity {
 
+    //initialize
     private ListView requestsList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference usersRef = db.collection("Users");

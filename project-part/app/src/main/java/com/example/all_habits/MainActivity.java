@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db;
     private FirebaseUser currentFireBaseUser;
 
-
+    //view habits in proper order to the habit list after restarting
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //view habits in proper order on habits list accessed by firestore
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        //Add user button is clicked
         addUserButton = findViewById(R.id.addUserButton);
         addUserButton.setOnClickListener(new View.OnClickListener() {
             @Override

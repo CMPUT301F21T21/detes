@@ -17,7 +17,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+/**
+ * Returns a list based on search
+ */
+
 public class SearchList extends ArrayAdapter<User> {
+
+    //initialize
     private ArrayList<User> users;
     private Context context;
     private View view;
@@ -32,6 +38,7 @@ public class SearchList extends ArrayAdapter<User> {
         this.context = context;
     }
 
+    //searches the database to retrieve information on searched user
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
