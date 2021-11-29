@@ -39,7 +39,7 @@ public class Followers extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers);
-        followersList = findViewById(R.id.followingList);
+        followersList = findViewById(R.id.followingHabitList);
 
         userArrayList = new ArrayList<User>();
         followers = new ArrayList<String>();

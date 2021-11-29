@@ -3,15 +3,12 @@ package com.example.all_habits;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,8 +36,8 @@ public class Following extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_followers);
-        followingList = findViewById(R.id.followingList);
+        setContentView(R.layout.activity_following);
+        followingList = findViewById(R.id.followingHabitList);
 
         userArrayList = new ArrayList<User>();
         followers = new ArrayList<String>();
@@ -65,7 +62,6 @@ public class Following extends AppCompatActivity {
                                             for(QueryDocumentSnapshot document : task.getResult()){
                                                 followers = (ArrayList<String>) document.get("followers");
                                                 if(followers.contains(uid)){
-                                                    Log.e("Test","test");
                                                     userArrayList.add(document.toObject(User.class));
                                                 }
                                             }
@@ -76,11 +72,12 @@ public class Following extends AppCompatActivity {
                     }
                 });
 
-        //On a long press, asks to delete a follower.
-        followingList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        followingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                return true;
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(Following.this, FollowingHabits.class);
+                intent.putExtra("followingId", userArrayList.get(position).getUid());
+                startActivity(intent);
             }
         });
     }
