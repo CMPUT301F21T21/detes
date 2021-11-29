@@ -49,6 +49,7 @@ import java.util.Locale;
 
 public class HabitsList extends ArrayAdapter<Habit> {
 
+    //initialize
     private ArrayList<Habit> habits;
     private Context context;
     private View view;
@@ -238,7 +239,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         habitStartDateText.setText("Start Date: " + habit.getStartDate());
 
 
-
+        //access to day
         Calendar c = Calendar.getInstance();
         habitArrayList = new ArrayList<Habit>();
         int dayNum = c.get(Calendar.DAY_OF_WEEK) - 1;
@@ -289,7 +290,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
             checkBox.setChecked(false);
         }
 
-
+        //checkboxes, how they move one habit from pending to complete and how they affect the progress bar
         checkBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -306,6 +307,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
                                 }
 
+                                //adds habit with day to array list of completed days
                                 if (checkBox.isChecked()) {
 
                                     // if the user checks off a box, add today's weekday to the list of completed days (finished for today)
@@ -322,6 +324,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
 
                                 }
 
+                                //removes habit with day from array of completed days
                                 else if (!checkBox.isChecked()) {
 
                                     // not done for today --> remove today's weekday from the list
@@ -347,6 +350,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
             }
         });
 
+        /*
         // getting data from firebase to your local device (snapshot of database)
         ArrayList<Habit> finalHabitArrayList = habitArrayList;
         ListView finalHabitListView = habitListView;
@@ -359,6 +363,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                 String dateString;
                 for(QueryDocumentSnapshot habits: queryDocumentSnapshots)
                 {
+
                     Habit habit= habits.toObject(Habit.class);
                     habitDays = habit.getHabitDays();
                     dateString = habit.getStartDate();
@@ -398,7 +403,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                             finalHabitArrayList.get( i ).setBackgroundColor( 0xff999999 );
                         }
 
-                         */
+
                     }
 
 
@@ -408,7 +413,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
                 //from the cloud
             }
         });
-        /*
+
         for(int i = 0; i < finalHabitArrayList.size(); i ++){
             if(habit.getHabitName().equals(finalHabitArrayList.get(i))){
                 view.setBackgroundColor( 0xff8ff7f1 );
@@ -419,7 +424,7 @@ public class HabitsList extends ArrayAdapter<Habit> {
         }
 
 
-        for(int i =0; i < finalHabitArrayList.size(); i++) {
+        for(int i =0; i  finalHabitArrayList.size(); i++) {
             if(getItem( position ).equals( finalHabitArrayList.get(i) )){
                 row.setBackgroundColor( 0xff8ff7f1 );
             }
@@ -427,18 +432,17 @@ public class HabitsList extends ArrayAdapter<Habit> {
                 row.setBackgroundColor( Color.WHITE );
             }
             return row;
-        }
-
-         */
+        }*/
 
 
 
-
+        //updates progress bar
         progressBar.setMax(100);
         progressBar.setProgress(0);
         progressBar.setProgress(habit.getProgress());
         progressBar.setProgressDrawable(drawableProgress);
 
+        //returns newly updated view
         return view;
     }
 }

@@ -29,8 +29,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Habit Events: camera, comments, location that are accessed after the habit has been completed
+ */
+
 public class HabitEvents extends AppCompatActivity {
 
+    //initialize
     private TextView commentEditText;
     private Button saveCommentButton;
 
@@ -51,17 +56,21 @@ public class HabitEvents extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_events);
 
+        //getting information of which habit has been ended
         Intent intent = getIntent();
         habitNum = intent.getIntExtra("habitNum", 1); // gets the habit that was clicked on
 
+        //firestore access
         db = FirebaseFirestore.getInstance();
         currentFireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
         CollectionReference collectionReference = db.collection(currentFireBaseUser.getUid().toString());
         //userCollectionReference = db.collection(currentFireBaseUser.getUid());
 
+        //initialize
         commentEditText = findViewById(R.id.commentEditText);
         saveCommentButton = findViewById(R.id.saveCommentButton);
 
+        //adding a comment once the habit has been ended
         Query findHabit = db.collection(currentFireBaseUser.getUid()).whereEqualTo("habitNum", habitNum).limit(1);
         findHabit.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -80,6 +89,7 @@ public class HabitEvents extends AppCompatActivity {
                             }
                         }
 
+        //saving comment made once habit was ended
         saveCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
