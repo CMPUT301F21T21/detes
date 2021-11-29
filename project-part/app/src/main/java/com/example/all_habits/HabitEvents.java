@@ -87,7 +87,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     photoName = task.getResult().getString("optionalPhoto");
-                    if(photoName != null) {
+                    if(photoName != "") {
                         storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://projecthabits.appspot.com");
                         resetRef = storageRef.child(photoName);
                         resetRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -206,7 +206,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                         });
 
                         //If this habit has a picture, display it in the habitEventImage.
-                        if (photoName != null) {
+                        if (photoName != "") {
                             imageRef = storageRef.child(photoName);
                             imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                                 @Override

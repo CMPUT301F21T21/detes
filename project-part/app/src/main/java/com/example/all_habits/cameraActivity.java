@@ -73,7 +73,7 @@ public class cameraActivity extends AppCompatActivity {
 
         //know location of where to access picture
 
-        if(photoName != null){
+        if(!photoName.equals("")){
             imageRef = storageRefUrl.child(photoName);
             final long ONE_MEGABYTE = 1024 * 1024;
             imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -138,7 +138,7 @@ public class cameraActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "There is no image to upload", Toast.LENGTH_SHORT).show();
                 }else {
 
-                    if(photoName != null){
+                    if(!photoName.equals("")){
                         imageRef.delete();
                     }
                     String randomName = UUID.randomUUID().toString();
