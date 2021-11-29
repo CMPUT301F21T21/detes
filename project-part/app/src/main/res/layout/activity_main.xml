@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/addFriendButton"
+            android:id="@+id/addUserButton"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_add_friend" />

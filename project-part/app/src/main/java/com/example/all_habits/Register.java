@@ -16,6 +16,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * Registers for an account that gives the user a unique id in the firestore database.
@@ -26,6 +28,9 @@ public class Register extends AppCompatActivity {
     Button mRegisterBtn;
     TextView mLoginBtn;
     FirebaseAuth fAuth;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference usersRef = db.collection("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +81,8 @@ public class Register extends AppCompatActivity {
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             String uid = user.getUid();
                             FirebaseDatabase.getInstance().getReference().child(uid).setValue(fullName);
-
+                            User newUser = new User(uid,fullName,email,password);
+                            usersRef.document(uid).set(newUser);
                             Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
 
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));

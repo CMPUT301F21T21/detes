@@ -13,5 +13,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_current_location">CurrentLocation</string>
     <string name="Location" />
+    <string name="title_activity_followers">Followers</string>
 
 </resources>
