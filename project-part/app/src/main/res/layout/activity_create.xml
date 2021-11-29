@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_background">
 
     <Button
         android:id="@+id/createButton"
@@ -11,6 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:text="CREATE"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,6 +30,7 @@
         android:hint="Habit"
         android:inputType="textPersonName"
         android:text=""
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +48,7 @@
         android:hint="Reason"
         android:inputType="textMultiLine"
         android:text=""
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +97,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CANCEL"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.916"
@@ -101,11 +108,13 @@
 
     <TextView
         android:id="@+id/habitNumber"
-        android:layout_width="83dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="Habit #1"
-        android:textSize="16sp"
+        android:textSize="30dp"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -117,6 +126,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:text="Private"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
@@ -137,28 +147,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Mon" />
+            android:text="Mon"
+            android:textColorHint="@color/black"
+            android:textStyle="italic"/>
 
         <CheckBox
             android:id="@+id/tuesday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Tues" />
+            android:text="Tues"
+            android:textColorHint="@color/black"
+            android:textStyle="italic"/>
 
         <CheckBox
             android:id="@+id/wednesday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Wed" />
+            android:text="Wed"
+            android:textColorHint="@color/black"
+            android:textStyle="italic"/>
 
         <CheckBox
             android:id="@+id/thursday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Thurs" />
+            android:text="Thurs"
+            android:textColorHint="@color/black"
+            android:textStyle="italic"/>
     </LinearLayout>
 
     <LinearLayout
@@ -177,21 +195,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Fri" />
+            android:text="Fri"
+            android:textColorHint="@color/black"
+            android:textStyle="italic"/>
 
         <CheckBox
             android:id="@+id/saturday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sat" />
+            android:text="Sat"
+            android:textColorHint="@color/black"
+            android:textStyle="italic"/>
 
         <CheckBox
             android:id="@+id/sunday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sun" />
+            android:text="Sun"
+            android:textColorHint="@color/black"
+            android:textStyle="italic"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,92 +44,98 @@ public class MainActivityTest {
         Activity activity = rule.getActivity();
     }
 
-
-
-    /**
-     * Checks if the listview items is working properly (can be clicked)
-     * @author Elena
-     */
     @Test
-    public void checkListView(){
-        // Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.waitForActivity("MainActivity");
+    public void checkAdd(){
 
-        solo.clickInList(1); // clicks on the first listview item
-
-        // clicks on the CANCEL button
-        Button cancelButton = (Button) solo.getView("cancelButton");
-        solo.clickOnView(cancelButton);
-
-
-        View expandArrow = solo.getView(R.id.expandArrow);
-        solo.clickOnView(expandArrow);
-
-    }
-
-    /**
-     * @author Emma
-     */
-    @Test
-    public void checkHomeButton(){
-        //checks that home button is clickable and works
-        View homeButton = solo.getView(R.id.homeButton);
-        solo.clickOnView(homeButton);
-        solo.assertCurrentActivity(String.valueOf(this), TodaysHabits.class);
     }
 
     @Test
-    public void checkAllHabitsButton(){
-        //checks All habits button is clickable and works
-        checkHomeButton();
-        View allHabitsButton = solo.getView(R.id.allHabits);
-        solo.clickOnView(allHabitsButton);
-        solo.assertCurrentActivity(String.valueOf(this), MainActivity.class);
+    public void checkToday(){
+
     }
 
     @Test
-    public void checkComments(){
-        //checks comment is empty message pops up when empty
-        View commentsButton = solo.getView(R.id.Comment);
-        solo.clickOnView(commentsButton);
-        solo.assertCurrentActivity(String.valueOf(this), Comments.class);
+    public void expandHabit(){
 
-    }
-
-
-
-    /**
-     * Closes the activity after each test
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception{
-        solo.finishOpenedActivities();
-    }
-
-    /**
-     * Checks that all the buttons work and in the right activity
-     * @author Diana
-     */
-    @Test
-    public void checkCreateButton(){
-        //checks create button is clickable and works
-        View createButton = solo.getView(R.id.createButton);
-        solo.clickOnView(createButton);
     }
 
     @Test
-    public void checkDeleteButton(){
-        //checks delete button is clickable and works
-        View deleteButton = solo.getView(R.id.deleteComment);
-        solo.clickOnView(deleteButton);
+    //Don't Touch Yet
+    public void deleteHabit(){
+
     }
 
     @Test
-    public void checkCommentsButton(){
-        //checks comment button is clickable and works
-        View commentButton = solo.getView(R.id.takePhotoButton);
-        solo.clickOnView(commentButton);
+    //Don't Touch Yet
+    public void editHabit(){
+
     }
+
+    @Test
+    public void habitTitleLength(){
+
+    }
+
+    @Test
+    //Don't Touch Yet
+    public void reorderHabit(){
+
+    }
+
+    @Test
+    public void createHabitEvent(){
+
+    }
+
+    @Test
+    public void comment(){
+
+    }
+
+    @Test
+    public void optionalPhoto(){
+
+    }
+
+    @Test
+    public void optionalGallery(){
+
+    }
+
+    @Test
+    public void viewHabitEvent(){
+
+    }
+
+    @Test
+    public void deleteHabitEvent(){
+
+    }
+
+    @Test
+    public void checkLocation(){
+
+    }
+
+    @Test
+    public void changeLocation(){
+
+    }
+
+    @Test
+    public void followUser(){
+
+    }
+
+    @Test
+    public void acceptRequest(){
+
+    }
+
+    @Test
+    public void declineRequest(){
+
+    }
+
+
 }

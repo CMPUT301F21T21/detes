@@ -2,7 +2,6 @@ package com.example.all_habits;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -32,6 +30,9 @@ import java.util.Date;
 public class TodaysHabits extends AppCompatActivity {
 
     ImageView habitButton;
+    ImageView addButton;
+
+    ImageView profileButton;
 
     ListView todayListView;
     ArrayList<Habit> todayArrayList;
@@ -118,8 +119,26 @@ public class TodaysHabits extends AppCompatActivity {
                 Intent intent = new Intent(TodaysHabits.this, MainActivity.class);
                 startActivity(intent);
             }
-
-
         });
+
+        //Add a new habit with the create activity.
+        addButton = findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TodaysHabits.this, Create.class);
+                startActivity(intent);
+            }
+        });
+
+        //Opens the DisplayUserProfile page.
+        //profileButton = findViewById(R.id.profileButton);
+        //profileButton.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View view) {
+                //Intent intent = new Intent(TodaysHabits.this, DisplayUserProfile.class);
+                //startActivity(intent);
+            //}
+        //});
     }
 }
