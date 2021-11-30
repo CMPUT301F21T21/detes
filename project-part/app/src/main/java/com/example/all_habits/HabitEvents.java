@@ -183,6 +183,10 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                             }
                         });
 
+                        if(commentString != null){
+                            commentEditText.setText( commentString );
+                        }
+
                         //deletes comment
                         deleteCommentButton.setOnClickListener( new View.OnClickListener() {
                             @Override
@@ -192,6 +196,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                                 }
                                 else{
                                     documentRef.update("optionalComment", null);
+                                    commentEditText.setText( "" );
                                     Toast.makeText(getApplicationContext(), "Your comment has been deleted", Toast.LENGTH_SHORT).show();
                                 }
                             }
