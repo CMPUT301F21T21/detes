@@ -55,6 +55,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
     private TextView commentEditText;
     private ImageView habitEventImage;
     private Button saveCommentButton;
+    private Button deletePhotoButton;
     private Button deleteCommentButton;
     private Button habitEventImageButton;
     private Button habitEventLocationButton;
@@ -126,6 +127,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
         //userCollectionReference = db.collection(currentFireBaseUser.getUid());
 
         deleteCommentButton = findViewById( R.id.delete_comment );
+        deletePhotoButton = findViewById( R.id.delete_photo );
         commentEditText = findViewById(R.id.commentEditText);
         saveCommentButton = findViewById(R.id.saveCommentButton);
         habitEventImageButton = findViewById(R.id.habitEventImageButton);
@@ -237,6 +239,23 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                                 }
                             });
                         }
+
+                        deletePhotoButton.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(photoName == ""){
+                                    Toast.makeText(getApplicationContext(), "There is no photograph to Delete", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    documentRef.update("optionalPhoto", "");
+                                    habitEventImage.setVisibility( View.INVISIBLE );
+                                    //imageRef.delete();
+                                    //storageRef.delete();
+                                    //intent.putExtra("photoName", "");
+                                    Toast.makeText(getApplicationContext(), "Your photograph has been deleted", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } );
                     }
         });
     }
