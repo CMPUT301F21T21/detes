@@ -249,9 +249,6 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                                 else{
                                     documentRef.update("optionalPhoto", "");
                                     habitEventImage.setVisibility( View.INVISIBLE );
-                                    //imageRef.delete();
-                                    //storageRef.delete();
-                                    //intent.putExtra("photoName", "");
                                     Toast.makeText(getApplicationContext(), "Your photograph has been deleted", Toast.LENGTH_SHORT).show();
                                 }
                             }
