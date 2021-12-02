@@ -167,8 +167,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Comment"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintHorizontal_bias="0.939"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/saveCommentButton" />
 
@@ -178,8 +180,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Delete Photograph"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.887"
+        app:layout_constraintHorizontal_bias="0.892"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/habitEventImageButton" />
 
