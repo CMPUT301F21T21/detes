@@ -92,12 +92,12 @@
         android:id="@+id/habitEventImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="88dp"
         android:text="Upload Photograph"
         android:textColorHint="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.557"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toEndOf="@+id/habitEventImage"
         app:layout_constraintTop_toBottomOf="@+id/saveCommentButton" />
 
@@ -133,10 +133,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.411"
+        app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toEndOf="@+id/habitEventLocation"
         app:layout_constraintTop_toBottomOf="@+id/habitEventImageButton"
-        app:layout_constraintVertical_bias="0.662" />
+        app:layout_constraintVertical_bias="0.675" />
 
     <TextView
         android:id="@+id/locationText"
@@ -186,6 +186,19 @@
         app:layout_constraintHorizontal_bias="0.892"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/habitEventImageButton" />
+
+    <Button
+        android:id="@+id/delete_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Delete Location"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.808"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/habitEventLocationButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

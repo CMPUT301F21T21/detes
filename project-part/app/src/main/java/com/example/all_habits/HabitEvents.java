@@ -55,11 +55,13 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
     private TextView commentEditText;
     private ImageView habitEventImage;
     private Button saveCommentButton;
+    private Button deleteLocationButton;
     private Button deletePhotoButton;
     private Button deleteCommentButton;
     private Button habitEventImageButton;
     private Button habitEventLocationButton;
     public String photoName;
+    public String location;
     private String habitId;
     private String commentString;
     private MapView habitEventLocation;
@@ -128,6 +130,7 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
 
         deleteCommentButton = findViewById( R.id.delete_comment );
         deletePhotoButton = findViewById( R.id.delete_photo );
+        deleteLocationButton = findViewById( R.id.delete_location );
         commentEditText = findViewById(R.id.commentEditText);
         saveCommentButton = findViewById(R.id.saveCommentButton);
         habitEventImageButton = findViewById(R.id.habitEventImageButton);
@@ -253,6 +256,9 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                                 }
                             }
                         } );
+
+
+
                     }
         });
     }
@@ -313,11 +319,12 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String habitId = document.getId();
                                 Map<String, Double> locationData = (Map<String, Double>) document.get("optionalLocation");
+                                location = "1";
 
                                 if (locationData != null){
                                     LatLng latLng = new LatLng(locationData.get("latitude"), locationData.get("longitude"));
                                     MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Habit completed here");
-                                    //markerOptions.draggable(true);
+                                    markerOptions.draggable(true);
                                     googleMap.addMarker(markerOptions);
                                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                                 }
@@ -327,6 +334,28 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                         }
                     }
                 });
+
+        deleteLocationButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(location == "1"){
+                    documentRef.update("optionalLocation", null);
+                    Toast.makeText(getApplicationContext(), "Your location has been deleted", Toast.LENGTH_SHORT).show();
+                    location = "";
+                    googleMap.clear();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "There is no location to delete", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } );
+
     }
+
+
+
+
+
+
 
 }
