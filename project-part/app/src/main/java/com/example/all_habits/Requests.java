@@ -39,6 +39,8 @@ public class Requests extends AppCompatActivity {
     private ArrayAdapter<User> userArrayAdapter;
     private ArrayList<String> requestsListArray;
     private ArrayList<String> followers;
+    private ArrayList<String> following;
+    private String followingUser;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String uid = user.getUid();
@@ -50,6 +52,7 @@ public class Requests extends AppCompatActivity {
 
         userArrayList = new ArrayList<User>();
         followers = new ArrayList<String>();
+        following = new ArrayList<String>();
         userArrayAdapter = new SearchList(this, userArrayList);
         requestsList.setAdapter(userArrayAdapter);
 
@@ -88,6 +91,7 @@ public class Requests extends AppCompatActivity {
                                 new DialogInterface.OnClickListener(){
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
+                                        followingUser = userArrayList.get(position).getUid();
                                         requestsListArray = new ArrayList<String>();
                                         usersRef.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
@@ -95,6 +99,7 @@ public class Requests extends AppCompatActivity {
                                                 if(task.isSuccessful()){
                                                     requestsListArray = (ArrayList<String>) task.getResult().get("requestsList");
                                                     followers = (ArrayList<String>) task.getResult().get("followers");
+                                                    following = (ArrayList<String>) task.getResult().get("following");
 
                                                 }
 
@@ -103,6 +108,8 @@ public class Requests extends AppCompatActivity {
                                                 requestsListArray.remove(userArrayList.get(position).getUid());
                                                 usersRef.document(uid).update("requestsList", requestsListArray);
                                                 usersRef.document(uid).update("followers", followers);
+                                                following.add(uid);
+                                                usersRef.document(followingUser).update("following", following);
                                                 Toast.makeText(getApplicationContext(),"Accepted Follower Request",Toast.LENGTH_SHORT).show();
                                                 userArrayList.remove(position);
                                                 userArrayAdapter.notifyDataSetChanged();
