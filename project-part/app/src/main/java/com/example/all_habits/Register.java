@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class Register extends AppCompatActivity {
 
     //initialize
-    EditText mFullName,mEmail,mPassword;
+    EditText mFullName,mEmail,mPassword, mConfirm;
     Button mRegisterBtn;
     TextView mLoginBtn;
     FirebaseAuth fAuth;
@@ -42,6 +42,7 @@ public class Register extends AppCompatActivity {
         mFullName    = findViewById(R.id.fullName);
         mEmail       = findViewById(R.id.Email);
         mPassword    = findViewById(R.id.password);
+        mConfirm     = findViewById(R.id.confirm_password);
         mRegisterBtn = findViewById(R.id.registerBtn);
         mLoginBtn    = findViewById(R.id.createText);
         fAuth        = FirebaseAuth.getInstance();
@@ -60,6 +61,7 @@ public class Register extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String fullName = mFullName.getText().toString();
+                String confirm = mConfirm.getText().toString();
 
 
                 if(TextUtils.isEmpty(email)){
@@ -72,11 +74,20 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
+                if(TextUtils.isEmpty(confirm)) {
+                    mConfirm.setError( "Password Confirmation is Required." );
+                    return;
+                }
+
                 if(password.length() < 6){
                     mPassword.setError("Password Must be >= 6 Characters");
                     return;
                 }
 
+                if(!confirm.contentEquals(password)){
+                    mConfirm.setError("Passwords do not match");
+                    return;
+                }
 
                 //create new user
                 fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
