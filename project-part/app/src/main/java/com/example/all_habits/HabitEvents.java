@@ -184,6 +184,9 @@ public class HabitEvents extends AppCompatActivity implements OnMapReadyCallback
                                 }
 
                                 documentRef.update("optionalComment", commentEditText.getText().toString());
+
+                                //Added commentString so that it can be removed from the editText Field
+                                commentString = commentEditText.getText().toString();
                                 Toast.makeText(getApplicationContext(), "Your comment has been saved", Toast.LENGTH_SHORT).show();
                             }
                         });
